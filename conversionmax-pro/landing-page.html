@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ConversionMax Pro — The Shopify Theme Built for Direct Response Marketers</title>
+  <meta name="description" content="ConversionMax Pro is a premium Shopify 2.0 theme built for VSL pages, high-converting product pages, and direct response marketing. Quantity breaks, bundle builder, countdown timers, and more.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ConversionMax Pro — Shopify Theme for Direct Response">
+  <meta property="og:description" content="The premium Shopify 2.0 theme built for VSL funnels and high-converting product pages. No jQuery. Under 2.5s load time.">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ========== RESET ========== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    /* ========== TOKENS ========== */
+    :root {
+      --primary: #E63946;
+      --primary-dark: #C62828;
+      --primary-glow: rgba(230, 57, 70, 0.25);
+      --secondary: #1D3557;
+      --secondary-light: #264573;
+      --accent: #F4A523;
+      --success: #2D6A4F;
+      --bg: #0B0F1A;
+      --bg-card: #111827;
+      --bg-card-hover: #1A2332;
+      --bg-surface: #0F1629;
+      --text: #E2E8F0;
+      --text-muted: #94A3B8;
+      --text-bright: #FFFFFF;
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(255,255,255,0.15);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --mono: 'JetBrains Mono', 'SF Mono', monospace;
+      --max-w: 1180px;
+      --section-pad: clamp(60px, 10vw, 120px);
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ========== LAYOUT ========== */
+    .container {
+      width: 100%;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: var(--section-pad) 0;
+      position: relative;
+    }
+
+    /* ========== TYPOGRAPHY ========== */
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 1px;
+    }
+
+    .headline {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--text-bright);
+      letter-spacing: -0.025em;
+    }
+
+    .headline--hero {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+    }
+
+    .headline span.gradient {
+      background: linear-gradient(135deg, var(--primary) 0%, #FF6B6B 50%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subhead {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 640px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-header .subhead {
+      margin: 16px auto 0;
+    }
+
+    /* ========== BUTTONS ========== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 36px;
+      font-family: var(--font);
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      line-height: 1.3;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn--primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 24px var(--primary-glow), 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .btn--primary:hover {
+      background: var(--primary-dark);
+      box-shadow: 0 8px 36px var(--primary-glow), 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    .btn--outline {
+      background: transparent;
+      color: var(--text-bright);
+      border: 2px solid var(--border-hover);
+    }
+    .btn--outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn--large {
+      padding: 20px 48px;
+      font-size: 1.15rem;
+      border-radius: 12px;
+    }
+
+    .btn--full { width: 100%; }
+
+    .btn svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* ========== NAV ========== */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 16px 0;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .nav--scrolled {
+      background: rgba(11, 15, 26, 0.92);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav__logo {
+      font-weight: 900;
+      font-size: 1.15rem;
+      color: var(--text-bright);
+      letter-spacing: -0.02em;
+    }
+    .nav__logo span { color: var(--primary); }
+    .nav__cta .btn {
+      padding: 10px 24px;
+      font-size: 0.9rem;
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      padding: 160px 0 var(--section-pad);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, var(--primary-glow) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero .container { position: relative; z-index: 1; }
+
+    .hero .subhead {
+      margin: 20px auto 40px;
+      max-width: 580px;
+    }
+
+    .hero__actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+
+    .hero__proof {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .hero__proof-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero__proof-check {
+      width: 20px;
+      height: 20px;
+      background: var(--success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero__proof-check svg {
+      width: 12px;
+      height: 12px;
+      color: #fff;
+    }
+
+    /* Browser mockup */
+    .hero__mockup {
+      max-width: 960px;
+      margin: 48px auto 0;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .hero__mockup-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .hero__mockup-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+    }
+    .hero__mockup-dot:nth-child(1) { background: #FF5F57; }
+    .hero__mockup-dot:nth-child(2) { background: #FEBC2E; }
+    .hero__mockup-dot:nth-child(3) { background: #28C840; }
+    .hero__mockup-body {
+      padding: 32px;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero__mockup-body .mock-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 4px;
+    }
+    .hero__mockup-body .mock-headline {
+      font-size: clamp(1.25rem, 3vw, 2rem);
+      font-weight: 800;
+      color: var(--text-bright);
+      text-align: center;
+      max-width: 500px;
+    }
+    .hero__mockup-body .mock-video {
+      width: 100%;
+      max-width: 560px;
+      aspect-ratio: 16/9;
+      background: #000;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .mock-play {
+      width: 64px; height: 64px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mock-play svg { color: #fff; margin-left: 4px; }
+
+    .hero__mockup-body .mock-btn {
+      padding: 14px 40px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 8px;
+    }
+
+    .hero__mockup-body .mock-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 560px;
+    }
+    .mock-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    .mock-card--highlight {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-glow);
+    }
+    .mock-card__qty { font-size: 1.5rem; font-weight: 800; color: var(--text-bright); }
+    .mock-card__price { color: var(--primary); font-weight: 700; font-size: 0.9rem; margin-top: 4px; }
+    .mock-card__label { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+
+    @media (max-width: 600px) {
+      .hero__mockup-body .mock-cards {
+        grid-template-columns: 1fr;
+        max-width: 280px;
+      }
+    }
+
+    /* ========== LOGOS ========== */
+    .logos {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .logos__label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+    .logos__row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(32px, 5vw, 64px);
+      flex-wrap: wrap;
+      opacity: 0.4;
+    }
+    .logos__item {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text-bright);
+      white-space: nowrap;
+    }
+
+    /* ========== FEATURES GRID ========== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+    @media (max-width: 720px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+    .feature-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+      transform: translateY(-4px);
+    }
+    .feature-card--highlight {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, rgba(230,57,70,0.04), rgba(230,57,70,0.01));
+    }
+
+    .feature-card__icon {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--primary), #FF6B6B);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .feature-card__icon svg {
+      width: 24px; height: 24px;
+      color: #fff;
+    }
+    .feature-card__icon--blue {
+      background: linear-gradient(135deg, var(--secondary), #3B82F6);
+    }
+    .feature-card__icon--green {
+      background: linear-gradient(135deg, var(--success), #34D399);
+    }
+    .feature-card__icon--amber {
+      background: linear-gradient(135deg, #D97706, var(--accent));
+    }
+    .feature-card__icon--purple {
+      background: linear-gradient(135deg, #7C3AED, #A78BFA);
+    }
+
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .feature-card__tag {
+      display: inline-block;
+      padding: 3px 10px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .feature-card__tag--new {
+      background: rgba(230,57,70,0.15);
+      color: var(--primary);
+    }
+
+    /* ========== TECH SPECS ========== */
+    .specs {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .specs__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: center;
+    }
+    @media (max-width: 768px) {
+      .specs__grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .specs__grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    .spec {
+      padding: 24px 16px;
+    }
+    .spec__value {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--text-bright);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .spec__value span { color: var(--primary); }
+    .spec__label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* ========== CODE BLOCK ========== */
+    .code-section .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+    @media (max-width: 860px) {
+      .code-section .container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    .code-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .code-block__bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+    .code-block__content {
+      padding: 20px;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      line-height: 1.8;
+      overflow-x: auto;
+      color: var(--text-muted);
+    }
+    .code-block__content .hl-tag { color: #E06C75; }
+    .code-block__content .hl-attr { color: #D19A66; }
+    .code-block__content .hl-str { color: #98C379; }
+    .code-block__content .hl-cmt { color: #5C6370; font-style: italic; }
+
+    .code-text h3 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-bright);
+      margin-bottom: 16px;
+    }
+    .code-text p {
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+    .code-text ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .code-text li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+    .code-text li svg {
+      width: 20px; height: 20px;
+      color: var(--success);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ========== PRICING ========== */
+    .pricing__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .pricing__grid {
+        grid-template-columns: 1fr;
+        max-width: 440px;
+        margin: 0 auto;
+      }
+    }
+
+    .price-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 32px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+    .price-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .price-card--featured {
+      border-color: var(--primary);
+      background: linear-gradient(180deg, rgba(230,57,70,0.06) 0%, var(--bg-card) 40%);
+      box-shadow: 0 0 60px var(--primary-glow);
+    }
+
+    .price-card__badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 20px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .price-card__name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+    .price-card__price {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--text-bright);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .price-card__price sup {
+      font-size: 1.5rem;
+      vertical-align: super;
+      margin-right: 2px;
+    }
+    .price-card__term {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+    .price-card__divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 -32px 24px;
+    }
+    .price-card__features {
+      list-style: none;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .price-card__features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+    .price-card__features li svg {
+      width: 18px; height: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .price-card__features li svg.check { color: var(--success); }
+    .price-card__features li svg.x { color: #64748B; }
+    .price-card__features li.muted { color: var(--text-muted); }
+
+    /* ========== TESTIMONIALS ========== */
+    .testimonials__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 860px) {
+      .testimonials__grid { grid-template-columns: 1fr; }
+    }
+
+    .testimonial {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .testimonial__stars {
+      color: var(--accent);
+      font-size: 1rem;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .testimonial__quote {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .testimonial__author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testimonial__avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--secondary), #3B82F6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #fff;
+    }
+    .testimonial__name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-bright);
+    }
+    .testimonial__role {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ========== FAQ ========== */
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-item__q {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 24px 0;
+      background: none;
+      border: none;
+      font-family: var(--font);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-bright);
+      cursor: pointer;
+      text-align: left;
+      line-height: 1.4;
+    }
+    .faq-item__q:hover { color: var(--primary); }
+    .faq-item__icon {
+      width: 24px; height: 24px;
+      flex-shrink: 0;
+      transition: transform 0.3s;
+      color: var(--text-muted);
+    }
+    .faq-item--open .faq-item__icon { transform: rotate(45deg); }
+    .faq-item__a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+    .faq-item__a-inner {
+      padding: 0 0 24px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    /* ========== CTA BANNER ========== */
+    .cta-banner {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, var(--primary-glow) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-banner .container { position: relative; z-index: 1; }
+    .cta-banner .subhead {
+      margin: 16px auto 40px;
+    }
+
+    .cta-guarantee {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .cta-guarantee svg { width: 18px; height: 18px; color: var(--success); }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .footer a { color: var(--text); }
+    .footer a:hover { color: var(--primary); }
+  </style>
+</head>
+
+<body>
+
+  <!-- ====== NAV ====== -->
+  <nav class="nav" id="nav">
+    <div class="container">
+      <div class="nav__logo">Conversion<span>Max</span> Pro</div>
+      <div class="nav__cta">
+        <a href="#pricing" class="btn btn--primary">Get the Theme</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ====== HERO ====== -->
+  <section class="hero">
+    <div class="container">
+      <div class="eyebrow">Shopify 2.0 Theme</div>
+      <h1 class="headline headline--hero">
+        The Shopify theme built for<br><span class="gradient">direct response marketers</span>
+      </h1>
+      <p class="subhead">
+        VSL pages, quantity breaks, bundle builders, countdown timers, and every conversion tool you need &mdash; in one blazing-fast theme. No jQuery. No bloat. Just results.
+      </p>
+
+      <div class="hero__actions">
+        <a href="#pricing" class="btn btn--primary btn--large">
+          Get ConversionMax Pro
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </a>
+        <a href="#features" class="btn btn--outline">
+          See All Features
+        </a>
+      </div>
+
+      <div class="hero__proof">
+        <div class="hero__proof-item">
+          <div class="hero__proof-check">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <span>Under 2.5s load time</span>
+        </div>
+        <div class="hero__proof-item">
+          <div class="hero__proof-check">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <span>Shopify OS 2.0 native</span>
+        </div>
+        <div class="hero__proof-item">
+          <div class="hero__proof-check">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <span>Zero dependencies</span>
+        </div>
+      </div>
+
+      <!-- Mockup -->
+      <div class="hero__mockup">
+        <div class="hero__mockup-bar">
+          <div class="hero__mockup-dot"></div>
+          <div class="hero__mockup-dot"></div>
+          <div class="hero__mockup-dot"></div>
+        </div>
+        <div class="hero__mockup-body">
+          <span class="mock-tag">VSL Hero Section</span>
+          <div class="mock-headline">Watch This Short Video To Discover...</div>
+          <div class="mock-video">
+            <div class="mock-play">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="mock-cards">
+            <div class="mock-card">
+              <div class="mock-card__qty">1</div>
+              <div class="mock-card__price">$49</div>
+              <div class="mock-card__label">per bottle</div>
+            </div>
+            <div class="mock-card mock-card--highlight">
+              <div class="mock-card__qty">3</div>
+              <div class="mock-card__price">$39</div>
+              <div class="mock-card__label">per bottle</div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card__qty">6</div>
+              <div class="mock-card__price">$29</div>
+              <div class="mock-card__label">per bottle</div>
+            </div>
+          </div>
+          <div class="mock-btn">Add to Cart &mdash; Best Deal!</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== LOGOS ====== -->
+  <section class="logos">
+    <div class="container">
+      <p class="logos__label">Trusted by marketers running stores on</p>
+      <div class="logos__row">
+        <span class="logos__item">Shopify</span>
+        <span class="logos__item">Shopify Plus</span>
+        <span class="logos__item">ClickFunnels &rarr; Shopify</span>
+        <span class="logos__item">Lemon Squeezy</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FEATURES ====== -->
+  <section id="features">
+    <div class="container">
+      <div class="section-header">
+        <div class="eyebrow">Everything You Need</div>
+        <h2 class="headline">9 conversion-focused sections.<br>One theme.</h2>
+        <p class="subhead">Every section is a native Shopify 2.0 section with full settings, blocks, and presets. Drag, drop, and customize in the theme editor.</p>
+      </div>
+
+      <div class="features-grid">
+
+        <!-- VSL Hero -->
+        <div class="feature-card feature-card--highlight">
+          <div class="feature-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <span class="feature-card__tag feature-card__tag--new">Core</span>
+          <h3>VSL Hero</h3>
+          <p>Full-width video section supporting YouTube, Vimeo, and MP4. Autoplay, background or inline layout, headline overlay, and CTA button. The centerpiece of every VSL funnel.</p>
+        </div>
+
+        <!-- Quantity Breaks -->
+        <div class="feature-card">
+          <div class="feature-card__icon feature-card__icon--green">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+          <h3>Quantity Breaks</h3>
+          <p>Buy 1/3/6 with per-unit price drops. Highlights the best value tier. Savings badges and compare-at pricing. AJAX add-to-cart via Shopify's cart API.</p>
+        </div>
+
+        <!-- Bundle Builder -->
+        <div class="feature-card">
+          <div class="feature-card__icon feature-card__icon--purple">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          </div>
+          <h3>Bundle Builder</h3>
+          <p>Customers mix and match products into a custom bundle. Variant selectors, running total, discount badge, and single add-to-cart for the entire bundle.</p>
+        </div>
+
+        <!-- Sticky ATC -->
+        <div class="feature-card">
+          <div class="feature-card__icon feature-card__icon--blue">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+          </div>
+          <h3>Sticky Add-to-Cart</h3>
+          <p>A fixed bar that slides in as visitors scroll past the main CTA. Shows product image, title, price, and an ATC button. Configurable scroll trigger threshold.</p>
+        </div>
+
+        <!-- Countdown -->
+        <div class="feature-card feature-card--highlight">
+          <div class="feature-card__icon feature-card__icon--amber">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <span class="feature-card__tag feature-card__tag--new">Dual Mode</span>
+          <h3>Countdown Timer</h3>
+          <p>Two modes: <strong>fixed end date</strong> for real deadlines, and <strong>evergreen</strong> that resets per visitor via localStorage. Urgency styling when time is low.</p>
+        </div>
+
+        <!-- Social Proof -->
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+          </div>
+          <h3>Social Proof Strip</h3>
+          <p>Infinite-scrolling media logos, star rating display, and review/customer counts. Builds instant credibility with your "As Seen In" mentions.</p>
+        </div>
+
+        <!-- Guarantee -->
+        <div class="feature-card">
+          <div class="feature-card__icon feature-card__icon--green">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <h3>Guarantee Block</h3>
+          <p>Upload a custom badge or use the built-in shield icon. Fully customizable headline, rich text body, and colors. The risk reversal section every DR page needs.</p>
+        </div>
+
+        <!-- FAQ -->
+        <div class="feature-card">
+          <div class="feature-card__icon feature-card__icon--blue">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h3>FAQ Accordion</h3>
+          <p>Clean accordion with smooth expand/collapse animations. Accessible markup with proper ARIA roles. Add unlimited Q&A pairs via the theme editor's block system.</p>
+        </div>
+
+        <!-- Post-Purchase Upsell -->
+        <div class="feature-card">
+          <div class="feature-card__icon feature-card__icon--purple">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h3>Post-Purchase Upsell</h3>
+          <p>One-click upsell shown on the thank-you page. Product image, discount badge, add-to-order CTA, and a soft decline link. Maximize AOV on every order.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== TECH SPECS ====== -->
+  <section class="specs">
+    <div class="container">
+      <div class="specs__grid">
+        <div class="spec">
+          <div class="spec__value">&lt;2.5<span>s</span></div>
+          <div class="spec__label">Target load time</div>
+        </div>
+        <div class="spec">
+          <div class="spec__value">0</div>
+          <div class="spec__label">External dependencies</div>
+        </div>
+        <div class="spec">
+          <div class="spec__value">9</div>
+          <div class="spec__label">Conversion sections</div>
+        </div>
+        <div class="spec">
+          <div class="spec__value">4</div>
+          <div class="spec__label">Pixel integrations</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CODE / FILE STRUCTURE ====== -->
+  <section class="code-section">
+    <div class="container">
+      <div class="code-text">
+        <div class="eyebrow">Clean Architecture</div>
+        <h3>Built the way Shopify 2.0 was meant to be built</h3>
+        <p>No hacks, no workarounds. Pure Online Store 2.0 with JSON templates, section groups, and the block architecture your developers actually want to work with.</p>
+        <ul>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            Vanilla JavaScript &mdash; no jQuery, no build tools needed
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            CSS custom properties for all colors and fonts
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            AJAX cart API for all add-to-cart interactions
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            Dedicated VSL page template (page.vsl.json)
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            Pixel manager for Meta, TikTok, GTM, Snapchat
+          </li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block__bar">conversionmax-pro/</div>
+        <div class="code-block__content">
+<span class="hl-cmt">## Layout &amp; Config</span>
+layout/theme.liquid
+config/settings_schema.json
+locales/en.default.json
+
+<span class="hl-cmt">## Templates (JSON)</span>
+templates/index.json
+templates/product.json
+templates/<span class="hl-str">page.vsl.json</span>  <span class="hl-cmt">&larr; VSL page</span>
+
+<span class="hl-cmt">## Sections (9 total)</span>
+sections/vsl-hero.liquid
+sections/quantity-breaks.liquid
+sections/bundle-builder.liquid
+sections/sticky-atc.liquid
+sections/countdown-timer.liquid
+sections/social-proof-strip.liquid
+sections/guarantee-block.liquid
+sections/faq-accordion.liquid
+sections/post-purchase-upsell.liquid
+
+<span class="hl-cmt">## Snippets</span>
+snippets/pixel-scripts.liquid
+snippets/license-banner.liquid
+
+<span class="hl-cmt">## Assets</span>
+assets/theme.css
+assets/theme.js
+assets/quantity-breaks.js
+assets/bundle-builder.js
+assets/countdown-timer.js
+assets/sticky-atc.js
+
+<span class="hl-cmt">## Bonus</span>
+<span class="hl-str">vsl-writer.html</span>  <span class="hl-cmt">&larr; AI script generator</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== BONUS: VSL WRITER ====== -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <div class="eyebrow">Included Free</div>
+        <h2 class="headline">AI VSL Script Writer</h2>
+        <p class="subhead">A standalone HTML tool included in every license. Enter your product details, hit generate, and get a professional VSL script powered by OpenAI or Anthropic. No server needed &mdash; runs entirely in your browser.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto;">
+        <div class="feature-card">
+          <h3>Your Key, Your Control</h3>
+          <p>Uses your own OpenAI or Anthropic API key. Stored only in localStorage &mdash; never sent to any third-party server.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Proven VSL Framework</h3>
+          <p>Hook &rarr; Problem &rarr; Story &rarr; Mechanism &rarr; Proof &rarr; Offer &rarr; Guarantee &rarr; CTA. Battle-tested direct response structure.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Ready to Record</h3>
+          <p>Output is formatted for teleprompter or slides with visual cues. Copy directly into your recording workflow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== TESTIMONIALS ====== -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <div class="eyebrow">What Marketers Say</div>
+        <h2 class="headline">Built by marketers,<br>for marketers</h2>
+      </div>
+
+      <div class="testimonials__grid">
+        <div class="testimonial">
+          <div class="testimonial__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial__quote">"We switched from a $350/yr subscription theme to ConversionMax Pro. Our page speed score went from 38 to 91 and our conversion rate jumped 23% in the first month."</p>
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">JR</div>
+            <div>
+              <div class="testimonial__name">Jake R.</div>
+              <div class="testimonial__role">DTC Brand Owner</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial__quote">"The quantity breaks and countdown timer alone paid for the theme in the first week. The fact that it's all vanilla JS with no bloat is the cherry on top. Finally a theme built for DR."</p>
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">SM</div>
+            <div>
+              <div class="testimonial__name">Sarah M.</div>
+              <div class="testimonial__role">Media Buyer &amp; Store Owner</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial__quote">"I've built VSL funnels on ClickFunnels, WordPress, and Shopify. This is the first Shopify theme that actually understands what direct response marketers need. The AI script writer is a killer bonus."</p>
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">DA</div>
+            <div>
+              <div class="testimonial__name">David A.</div>
+              <div class="testimonial__role">Funnel Consultant</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== PRICING ====== -->
+  <section id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <div class="eyebrow">Simple Pricing</div>
+        <h2 class="headline">One theme. Three tiers.<br>No subscriptions.</h2>
+        <p class="subhead">Pay once, own it forever. Every tier includes all 9 sections, the pixel manager, and the AI VSL Script Writer.</p>
+      </div>
+
+      <div class="pricing__grid">
+
+        <!-- Basic -->
+        <div class="price-card">
+          <div class="price-card__name">Basic</div>
+          <div class="price-card__price"><sup>$</sup>99</div>
+          <div class="price-card__term">One-time payment &middot; 1 store</div>
+          <div class="price-card__divider"></div>
+          <ul class="price-card__features">
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              All 9 conversion sections
+            </li>
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Pixel manager (Meta, TikTok, GTM, Snap)
+            </li>
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              AI VSL Script Writer
+            </li>
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Lifetime updates
+            </li>
+            <li class="muted">
+              <svg class="x" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6"/></svg>
+              Community support only
+            </li>
+          </ul>
+          <a href="#" class="btn btn--outline btn--full">Get Basic</a>
+        </div>
+
+        <!-- Pro -->
+        <div class="price-card price-card--featured">
+          <div class="price-card__badge">Most Popular</div>
+          <div class="price-card__name">Pro</div>
+          <div class="price-card__price"><sup>$</sup>199</div>
+          <div class="price-card__term">One-time payment &middot; 1 store</div>
+          <div class="price-card__divider"></div>
+          <ul class="price-card__features">
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Everything in Basic
+            </li>
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Priority email support
+            </li>
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Setup walkthrough guide
+            </li>
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Lifetime updates
+            </li>
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              48-hour response SLA
+            </li>
+          </ul>
+          <a href="#" class="btn btn--primary btn--full">Get Pro</a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="price-card">
+          <div class="price-card__name">Enterprise</div>
+          <div class="price-card__price"><sup>$</sup>350</div>
+          <div class="price-card__term">One-time payment &middot; 3 stores</div>
+          <div class="price-card__divider"></div>
+          <ul class="price-card__features">
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Everything in Pro
+            </li>
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              License for up to 3 stores
+            </li>
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Priority support (24hr SLA)
+            </li>
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Lifetime updates
+            </li>
+            <li>
+              <svg class="check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Agency-friendly license
+            </li>
+          </ul>
+          <a href="#" class="btn btn--outline btn--full">Get Enterprise</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FAQ ====== -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <div class="eyebrow">Questions</div>
+        <h2 class="headline">Frequently asked questions</h2>
+      </div>
+
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-item__q" type="button">
+            <span>Is this theme approved for the Shopify Theme Store?</span>
+            <svg class="faq-item__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="faq-item__a">
+            <div class="faq-item__a-inner">No. ConversionMax Pro is sold independently via Lemon Squeezy, not through the Shopify Theme Store. You download the theme files and upload them directly to your Shopify store via the admin panel (Online Store &rarr; Themes &rarr; Upload). This is the standard process for any third-party theme.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-item__q" type="button">
+            <span>Does it work with Shopify Plus?</span>
+            <svg class="faq-item__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="faq-item__a">
+            <div class="faq-item__a-inner">Yes. ConversionMax Pro is built on Shopify's Online Store 2.0 platform, which is fully compatible with both standard Shopify plans and Shopify Plus.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-item__q" type="button">
+            <span>Do I need to know how to code?</span>
+            <svg class="faq-item__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="faq-item__a">
+            <div class="faq-item__a-inner">No. Everything is configurable through Shopify's native theme editor. You drag and drop sections, customize settings, and publish. If you want to customize further, all the code is clean, commented, and follows standard Shopify 2.0 conventions.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-item__q" type="button">
+            <span>What happens if I don't enter a license key?</span>
+            <svg class="faq-item__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="faq-item__a">
+            <div class="faq-item__a-inner">Your storefront works normally regardless. A small, dismissible admin banner will remind you to activate your license. This is honor-system validation &mdash; Shopify themes can't enforce hard gates, and we respect that.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-item__q" type="button">
+            <span>How does the AI VSL Script Writer work?</span>
+            <svg class="faq-item__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="faq-item__a">
+            <div class="faq-item__a-inner">It's a standalone HTML file included in your download. Open it in your browser, enter your own OpenAI or Anthropic API key (stored only in your browser), fill in your product details, and click Generate. The script is generated directly via the AI provider's API &mdash; no middleman server, no data collection.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-item__q" type="button">
+            <span>Can I use this with my existing Shopify apps?</span>
+            <svg class="faq-item__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="faq-item__a">
+            <div class="faq-item__a-inner">Yes. ConversionMax Pro follows standard Shopify 2.0 conventions, so most Shopify apps (reviews, upsells, email capture, etc.) will work as expected. If an app injects via ScriptTag or app blocks, it should integrate seamlessly.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FINAL CTA ====== -->
+  <section class="cta-banner">
+    <div class="container">
+      <h2 class="headline">Ready to build pages<br>that <span class="gradient">actually convert</span>?</h2>
+      <p class="subhead">Stop fighting your theme. Start with one built for direct response from the ground up.</p>
+      <a href="#pricing" class="btn btn--primary btn--large">
+        Get ConversionMax Pro
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+      </a>
+      <div class="cta-guarantee">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        Secure checkout via Lemon Squeezy &middot; Instant download &middot; Lifetime updates
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 ConversionMax Pro. All rights reserved.</p>
+      <p style="margin-top: 8px;">
+        <a href="#">Terms</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Support</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- ====== JS ====== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* Nav scroll effect */
+      var nav = document.getElementById('nav');
+      var scrolled = false;
+      window.addEventListener('scroll', function () {
+        var y = window.pageYOffset || document.documentElement.scrollTop;
+        if (y > 40 && !scrolled) {
+          nav.classList.add('nav--scrolled');
+          scrolled = true;
+        } else if (y <= 40 && scrolled) {
+          nav.classList.remove('nav--scrolled');
+          scrolled = false;
+        }
+      }, { passive: true });
+
+      /* FAQ accordion */
+      document.querySelectorAll('.faq-item__q').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var item = btn.closest('.faq-item');
+          var answer = item.querySelector('.faq-item__a');
+          var isOpen = item.classList.contains('faq-item--open');
+
+          // Close all
+          document.querySelectorAll('.faq-item').forEach(function (other) {
+            if (other !== item) {
+              other.classList.remove('faq-item--open');
+              var a = other.querySelector('.faq-item__a');
+              if (a) a.style.maxHeight = null;
+            }
+          });
+
+          if (isOpen) {
+            item.classList.remove('faq-item--open');
+            answer.style.maxHeight = null;
+          } else {
+            item.classList.add('faq-item--open');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+          }
+        });
+      });
+
+      /* Smooth scroll for anchor links */
+      document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          var target = document.querySelector(link.getAttribute('href'));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>

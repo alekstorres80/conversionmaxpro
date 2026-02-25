@@ -1,0 +1,163 @@
+{%- comment -%}
+  Social Proof Strip — ConversionMax Pro
+  Scrolling logos (media mentions) + review count + star rating.
+{%- endcomment -%}
+
+<section
+  id="social-proof-{{ section.id }}"
+  class="cmp-social-proof cmp-section--alt"
+  style="{% if section.settings.bg_color != blank %}background-color: {{ section.settings.bg_color }};{% endif %}"
+>
+  {%- comment -%} Stats row: stars + review count {%- endcomment -%}
+  {%- if section.settings.show_stats -%}
+    <div class="cmp-social-proof__stats">
+      {%- if section.settings.star_rating > 0 -%}
+        <div class="cmp-social-proof__stat">
+          <span class="cmp-social-proof__stars" aria-label="{{ section.settings.star_rating }} out of 5 stars">
+            {%- for i in (1..5) -%}
+              {%- if i <= section.settings.star_rating -%}&#9733;{%- else -%}&#9734;{%- endif -%}
+            {%- endfor -%}
+          </span>
+          <span>{{ section.settings.star_rating }}/5</span>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.review_count != blank -%}
+        <div class="cmp-social-proof__stat">
+          <span>{{ section.settings.review_count }} Reviews</span>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.customer_count != blank -%}
+        <div class="cmp-social-proof__stat">
+          <span>{{ section.settings.customer_count }}+ Happy Customers</span>
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Scrolling logo ticker {%- endcomment -%}
+  {%- if section.blocks.size > 0 -%}
+    {%- if section.settings.logos_heading != blank -%}
+      <p style="text-align: center; color: var(--color-text-light); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; padding: 0 20px;">
+        {{ section.settings.logos_heading }}
+      </p>
+    {%- endif -%}
+
+    <div class="cmp-social-proof__scroll-track"
+      {% if section.settings.bg_color != blank %}
+        style="--logo-track-bg: {{ section.settings.bg_color }};"
+      {% endif %}
+    >
+      <div class="cmp-social-proof__logos" data-social-proof-logos>
+        {%- for block in section.blocks -%}
+          {%- if block.settings.logo != blank -%}
+            <img
+              class="cmp-social-proof__logo"
+              src="{{ block.settings.logo | image_url: height: 64 }}"
+              alt="{{ block.settings.alt_text | default: 'Media mention' | escape }}"
+              height="32"
+              loading="lazy"
+              {{ block.shopify_attributes }}
+            >
+          {%- endif -%}
+        {%- endfor -%}
+        {%- comment -%} Duplicate logos for seamless infinite scroll {%- endcomment -%}
+        {%- for block in section.blocks -%}
+          {%- if block.settings.logo != blank -%}
+            <img
+              class="cmp-social-proof__logo"
+              src="{{ block.settings.logo | image_url: height: 64 }}"
+              alt="{{ block.settings.alt_text | default: 'Media mention' | escape }}"
+              height="32"
+              loading="lazy"
+              aria-hidden="true"
+            >
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Social Proof Strip",
+  "tag": "section",
+  "class": "cmp-section-social-proof",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Review Stats"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show stats row",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "star_rating",
+      "label": "Star rating",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 5,
+      "info": "Set to 0 to hide stars."
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review count",
+      "default": "2,847"
+    },
+    {
+      "type": "text",
+      "id": "customer_count",
+      "label": "Customer count",
+      "default": "10,000"
+    },
+    {
+      "type": "header",
+      "content": "Logo Ticker"
+    },
+    {
+      "type": "text",
+      "id": "logos_heading",
+      "label": "Heading above logos",
+      "default": "As Seen In"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F8F9FA"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt text",
+          "default": "Media mention"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Social Proof Strip"
+    }
+  ]
+}
+{% endschema %}

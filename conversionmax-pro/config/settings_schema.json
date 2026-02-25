@@ -1,0 +1,207 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "ConversionMax Pro",
+    "theme_version": "1.0.0",
+    "theme_author": "ConversionMax",
+    "theme_documentation_url": "https://docs.conversionmaxpro.com",
+    "theme_support_url": "https://support.conversionmaxpro.com"
+  },
+  {
+    "name": "License",
+    "settings": [
+      {
+        "type": "header",
+        "content": "License Activation"
+      },
+      {
+        "type": "paragraph",
+        "content": "Enter your Lemon Squeezy license key to activate ConversionMax Pro. Your storefront works without activation, but please support the theme by activating your license."
+      },
+      {
+        "type": "text",
+        "id": "license_key",
+        "label": "License Key",
+        "info": "Your Lemon Squeezy license key (e.g., XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX)"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Primary Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary",
+        "default": "#E63946",
+        "info": "Main CTA and accent color"
+      },
+      {
+        "type": "color",
+        "id": "color_primary_hover",
+        "label": "Primary Hover",
+        "default": "#C62828"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary",
+        "default": "#1D3557"
+      },
+      {
+        "type": "header",
+        "content": "Background & Text"
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Page Background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_alt",
+        "label": "Alternate Section Background",
+        "default": "#F8F9FA"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Body Text",
+        "default": "#212529"
+      },
+      {
+        "type": "color",
+        "id": "color_text_light",
+        "label": "Light Text",
+        "default": "#6C757D"
+      },
+      {
+        "type": "color",
+        "id": "color_heading",
+        "label": "Headings",
+        "default": "#1D3557"
+      },
+      {
+        "type": "header",
+        "content": "Utility Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_success",
+        "label": "Success / Guarantee",
+        "default": "#2D6A4F"
+      },
+      {
+        "type": "color",
+        "id": "color_warning",
+        "label": "Warning / Urgency",
+        "default": "#E76F51"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Borders",
+        "default": "#DEE2E6"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading Font",
+        "default": "assistant_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body Font",
+        "default": "assistant_n4"
+      },
+      {
+        "type": "range",
+        "id": "font_size_base",
+        "label": "Base Font Size (px)",
+        "min": 14,
+        "max": 20,
+        "step": 1,
+        "default": 16
+      }
+    ]
+  },
+  {
+    "name": "Tracking Pixels",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Meta (Facebook) Pixel"
+      },
+      {
+        "type": "text",
+        "id": "meta_pixel_id",
+        "label": "Meta Pixel ID",
+        "info": "Enter your Meta (Facebook) Pixel ID. Leave blank to disable."
+      },
+      {
+        "type": "header",
+        "content": "TikTok Pixel"
+      },
+      {
+        "type": "text",
+        "id": "tiktok_pixel_id",
+        "label": "TikTok Pixel ID",
+        "info": "Enter your TikTok Pixel ID. Leave blank to disable."
+      },
+      {
+        "type": "header",
+        "content": "Google Tag Manager"
+      },
+      {
+        "type": "text",
+        "id": "gtm_container_id",
+        "label": "GTM Container ID",
+        "info": "Enter your GTM Container ID (e.g., GTM-XXXXXX). Leave blank to disable."
+      },
+      {
+        "type": "header",
+        "content": "Snapchat Pixel"
+      },
+      {
+        "type": "text",
+        "id": "snapchat_pixel_id",
+        "label": "Snapchat Pixel ID",
+        "info": "Enter your Snapchat Pixel ID. Leave blank to disable."
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "range",
+        "id": "max_page_width",
+        "label": "Max Page Width (px)",
+        "min": 1000,
+        "max": 1600,
+        "step": 40,
+        "default": 1200
+      },
+      {
+        "type": "range",
+        "id": "section_spacing",
+        "label": "Section Spacing (px)",
+        "min": 20,
+        "max": 100,
+        "step": 4,
+        "default": 60
+      }
+    ]
+  }
+]

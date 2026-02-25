@@ -1,0 +1,71 @@
+{
+  "general": {
+    "add_to_cart": "Add to Cart",
+    "adding": "Adding...",
+    "added": "Added!",
+    "sold_out": "Sold Out",
+    "unavailable": "Unavailable",
+    "quantity": "Quantity",
+    "remove": "Remove",
+    "close": "Close",
+    "skip_to_content": "Skip to content",
+    "cart": "Cart",
+    "search": "Search"
+  },
+  "products": {
+    "quantity_breaks": {
+      "heading": "Choose Your Package",
+      "add_to_cart": "Add to Cart",
+      "per_unit": "each",
+      "you_save": "You save {{ amount }}",
+      "best_value": "Best Value",
+      "most_popular": "Most Popular"
+    },
+    "bundle_builder": {
+      "heading": "Build Your Bundle",
+      "add_to_bundle": "Add to Bundle",
+      "remove_from_bundle": "Remove from Bundle",
+      "bundle_total": "Bundle Total",
+      "items_selected": "{{ count }} items selected",
+      "add_bundle_to_cart": "Add Bundle to Cart"
+    }
+  },
+  "sections": {
+    "vsl_hero": {
+      "default_headline": "Watch This Short Video To Discover...",
+      "default_subheadline": "The proven system for more customers, more sales, and more freedom."
+    },
+    "countdown": {
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds",
+      "expired": "This offer has expired."
+    },
+    "guarantee": {
+      "default_headline": "100% Money-Back Guarantee"
+    },
+    "faq": {
+      "heading": "Frequently Asked Questions"
+    },
+    "social_proof": {
+      "reviews": "Reviews",
+      "happy_customers": "Happy Customers",
+      "as_seen_in": "As Seen In"
+    },
+    "upsell": {
+      "heading": "Wait! Don't Miss This Exclusive Deal",
+      "add_to_order": "Yes! Add This To My Order",
+      "decline": "No thanks, I don't want this deal"
+    }
+  },
+  "cart": {
+    "added_notification": "Added to cart!",
+    "bundle_added": "Bundle added to cart!",
+    "error": "Could not add to cart. Please try again."
+  },
+  "license": {
+    "activate_prompt": "ConversionMax Pro — Please activate your license key in Theme Settings → License.",
+    "invalid_key": "ConversionMax Pro — Your license key appears to be invalid. Please check Theme Settings → License."
+  }
+}

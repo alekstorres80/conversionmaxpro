@@ -1,0 +1,142 @@
+{%- comment -%}
+  Bundle Builder Section — ConversionMax Pro
+  Select product variants to bundle, single add-to-cart, discount badge.
+{%- endcomment -%}
+
+<section id="bundle-builder-{{ section.id }}" class="cmp-bundle-builder cmp-section" data-bundle-section="{{ section.id }}">
+  <div class="cmp-container">
+    {%- if section.settings.heading != blank -%}
+      <div class="cmp-bundle-builder__heading">
+        <h2>{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}
+          <p style="color: var(--color-text-light); margin-top: 8px;">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="cmp-bundle-builder__products" data-bundle-products>
+      {%- for block in section.blocks -%}
+        {%- assign prod = block.settings.product -%}
+        {%- if prod != blank -%}
+          <div
+            class="cmp-bundle-product"
+            data-bundle-product
+            data-block-id="{{ block.id }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- if prod.featured_image -%}
+              <img
+                class="cmp-bundle-product__image"
+                src="{{ prod.featured_image | image_url: width: 400 }}"
+                alt="{{ prod.featured_image.alt | escape }}"
+                width="400"
+                height="400"
+                loading="lazy"
+              >
+            {%- endif -%}
+
+            <div class="cmp-bundle-product__title">{{ prod.title }}</div>
+            <div class="cmp-bundle-product__price">{{ prod.price | money }}</div>
+
+            {%- if prod.variants.size > 1 -%}
+              <select class="cmp-bundle-product__variant-select" data-bundle-variant>
+                {%- for variant in prod.variants -%}
+                  {%- if variant.available -%}
+                    <option
+                      value="{{ variant.id }}"
+                      data-price="{{ variant.price }}"
+                    >
+                      {{ variant.title }} — {{ variant.price | money }}
+                    </option>
+                  {%- endif -%}
+                {%- endfor -%}
+              </select>
+            {%- else -%}
+              <input type="hidden" data-bundle-variant value="{{ prod.variants.first.id }}" data-price="{{ prod.variants.first.price }}">
+            {%- endif -%}
+
+            <button
+              type="button"
+              class="cmp-btn cmp-btn--outline cmp-btn--full cmp-bundle-product__toggle"
+              data-bundle-toggle
+            >
+              Add to Bundle
+            </button>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="cmp-bundle-builder__summary" data-bundle-summary style="display: none;">
+      {%- if section.settings.discount_badge != blank -%}
+        <div class="cmp-bundle-builder__discount-badge">
+          <span class="cmp-badge cmp-badge--primary">{{ section.settings.discount_badge }}</span>
+        </div>
+      {%- endif -%}
+      <div class="cmp-bundle-builder__total" data-bundle-total>Bundle Total: $0.00</div>
+      <div style="color: var(--color-text-light); font-size: 0.9rem; margin-bottom: 16px;" data-bundle-count>0 items selected</div>
+      <button
+        class="cmp-btn cmp-btn--primary cmp-btn--large"
+        data-bundle-atc
+        disabled
+      >
+        {{ section.settings.button_text | default: 'Add Bundle to Cart' }}
+      </button>
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'bundle-builder.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Bundle Builder",
+  "tag": "section",
+  "class": "cmp-section-bundle-builder",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Build Your Bundle & Save"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Mix and match your favorites — the more you add, the more you save."
+    },
+    {
+      "type": "text",
+      "id": "discount_badge",
+      "label": "Discount badge text",
+      "default": "Bundle & Save 20%",
+      "info": "Displayed above the total. Leave blank to hide."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Add Bundle to Cart"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle Builder"
+    }
+  ]
+}
+{% endschema %}

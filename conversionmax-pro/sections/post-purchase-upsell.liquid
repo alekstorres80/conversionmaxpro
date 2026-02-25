@@ -1,0 +1,165 @@
+{%- comment -%}
+  Post-Purchase Upsell Section — ConversionMax Pro
+  Shown on thank-you page via Shopify's order status / additional scripts.
+  One-click style layout with product image, discount, and CTA.
+{%- endcomment -%}
+
+{%- assign upsell_product = section.settings.product -%}
+
+<section id="upsell-{{ section.id }}" class="cmp-section" data-upsell-section="{{ section.id }}">
+  <div class="cmp-container">
+    <div class="cmp-upsell">
+      {%- if section.settings.badge_text != blank -%}
+        <div class="cmp-upsell__badge">
+          <span class="cmp-badge cmp-badge--warning">{{ section.settings.badge_text }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="cmp-upsell__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <p class="cmp-upsell__description">{{ section.settings.description }}</p>
+      {%- endif -%}
+
+      {%- if upsell_product != blank -%}
+        {%- if upsell_product.featured_image -%}
+          <img
+            class="cmp-upsell__image"
+            src="{{ upsell_product.featured_image | image_url: width: 400 }}"
+            alt="{{ upsell_product.featured_image.alt | escape }}"
+            width="200"
+            height="200"
+            loading="lazy"
+          >
+        {%- endif -%}
+
+        <div class="cmp-upsell__prices">
+          {%- if upsell_product.compare_at_price > upsell_product.price -%}
+            <span class="cmp-upsell__original-price">{{ upsell_product.compare_at_price | money }}</span>
+          {%- endif -%}
+          <span class="cmp-upsell__sale-price">{{ upsell_product.price | money }}</span>
+        </div>
+
+        <div class="cmp-upsell__cta">
+          <button
+            class="cmp-btn cmp-btn--primary cmp-btn--large cmp-btn--full"
+            data-upsell-atc
+            data-variant-id="{{ upsell_product.selected_or_first_available_variant.id }}"
+          >
+            {{ section.settings.button_text | default: 'Yes! Add This To My Order' }}
+          </button>
+        </div>
+
+        <button class="cmp-upsell__decline" data-upsell-decline>
+          {{ section.settings.decline_text | default: 'No thanks, I don\'t want this deal' }}
+        </button>
+      {%- else -%}
+        <p style="color: var(--color-text-light);">Select a product in the theme editor to display the upsell offer.</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    'use strict';
+
+    var section = document.querySelector('[data-upsell-section="{{ section.id }}"]');
+    if (!section) return;
+
+    var atcBtn = section.querySelector('[data-upsell-atc]');
+    var declineBtn = section.querySelector('[data-upsell-decline]');
+
+    if (atcBtn) {
+      atcBtn.addEventListener('click', function () {
+        var variantId = atcBtn.getAttribute('data-variant-id');
+        if (!variantId) return;
+
+        atcBtn.disabled = true;
+        atcBtn.textContent = 'Adding...';
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: [{ id: parseInt(variantId, 10), quantity: 1 }]
+          })
+        })
+        .then(function (r) {
+          if (!r.ok) throw new Error('Failed');
+          return r.json();
+        })
+        .then(function () {
+          atcBtn.textContent = 'Added to Your Order ✓';
+          atcBtn.style.backgroundColor = 'var(--color-success, #2D6A4F)';
+        })
+        .catch(function () {
+          atcBtn.textContent = 'Error — Try Again';
+          atcBtn.disabled = false;
+        });
+      });
+    }
+
+    if (declineBtn) {
+      declineBtn.addEventListener('click', function () {
+        section.style.transition = 'opacity 0.3s ease, max-height 0.3s ease';
+        section.style.opacity = '0';
+        setTimeout(function () {
+          section.style.display = 'none';
+        }, 300);
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Post-Purchase Upsell",
+  "tag": "section",
+  "class": "cmp-section-upsell",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Upsell product"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "One-Time Offer"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Wait! Don't Miss This Exclusive Deal"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "As a thank-you for your purchase, we're offering you an exclusive deal on this best-selling product. This offer won't be available again!"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "CTA button text",
+      "default": "Yes! Add This To My Order"
+    },
+    {
+      "type": "text",
+      "id": "decline_text",
+      "label": "Decline link text",
+      "default": "No thanks, I don't want this deal"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Post-Purchase Upsell"
+    }
+  ]
+}
+{% endschema %}

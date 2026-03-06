@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "guarantee": {
+      "type": "guarantee-block",
+      "settings": {}
+    },
+    "countdown": {
+      "type": "countdown-timer",
+      "settings": {}
+    }
+  },
+  "order": [
+    "guarantee",
+    "countdown"
+  ]
+}

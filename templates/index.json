@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "vsl_hero": {
+      "type": "vsl-hero",
+      "settings": {}
+    },
+    "social_proof": {
+      "type": "social-proof-strip",
+      "settings": {}
+    },
+    "guarantee": {
+      "type": "guarantee-block",
+      "settings": {}
+    }
+  },
+  "order": [
+    "vsl_hero",
+    "social_proof",
+    "guarantee"
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "layout": "theme",
+  "sections": {
+    "promo_banner": {
+      "type": "promo-banner",
+      "settings": {
+        "eyebrow": "Limited Time Offer",
+        "heading": "Spring Sale — 25% Off Everything",
+        "body": "Don't miss out on our biggest sale of the year.",
+        "cta_text": "Shop the Sale"
+      }
+    },
+    "featured_product": {
+      "type": "featured-product",
+      "settings": {
+        "badge_text": "Best Seller",
+        "eyebrow": "Introducing",
+        "heading": "Featured Product",
+        "cta_text": "Shop Now"
+      },
+      "blocks": {
+        "highlight_1": {
+          "type": "highlight",
+          "settings": { "text": "Free shipping on all orders" }
+        },
+        "highlight_2": {
+          "type": "highlight",
+          "settings": { "text": "30-day money-back guarantee" }
+        },
+        "highlight_3": {
+          "type": "highlight",
+          "settings": { "text": "24/7 customer support" }
+        }
+      },
+      "block_order": ["highlight_1", "highlight_2", "highlight_3"]
+    },
+    "best_sellers": {
+      "type": "best-sellers",
+      "settings": {
+        "heading": "Best Sellers",
+        "subheading": "Our most popular products",
+        "products_to_show": 4,
+        "show_rank": true,
+        "show_reviews": true,
+        "cta_text": "View All Best Sellers"
+      }
+    },
+    "collection_list": {
+      "type": "collection-list",
+      "settings": {
+        "heading": "Shop by Category",
+        "subheading": "Browse our curated collections"
+      },
+      "blocks": {
+        "coll_1": { "type": "collection" },
+        "coll_2": { "type": "collection" },
+        "coll_3": { "type": "collection" }
+      },
+      "block_order": ["coll_1", "coll_2", "coll_3"]
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "New Arrivals",
+        "subheading": "Fresh drops you don't want to miss",
+        "products_to_show": 4,
+        "columns": "4",
+        "show_view_all": true
+      }
+    },
+    "social_proof": {
+      "type": "social-proof-strip",
+      "settings": {}
+    }
+  },
+  "order": [
+    "promo_banner",
+    "featured_product",
+    "best_sellers",
+    "collection_list",
+    "featured_collection",
+    "social_proof"
+  ]
+}

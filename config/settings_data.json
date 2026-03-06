@@ -1,32 +1,18 @@
 {
   "current": {
-    "sections": {
-      "header": {
-        "type": "header",
-        "settings": {}
-      },
-      "footer": {
-        "type": "footer",
-        "settings": {}
-      }
-    },
-    "content_for_index": [],
-    "blocks": {}
-  },
-  "presets": {
-    "Default": {
-      "sections": {
-        "header": {
-          "type": "header",
-          "settings": {}
-        },
-        "footer": {
-          "type": "footer",
-          "settings": {}
-        }
-      },
-      "content_for_index": [],
-      "blocks": {}
-    }
+    "color_primary": "#E63946",
+    "color_primary_hover": "#C62828",
+    "color_secondary": "#1D3557",
+    "color_bg": "#FFFFFF",
+    "color_bg_alt": "#F8F9FA",
+    "color_text": "#212529",
+    "color_text_light": "#6C757D",
+    "color_heading": "#1D3557",
+    "color_success": "#2D6A4F",
+    "color_warning": "#E76F51",
+    "color_border": "#DEE2E6",
+    "font_size_base": 16,
+    "max_page_width": 1200,
+    "section_spacing": 60
   }
 }

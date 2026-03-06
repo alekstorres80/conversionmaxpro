@@ -1,72 +1,11 @@
 {
   "sections": {
-    "vsl_hero": {
-      "type": "vsl-hero",
-      "settings": {
-        "video_type": "youtube",
-        "video_url": "",
-        "autoplay": true,
-        "layout": "inline",
-        "headline": "Watch This Short Video To Discover...",
-        "subheadline": "The proven system that helps you get more customers, more sales, and more freedom.",
-        "cta_text": "Get Started Now",
-        "cta_link": ""
-      }
-    },
-    "social_proof": {
-      "type": "social-proof-strip",
-      "settings": {
-        "show_stats": true,
-        "star_rating": 5,
-        "review_count": "2,847",
-        "customer_count": "10,000"
-      }
-    },
-    "countdown": {
-      "type": "countdown-timer",
-      "settings": {
-        "heading": "This Special Offer Expires In...",
-        "mode": "evergreen",
-        "evergreen_minutes": 30
-      }
-    },
     "guarantee": {
       "type": "guarantee-block",
-      "settings": {
-        "headline": "100% Money-Back Guarantee",
-        "body": "<p>We stand behind our product with a full 60-day money-back guarantee. No questions asked.</p>"
-      }
-    },
-    "faq": {
-      "type": "faq-accordion",
-      "settings": {
-        "heading": "Frequently Asked Questions",
-        "subheading": "Got questions? We have answers."
-      },
-      "blocks": {
-        "faq_1": {
-          "type": "faq",
-          "settings": {
-            "question": "How does this product work?",
-            "answer": "<p>Our product works by leveraging proven techniques to deliver results you can see and feel.</p>"
-          }
-        },
-        "faq_2": {
-          "type": "faq",
-          "settings": {
-            "question": "Is there a money-back guarantee?",
-            "answer": "<p>Yes! We offer a full 60-day money-back guarantee.</p>"
-          }
-        }
-      },
-      "block_order": ["faq_1", "faq_2"]
+      "settings": {}
     }
   },
   "order": [
-    "vsl_hero",
-    "social_proof",
-    "countdown",
-    "guarantee",
-    "faq"
+    "guarantee"
   ]
 }

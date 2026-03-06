@@ -26,8 +26,14 @@
     <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
   {%- endif -%}
 
+  {%- comment -%} Font face declarations {%- endcomment -%}
+  <style>
+    {{ settings.font_heading | font_face: font_display: 'swap' }}
+    {{ settings.font_body | font_face: font_display: 'swap' }}
+  </style>
+
   {%- comment -%} CSS Custom Properties from theme settings {%- endcomment -%}
-  {% style %}
+  <style>
     :root {
       --color-primary: {{ settings.color_primary }};
       --color-primary-hover: {{ settings.color_primary_hover }};
@@ -46,10 +52,7 @@
       --max-page-width: {{ settings.max_page_width }}px;
       --section-spacing: {{ settings.section_spacing }}px;
     }
-  {% endstyle %}
-
-  {{ settings.font_heading | font_face: font_display: 'swap' }}
-  {{ settings.font_body | font_face: font_display: 'swap' }}
+  </style>
 
   {{ 'theme.css' | asset_url | stylesheet_tag }}
 

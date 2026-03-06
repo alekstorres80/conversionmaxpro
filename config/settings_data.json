@@ -11,6 +11,8 @@
     "color_success": "#2D6A4F",
     "color_warning": "#E76F51",
     "color_border": "#DEE2E6",
+    "font_heading": "assistant_n7",
+    "font_body": "assistant_n4",
     "font_size_base": 16,
     "max_page_width": 1200,
     "section_spacing": 60

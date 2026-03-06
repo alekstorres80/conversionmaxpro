@@ -1,0 +1,42 @@
+<div class="cmp-section">
+  <div class="cmp-container">
+    <h1>Order {{ order.name }}</h1>
+    <p style="color: var(--color-text-light); margin: 8px 0 32px;">Placed on {{ order.created_at | date: '%B %d, %Y' }}</p>
+
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr style="border-bottom: 2px solid var(--color-border); text-align: left;">
+          <th style="padding: 12px 8px;">Product</th>
+          <th style="padding: 12px 8px;">Quantity</th>
+          <th style="padding: 12px 8px;">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for line_item in order.line_items -%}
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 12px 8px;">
+              {{ line_item.title }}
+              {%- unless line_item.variant.title == 'Default Title' -%}
+                <span style="color: var(--color-text-light);"> &mdash; {{ line_item.variant.title }}</span>
+              {%- endunless -%}
+            </td>
+            <td style="padding: 12px 8px;">{{ line_item.quantity }}</td>
+            <td style="padding: 12px 8px;">{{ line_item.line_price | money }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+
+    <div style="margin-top: 24px; text-align: right;">
+      <p>Subtotal: {{ order.subtotal_price | money }}</p>
+      {%- for shipping_method in order.shipping_methods -%}
+        <p>Shipping ({{ shipping_method.title }}): {{ shipping_method.price | money }}</p>
+      {%- endfor -%}
+      <p style="font-size: 1.25rem; font-weight: 700; margin-top: 8px;">Total: {{ order.total_price | money }}</p>
+    </div>
+
+    <div style="margin-top: 40px;">
+      <a href="/account" style="font-weight: 600;">&larr; Back to Account</a>
+    </div>
+  </div>
+</div>

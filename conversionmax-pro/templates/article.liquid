@@ -1,0 +1,19 @@
+<div class="cmp-section">
+  <div class="cmp-container" style="max-width: 760px;">
+    <article>
+      <h1>{{ article.title }}</h1>
+      <p style="font-size: 0.85rem; color: var(--color-text-light); margin: 8px 0 32px;">
+        {{ article.published_at | date: '%B %d, %Y' }} &middot; {{ article.author }}
+      </p>
+      {%- if article.image -%}
+        <img src="{{ article.image | image_url: width: 800 }}" alt="{{ article.image.alt | escape }}" style="width: 100%; border-radius: 12px; margin-bottom: 32px;">
+      {%- endif -%}
+      <div style="line-height: 1.8;">
+        {{ article.content }}
+      </div>
+    </article>
+    <div style="margin-top: 40px;">
+      <a href="{{ blog.url }}" style="font-weight: 600;">&larr; Back to {{ blog.title }}</a>
+    </div>
+  </div>
+</div>

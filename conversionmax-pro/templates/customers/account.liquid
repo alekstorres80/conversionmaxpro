@@ -1,0 +1,42 @@
+<div class="cmp-section">
+  <div class="cmp-container">
+    <h1>My Account</h1>
+    <p style="color: var(--color-text-light); margin: 8px 0 32px;">{{ customer.email }}</p>
+
+    <h2>Order History</h2>
+    {%- if customer.orders.size > 0 -%}
+      <table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--color-border); text-align: left;">
+            <th style="padding: 12px 8px;">Order</th>
+            <th style="padding: 12px 8px;">Date</th>
+            <th style="padding: 12px 8px;">Status</th>
+            <th style="padding: 12px 8px;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for order in customer.orders -%}
+            <tr style="border-bottom: 1px solid var(--color-border);">
+              <td style="padding: 12px 8px;"><a href="{{ order.customer_url }}" style="font-weight: 600;">{{ order.name }}</a></td>
+              <td style="padding: 12px 8px;">{{ order.created_at | date: '%B %d, %Y' }}</td>
+              <td style="padding: 12px 8px;">{{ order.financial_status_label }}</td>
+              <td style="padding: 12px 8px;">{{ order.total_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    {%- else -%}
+      <p style="color: var(--color-text-light); margin-top: 16px;">You haven't placed any orders yet.</p>
+    {%- endif -%}
+
+    <div style="margin-top: 40px;">
+      <h2>Account Details</h2>
+      <div style="margin-top: 12px;">
+        <p>{{ customer.default_address.first_name }} {{ customer.default_address.last_name }}</p>
+        {%- if customer.default_address -%}
+          <p style="color: var(--color-text-light);">{{ customer.default_address | format_address }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="cmp-section">
+  <div class="cmp-container">
+    <h1>Your Cart</h1>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="/cart" method="post" style="margin-top: 24px;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--color-border); text-align: left;">
+              <th style="padding: 12px 0;">Product</th>
+              <th style="padding: 12px 0;">Price</th>
+              <th style="padding: 12px 0;">Quantity</th>
+              <th style="padding: 12px 0;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for item in cart.items -%}
+              <tr style="border-bottom: 1px solid var(--color-border);">
+                <td style="padding: 16px 8px 16px 0;">
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    {%- if item.image -%}
+                      <img src="{{ item.image | image_url: width: 100 }}" alt="{{ item.image.alt | escape }}" width="60" height="60" style="border-radius: 8px; object-fit: cover;">
+                    {%- endif -%}
+                    <div>
+                      <a href="{{ item.url }}" style="font-weight: 600; color: var(--color-heading);">{{ item.product.title }}</a>
+                      {%- unless item.variant.title == 'Default Title' -%}
+                        <div style="font-size: 0.85rem; color: var(--color-text-light);">{{ item.variant.title }}</div>
+                      {%- endunless -%}
+                    </div>
+                  </div>
+                </td>
+                <td style="padding: 16px 8px;">{{ item.price | money }}</td>
+                <td style="padding: 16px 8px;">
+                  <input
+                    type="number"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    min="0"
+                    style="width: 60px; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; text-align: center; font-size: 0.95rem;"
+                  >
+                </td>
+                <td style="padding: 16px 8px; font-weight: 600;">{{ item.line_price | money }}</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px; flex-wrap: wrap; gap: 16px;">
+          <button type="submit" name="update" class="cmp-btn cmp-btn--outline">Update Cart</button>
+          <div style="text-align: right;">
+            <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 12px;">
+              Subtotal: {{ cart.total_price | money }}
+            </div>
+            <button type="submit" name="checkout" class="cmp-btn cmp-btn--primary cmp-btn--large">
+              Checkout
+            </button>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div style="text-align: center; padding: 60px 20px;">
+        <p style="color: var(--color-text-light); margin-bottom: 24px;">Your cart is currently empty.</p>
+        <a href="/" class="cmp-btn cmp-btn--primary">Continue Shopping</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

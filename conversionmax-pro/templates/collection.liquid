@@ -1,0 +1,32 @@
+<div class="cmp-section">
+  <div class="cmp-container">
+    <h1>{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <p style="color: var(--color-text-light); margin: 8px 0 32px;">{{ collection.description }}</p>
+    {%- endif -%}
+
+    {%- if collection.products.size > 0 -%}
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; margin-top: 32px;">
+        {%- for product in collection.products -%}
+          <a href="{{ product.url }}" style="border: 1px solid var(--color-border); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: box-shadow 0.2s;">
+            {%- if product.featured_image -%}
+              <img src="{{ product.featured_image | image_url: width: 400 }}" alt="{{ product.featured_image.alt | escape }}" width="400" style="width: 100%; aspect-ratio: 1; object-fit: cover;">
+            {%- endif -%}
+            <div style="padding: 16px;">
+              <div style="font-weight: 600; color: var(--color-heading);">{{ product.title }}</div>
+              <div style="color: var(--color-primary); font-weight: 700; margin-top: 4px;">{{ product.price | money }}</div>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+
+      {%- if collection.products.size > 50 -%}
+        {% paginate collection.products by 24 %}
+          {{ paginate | default_pagination }}
+        {% endpaginate %}
+      {%- endif -%}
+    {%- else -%}
+      <p style="text-align: center; padding: 40px; color: var(--color-text-light);">No products found in this collection.</p>
+    {%- endif -%}
+  </div>
+</div>

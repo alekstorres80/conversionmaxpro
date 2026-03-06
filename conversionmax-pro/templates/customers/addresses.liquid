@@ -1,0 +1,18 @@
+<div class="cmp-section">
+  <div class="cmp-container">
+    <h1>Your Addresses</h1>
+
+    {%- for address in customer.addresses -%}
+      <div style="border: 1px solid var(--color-border); border-radius: 12px; padding: 20px; margin-top: 16px;">
+        <p>{{ address | format_address }}</p>
+        {%- if address == customer.default_address -%}
+          <span class="cmp-badge cmp-badge--success" style="margin-top: 8px;">Default</span>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+
+    <div style="margin-top: 40px;">
+      <a href="/account" style="font-weight: 600;">&larr; Back to Account</a>
+    </div>
+  </div>
+</div>

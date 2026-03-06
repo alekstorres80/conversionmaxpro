@@ -1,0 +1,29 @@
+<div class="cmp-section">
+  <div class="cmp-container">
+    <h1>Search</h1>
+    <form action="/search" method="get" style="margin: 24px 0 40px; display: flex; gap: 12px; max-width: 500px;">
+      <input
+        type="search"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="Search..."
+        style="flex: 1; padding: 12px 16px; border: 1px solid var(--color-border); border-radius: 6px; font-size: 1rem; font-family: var(--font-body);"
+      >
+      <button type="submit" class="cmp-btn cmp-btn--primary" style="padding: 12px 24px;">Search</button>
+    </form>
+
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        <p style="color: var(--color-text-light); margin-bottom: 24px;">{{ search.results_count }} results for "{{ search.terms }}"</p>
+        {%- for result in search.results -%}
+          <div style="border-bottom: 1px solid var(--color-border); padding: 20px 0;">
+            <a href="{{ result.url }}" style="font-weight: 600; font-size: 1.1rem; color: var(--color-heading);">{{ result.title }}</a>
+            <p style="margin-top: 4px; color: var(--color-text-light); font-size: 0.9rem;">{{ result.content | strip_html | truncatewords: 30 }}</p>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <p style="color: var(--color-text-light);">No results found for "{{ search.terms }}". Try a different search.</p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>

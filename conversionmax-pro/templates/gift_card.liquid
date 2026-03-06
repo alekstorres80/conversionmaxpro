@@ -1,0 +1,26 @@
+<div class="cmp-section">
+  <div class="cmp-container" style="text-align: center; max-width: 500px;">
+    <h1>{{ 'Gift Card' }}</h1>
+    <p style="color: var(--color-text-light); margin: 8px 0 24px;">Here's your gift card for {{ shop.name }}!</p>
+
+    {%- if gift_card.image -%}
+      <img src="{{ gift_card.image | image_url: width: 400 }}" alt="Gift card" style="width: 100%; max-width: 400px; margin: 0 auto 24px; border-radius: 12px;">
+    {%- endif -%}
+
+    <div style="background: var(--color-bg-alt); border-radius: 12px; padding: 32px; margin: 24px 0;">
+      <p style="font-size: 0.9rem; color: var(--color-text-light); margin-bottom: 8px;">Gift card code</p>
+      <p style="font-size: 1.5rem; font-weight: 800; font-family: var(--font-heading); letter-spacing: 0.1em; color: var(--color-heading);">
+        {{ gift_card.code | format_code }}
+      </p>
+      <p style="margin-top: 16px; font-size: 1.25rem; font-weight: 700; color: var(--color-primary);">
+        {{ gift_card.balance | money }}
+      </p>
+    </div>
+
+    {%- if gift_card.expired -%}
+      <p style="color: var(--color-warning); font-weight: 600;">This gift card has expired.</p>
+    {%- elsif gift_card.enabled -%}
+      <a href="{{ shop.url }}" class="cmp-btn cmp-btn--primary" target="_blank">Shop Now</a>
+    {%- endif -%}
+  </div>
+</div>

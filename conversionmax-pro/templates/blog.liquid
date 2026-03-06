@@ -1,0 +1,13 @@
+<div class="cmp-section">
+  <div class="cmp-container">
+    <h1>Blog: {{ blog.title }}</h1>
+    {%- for article in blog.articles -%}
+      <article style="border-bottom: 1px solid var(--color-border); padding: 32px 0;">
+        <h2><a href="{{ article.url }}" style="color: var(--color-heading);">{{ article.title }}</a></h2>
+        <p style="font-size: 0.85rem; color: var(--color-text-light); margin: 8px 0;">{{ article.published_at | date: '%B %d, %Y' }}</p>
+        <p>{{ article.excerpt_or_content | strip_html | truncatewords: 40 }}</p>
+        <a href="{{ article.url }}" style="font-weight: 600;">Read more &rarr;</a>
+      </article>
+    {%- endfor -%}
+  </div>
+</div>

@@ -1,32 +1,18 @@
 {%- comment -%}
-  Countdown Timer Section — ConversionMax Pro
-  Two modes: fixed end date/time AND evergreen (resets per visitor via localStorage).
+  Countdown Timer Section - ConversionMax Pro
 {%- endcomment -%}
 
-{%- liquid
-  assign mode = section.settings.mode
-  assign heading = section.settings.heading
-  assign expired_msg = section.settings.expired_message
-  assign bg_color = section.settings.bg_color
-  assign text_color = section.settings.text_color
--%}
-
-<section
-  id="countdown-{{ section.id }}"
-  class="cmp-countdown cmp-section"
-  style="background-color: {{ bg_color }}; color: {{ text_color }};"
+<section id="countdown-{{ section.id }}" class="cmp-countdown cmp-section"
+  style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};"
   data-countdown-section="{{ section.id }}"
-  data-countdown-mode="{{ mode }}"
-  {%- if mode == 'fixed' -%}
-    data-countdown-end="{{ section.settings.end_date }}T{{ section.settings.end_time }}"
-  {%- else -%}
-    data-countdown-duration="{{ section.settings.evergreen_minutes }}"
-    data-countdown-storage-key="cmp_countdown_{{ section.id }}"
-  {%- endif -%}
+  data-countdown-mode="{{ section.settings.mode }}"
+  data-countdown-duration="{{ section.settings.evergreen_minutes }}"
+  data-countdown-storage-key="cmp_countdown_{{ section.id }}"
+  data-countdown-end="{{ section.settings.end_date }}T{{ section.settings.end_time }}"
 >
   <div class="cmp-container">
-    {%- if heading != blank -%}
-      <h2 class="cmp-countdown__heading" style="color: {{ text_color }};">{{ heading }}</h2>
+    {%- if section.settings.heading != blank -%}
+      <h2 class="cmp-countdown__heading" style="color: {{ section.settings.text_color }};">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
     <div class="cmp-countdown__timer" data-countdown-timer>
@@ -52,7 +38,7 @@
     </div>
 
     <div class="cmp-countdown__expired" data-countdown-expired style="display: none;">
-      {{ expired_msg | default: 'This offer has expired.' }}
+      {{ section.settings.expired_message | default: 'This offer has expired.' }}
     </div>
   </div>
 </section>
@@ -62,8 +48,6 @@
 {% schema %}
 {
   "name": "Countdown Timer",
-  "tag": "section",
-  "class": "cmp-section-countdown",
   "settings": [
     {
       "type": "text",
@@ -82,26 +66,16 @@
       "default": "evergreen"
     },
     {
-      "type": "header",
-      "content": "Fixed mode settings"
-    },
-    {
       "type": "text",
       "id": "end_date",
       "label": "End date (YYYY-MM-DD)",
-      "default": "2026-12-31",
-      "info": "Only used in fixed mode."
+      "default": "2026-12-31"
     },
     {
       "type": "text",
       "id": "end_time",
       "label": "End time (HH:MM)",
-      "default": "23:59",
-      "info": "24-hour format. Only used in fixed mode."
-    },
-    {
-      "type": "header",
-      "content": "Evergreen mode settings"
+      "default": "23:59"
     },
     {
       "type": "range",
@@ -110,12 +84,7 @@
       "min": 5,
       "max": 1440,
       "step": 5,
-      "default": 30,
-      "info": "How long the timer runs for each new visitor. Stored in localStorage."
-    },
-    {
-      "type": "header",
-      "content": "Appearance"
+      "default": 30
     },
     {
       "type": "text",

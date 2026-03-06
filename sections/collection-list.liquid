@@ -1,0 +1,237 @@
+{%- comment -%}
+  Collection List — ConversionMax Pro
+  Browse-by-category cards with collection images.
+{%- endcomment -%}
+
+<section
+  id="collection-list-{{ section.id }}"
+  class="cmp-collection-list cmp-section"
+  style="background-color: {{ section.settings.bg_color }};"
+>
+  <div class="cmp-container">
+    {%- if section.settings.heading != blank -%}
+      <div class="cmp-collection-list__header">
+        <h2 class="cmp-collection-list__title">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}
+          <p class="cmp-collection-list__subtitle">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="cmp-collection-list__grid cmp-collection-list__grid--{{ section.blocks.size | at_most: 4 }}">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign coll = block.settings.collection
+        -%}
+        <a
+          href="{% if coll != blank %}{{ coll.url }}{% else %}#{% endif %}"
+          class="cmp-collection-card{% if section.settings.card_style == 'overlay' %} cmp-collection-card--overlay{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="cmp-collection-card__media">
+            {%- if block.settings.custom_image != blank -%}
+              <img
+                src="{{ block.settings.custom_image | image_url: width: 600 }}"
+                alt="{{ block.settings.label | default: coll.title | escape }}"
+                loading="lazy"
+              >
+            {%- elsif coll != blank and coll.image -%}
+              <img
+                src="{{ coll.image | image_url: width: 600 }}"
+                alt="{{ coll.title | escape }}"
+                loading="lazy"
+              >
+            {%- else -%}
+              <div class="cmp-collection-card__placeholder">
+                {{ 'collection-1' | placeholder_svg_tag: 'cmp-placeholder-svg' }}
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="cmp-collection-card__overlay">
+            <h3 class="cmp-collection-card__name">
+              {{ block.settings.label | default: coll.title | default: 'Collection' }}
+            </h3>
+            {%- if coll != blank -%}
+              <span class="cmp-collection-card__count">{{ coll.products_count }} products</span>
+            {%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cmp-collection-list {
+    padding: var(--section-spacing, 60px) 0;
+  }
+  .cmp-collection-list__header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .cmp-collection-list__title {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+  .cmp-collection-list__subtitle {
+    color: var(--color-text-light, #6C757D);
+    font-size: 1.05rem;
+  }
+  .cmp-collection-list__grid {
+    display: grid;
+    gap: 20px;
+  }
+  .cmp-collection-list__grid--1 { grid-template-columns: 1fr; }
+  .cmp-collection-list__grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .cmp-collection-list__grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .cmp-collection-list__grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+  .cmp-collection-card {
+    position: relative;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: #fff;
+    aspect-ratio: 4/3;
+  }
+  .cmp-collection-card__media {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+  .cmp-collection-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .cmp-collection-card:hover .cmp-collection-card__media img {
+    transform: scale(1.06);
+  }
+  .cmp-collection-card__placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--color-bg-alt, #F8F9FA);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+  }
+  .cmp-collection-card__placeholder .cmp-placeholder-svg {
+    width: 50%;
+    fill: var(--color-border, #DEE2E6);
+  }
+  .cmp-collection-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+    transition: background 0.3s ease;
+  }
+  .cmp-collection-card:hover .cmp-collection-card__overlay {
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+  }
+  .cmp-collection-card__name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #fff;
+  }
+  .cmp-collection-card__count {
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 768px) {
+    .cmp-collection-list__grid--3,
+    .cmp-collection-list__grid--4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .cmp-collection-list__title {
+      font-size: 1.5rem;
+    }
+  }
+  @media (max-width: 480px) {
+    .cmp-collection-list__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collection List",
+  "tag": "section",
+  "class": "cmp-section-collection-list",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Browse our curated collections"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "Card style",
+      "options": [
+        { "value": "overlay", "label": "Image with text overlay" }
+      ],
+      "default": "overlay"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F8F9FA"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Custom label",
+          "info": "Overrides the collection title"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom image",
+          "info": "Overrides the collection image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection List",
+      "blocks": [
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" }
+      ]
+    }
+  ]
+}
+{% endschema %}

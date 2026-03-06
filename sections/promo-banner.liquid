@@ -1,0 +1,240 @@
+{%- comment -%}
+  Promo Banner — ConversionMax Pro
+  Announce sales, discount codes, seasonal promotions.
+{%- endcomment -%}
+
+<section
+  id="promo-banner-{{ section.id }}"
+  class="cmp-promo-banner cmp-section"
+  style="background: {{ section.settings.bg_gradient | default: section.settings.bg_color }};"
+>
+  <div class="cmp-container">
+    <div class="cmp-promo-banner__inner">
+      {%- if section.settings.icon != blank -%}
+        <span class="cmp-promo-banner__icon">{{ section.settings.icon }}</span>
+      {%- endif -%}
+
+      <div class="cmp-promo-banner__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="cmp-promo-banner__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="cmp-promo-banner__heading" style="color: {{ section.settings.text_color }};">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.body != blank -%}
+          <p class="cmp-promo-banner__body" style="color: {{ section.settings.text_color }};">
+            {{ section.settings.body }}
+          </p>
+        {%- endif -%}
+
+        {%- if section.settings.discount_code != blank -%}
+          <div class="cmp-promo-banner__code-wrap">
+            <span class="cmp-promo-banner__code-label">Use code:</span>
+            <span class="cmp-promo-banner__code" data-copy-code="{{ section.settings.discount_code }}">
+              {{ section.settings.discount_code }}
+            </span>
+            <button class="cmp-promo-banner__copy-btn" onclick="navigator.clipboard.writeText('{{ section.settings.discount_code | escape }}');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000);">Copy</button>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.cta_text != blank -%}
+        <div class="cmp-promo-banner__action">
+          <a href="{{ section.settings.cta_link }}" class="cmp-btn cmp-btn--large" style="background: {{ section.settings.button_color }}; color: {{ section.settings.button_text_color }};">
+            {{ section.settings.cta_text }}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cmp-promo-banner {
+    padding: 48px 0;
+  }
+  .cmp-promo-banner__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    text-align: center;
+    flex-wrap: wrap;
+  }
+  .cmp-promo-banner__icon {
+    font-size: 2.5rem;
+  }
+  .cmp-promo-banner__content {
+    flex: 1;
+    min-width: 280px;
+  }
+  .cmp-promo-banner__eyebrow {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.85;
+    margin-bottom: 4px;
+    color: inherit;
+  }
+  .cmp-promo-banner__heading {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .cmp-promo-banner__body {
+    font-size: 1.05rem;
+    opacity: 0.9;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .cmp-promo-banner__code-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.15);
+    border: 2px dashed rgba(255,255,255,0.4);
+    border-radius: 8px;
+    padding: 8px 16px;
+  }
+  .cmp-promo-banner__code-label {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    color: inherit;
+  }
+  .cmp-promo-banner__code {
+    font-family: monospace;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: inherit;
+  }
+  .cmp-promo-banner__copy-btn {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: inherit;
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: background 0.2s;
+    font-family: inherit;
+  }
+  .cmp-promo-banner__copy-btn:hover {
+    background: rgba(255,255,255,0.35);
+  }
+  .cmp-promo-banner__action {
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .cmp-promo-banner__inner {
+      flex-direction: column;
+      gap: 20px;
+    }
+    .cmp-promo-banner__heading {
+      font-size: 1.4rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Promo Banner",
+  "tag": "section",
+  "class": "cmp-section-promo-banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "icon",
+      "label": "Icon (emoji)",
+      "default": "🔥",
+      "info": "e.g. 🔥 🎉 ⚡ 🛍️"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Limited Time Offer"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Spring Sale — 25% Off Everything"
+    },
+    {
+      "type": "text",
+      "id": "body",
+      "label": "Body text",
+      "default": "Don't miss out on our biggest sale of the year. Ends Sunday."
+    },
+    {
+      "type": "text",
+      "id": "discount_code",
+      "label": "Discount code",
+      "info": "Leave blank to hide the code box"
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Shop the Sale"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#1D3557"
+    },
+    {
+      "type": "text",
+      "id": "bg_gradient",
+      "label": "Background gradient (CSS)",
+      "info": "Optional. e.g., linear-gradient(135deg, #E63946, #A855F7). Overrides background color.",
+      "default": "linear-gradient(135deg, #E63946, #C62828)"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#E63946"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promo Banner"
+    }
+  ]
+}
+{% endschema %}

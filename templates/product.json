@@ -9,6 +9,10 @@
         "cta_text": ""
       }
     },
+    "countdown": {
+      "type": "countdown-timer",
+      "settings": {}
+    },
     "quantity_breaks": {
       "type": "quantity-breaks",
       "settings": {
@@ -47,6 +51,7 @@
   },
   "order": [
     "vsl_hero",
+    "countdown",
     "quantity_breaks",
     "social_proof",
     "guarantee",

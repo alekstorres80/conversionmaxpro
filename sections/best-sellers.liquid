@@ -1,0 +1,323 @@
+{%- comment -%}
+  Best Sellers / Trending — ConversionMax Pro
+  Showcase top-selling or hand-picked products with optional ranking badges.
+{%- endcomment -%}
+
+{%- liquid
+  assign collection = section.settings.collection
+  assign limit = section.settings.products_to_show
+  assign bg_color = section.settings.bg_color
+-%}
+
+<section
+  id="best-sellers-{{ section.id }}"
+  class="cmp-best-sellers cmp-section"
+  style="background-color: {{ bg_color }};"
+>
+  <div class="cmp-container">
+    {%- if section.settings.heading != blank -%}
+      <div class="cmp-best-sellers__header">
+        <h2 class="cmp-best-sellers__title">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}
+          <p class="cmp-best-sellers__subtitle">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="cmp-best-sellers__grid">
+      {%- if collection != blank -%}
+        {%- for product in collection.products limit: limit -%}
+          <div class="cmp-best-sellers__card">
+            <a href="{{ product.url }}" class="cmp-best-sellers__link">
+              <div class="cmp-best-sellers__media">
+                {%- if product.featured_image -%}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 480 }}"
+                    srcset="{{ product.featured_image | image_url: width: 240 }} 240w,
+                            {{ product.featured_image | image_url: width: 360 }} 360w,
+                            {{ product.featured_image | image_url: width: 480 }} 480w"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                    width="{{ product.featured_image.width }}"
+                    height="{{ product.featured_image.height }}"
+                    loading="lazy"
+                  >
+                {%- else -%}
+                  <div class="cmp-best-sellers__placeholder">
+                    {{ 'product-1' | placeholder_svg_tag: 'cmp-placeholder-svg' }}
+                  </div>
+                {%- endif -%}
+
+                {%- if section.settings.show_rank -%}
+                  <span class="cmp-best-sellers__rank">#{{ forloop.index }}</span>
+                {%- endif -%}
+
+                {%- if product.compare_at_price > product.price -%}
+                  {%- assign save_pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+                  <span class="cmp-best-sellers__sale-badge">-{{ save_pct }}%</span>
+                {%- endif -%}
+              </div>
+
+              <div class="cmp-best-sellers__info">
+                <h3 class="cmp-best-sellers__name">{{ product.title }}</h3>
+
+                {%- if section.settings.show_reviews -%}
+                  <div class="cmp-best-sellers__stars">
+                    {%- for i in (1..5) -%}
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-warning, #E76F51)" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+
+                <div class="cmp-best-sellers__price">
+                  {%- if product.compare_at_price > product.price -%}
+                    <span class="cmp-best-sellers__price--compare">{{ product.compare_at_price | money }}</span>
+                  {%- endif -%}
+                  <span class="cmp-best-sellers__price--current{% if product.compare_at_price > product.price %} cmp-best-sellers__price--sale{% endif %}">
+                    {{ product.price | money }}
+                  </span>
+                </div>
+              </div>
+            </a>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..limit) -%}
+          <div class="cmp-best-sellers__card">
+            <div class="cmp-best-sellers__link">
+              <div class="cmp-best-sellers__media">
+                <div class="cmp-best-sellers__placeholder">
+                  {{ 'product-1' | placeholder_svg_tag: 'cmp-placeholder-svg' }}
+                </div>
+                {%- if section.settings.show_rank -%}
+                  <span class="cmp-best-sellers__rank">#{{ i }}</span>
+                {%- endif -%}
+              </div>
+              <div class="cmp-best-sellers__info">
+                <h3 class="cmp-best-sellers__name">Product Title</h3>
+                <div class="cmp-best-sellers__price">
+                  <span class="cmp-best-sellers__price--current">$29.99</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.cta_text != blank -%}
+      <div class="cmp-best-sellers__footer">
+        <a href="{{ section.settings.cta_link | default: collection.url }}" class="cmp-btn cmp-btn--primary">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .cmp-best-sellers {
+    padding: var(--section-spacing, 60px) 0;
+  }
+  .cmp-best-sellers__header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .cmp-best-sellers__title {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+  .cmp-best-sellers__subtitle {
+    color: var(--color-text-light, #6C757D);
+    font-size: 1.05rem;
+  }
+  .cmp-best-sellers__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .cmp-best-sellers__link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .cmp-best-sellers__media {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--color-bg-alt, #F8F9FA);
+    aspect-ratio: 1;
+  }
+  .cmp-best-sellers__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+  }
+  .cmp-best-sellers__link:hover .cmp-best-sellers__media img {
+    transform: scale(1.05);
+  }
+  .cmp-best-sellers__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+  }
+  .cmp-best-sellers__placeholder .cmp-placeholder-svg {
+    width: 80%;
+    fill: var(--color-border, #DEE2E6);
+  }
+  .cmp-best-sellers__rank {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--color-secondary, #1D3557);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cmp-best-sellers__sale-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--color-primary, #E63946);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .cmp-best-sellers__info {
+    padding: 14px 4px 4px;
+  }
+  .cmp-best-sellers__name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--color-heading, #1D3557);
+  }
+  .cmp-best-sellers__stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 6px;
+  }
+  .cmp-best-sellers__price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cmp-best-sellers__price--current {
+    font-weight: 700;
+    color: var(--color-heading, #1D3557);
+  }
+  .cmp-best-sellers__price--sale {
+    color: var(--color-primary, #E63946);
+  }
+  .cmp-best-sellers__price--compare {
+    text-decoration: line-through;
+    color: var(--color-text-light, #6C757D);
+    font-size: 0.9rem;
+  }
+  .cmp-best-sellers__footer {
+    text-align: center;
+    margin-top: 36px;
+  }
+
+  @media (max-width: 768px) {
+    .cmp-best-sellers__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .cmp-best-sellers__title {
+      font-size: 1.5rem;
+    }
+  }
+  @media (max-width: 480px) {
+    .cmp-best-sellers__grid {
+      gap: 16px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Best Sellers",
+  "tag": "section",
+  "class": "cmp-section-best-sellers",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Best Sellers"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our most popular products"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Select a collection to pull products from (e.g., a 'Best Sellers' collection)"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rank",
+      "label": "Show ranking badges (#1, #2...)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show star ratings",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "View All Best Sellers"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link",
+      "info": "Defaults to the collection URL if left blank"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Best Sellers"
+    }
+  ]
+}
+{% endschema %}

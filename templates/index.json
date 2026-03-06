@@ -1,4 +1,5 @@
 {
+  "layout": "theme",
   "sections": {
     "vsl_hero": {
       "type": "vsl-hero",

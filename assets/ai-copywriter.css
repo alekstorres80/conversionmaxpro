@@ -1,0 +1,303 @@
+/* ============================================
+   AI Copywriter Panel — ConversionMax Pro
+   Only rendered inside the Shopify theme editor.
+   ============================================ */
+
+.cmp-ai-panel {
+  margin: 16px 0;
+  border: 2px solid #6C5CE7;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #F8F7FF, #EDE9FF);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  color: #2D2D3A;
+}
+
+/* ---- Header ---- */
+.cmp-ai-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #6C5CE7, #A855F7);
+  color: #fff;
+}
+
+.cmp-ai-panel__logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+.cmp-ai-panel__provider {
+  font-size: 11px;
+  padding: 2px 8px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ---- Notices ---- */
+.cmp-ai-panel__notice {
+  padding: 10px 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.cmp-ai-panel__notice--warning {
+  background: #FFF3CD;
+  color: #856404;
+  border-bottom: 1px solid #FFE69C;
+}
+
+.cmp-ai-panel__notice--info {
+  background: #D1ECF1;
+  color: #0C5460;
+  border-bottom: 1px solid #B8DAFF;
+}
+
+/* ---- Action Buttons ---- */
+.cmp-ai-panel__actions {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cmp-ai-panel__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 2px solid #6C5CE7;
+  border-radius: 8px;
+  background: #fff;
+  color: #6C5CE7;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.cmp-ai-panel__btn:hover:not(:disabled) {
+  background: #F0ECFF;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+}
+
+.cmp-ai-panel__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cmp-ai-panel__btn--primary {
+  background: linear-gradient(135deg, #6C5CE7, #A855F7);
+  color: #fff;
+  border-color: transparent;
+}
+
+.cmp-ai-panel__btn--primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #5B4BD5, #9645E6);
+  box-shadow: 0 4px 16px rgba(108, 92, 231, 0.35);
+}
+
+.cmp-ai-panel__btn-icon {
+  font-size: 16px;
+}
+
+/* ---- Loading ---- */
+.cmp-ai-panel__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px 16px;
+  color: #6C5CE7;
+  font-weight: 600;
+}
+
+.cmp-ai-panel__spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #E0D6FF;
+  border-top-color: #6C5CE7;
+  border-radius: 50%;
+  animation: cmp-ai-spin 0.7s linear infinite;
+}
+
+@keyframes cmp-ai-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Output Area ---- */
+.cmp-ai-panel__output {
+  padding: 16px;
+  border-top: 1px solid #E0D6FF;
+}
+
+.cmp-ai-panel__error {
+  background: #FDE8E8;
+  color: #C62828;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ---- Copy Fields ---- */
+.cmp-ai-panel__field {
+  margin-bottom: 16px;
+}
+
+.cmp-ai-panel__field:last-child {
+  margin-bottom: 0;
+}
+
+.cmp-ai-panel__label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6C5CE7;
+  margin-bottom: 6px;
+}
+
+.cmp-ai-panel__value {
+  background: #fff;
+  border: 1px solid #E0D6FF;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #2D2D3A;
+  margin-bottom: 6px;
+}
+
+.cmp-ai-panel__copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  background: #6C5CE7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.cmp-ai-panel__copy:hover {
+  background: #5B4BD5;
+}
+
+.cmp-ai-panel__copy--sm {
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+.cmp-ai-panel__copy--success {
+  background: #2D6A4F !important;
+}
+
+/* ---- VSL Script ---- */
+.cmp-ai-panel__script {
+  background: #1D3557;
+  color: #E8E8E8;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.7;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+}
+
+.cmp-ai-panel__script-section {
+  display: inline-block;
+  background: #6C5CE7;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 12px 0 6px;
+}
+
+/* ---- Headlines ---- */
+.cmp-ai-panel__headline-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #E0D6FF;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.cmp-ai-panel__headline-num {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  background: #6C5CE7;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cmp-ai-panel__headline-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2D2D3A;
+  margin-bottom: 4px;
+}
+
+.cmp-ai-panel__headline-framework {
+  font-size: 11px;
+  color: #6C5CE7;
+  font-weight: 500;
+}
+
+/* ---- FAQ Items ---- */
+.cmp-ai-panel__faq-item {
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #E0D6FF;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.cmp-ai-panel__faq-q {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #2D2D3A;
+}
+
+.cmp-ai-panel__faq-a {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.cmp-ai-panel__faq-actions {
+  display: flex;
+  gap: 6px;
+}

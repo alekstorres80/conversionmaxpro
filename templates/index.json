@@ -9,10 +9,6 @@
       "type": "social-proof-strip",
       "settings": {}
     },
-    "countdown": {
-      "type": "countdown-timer",
-      "settings": {}
-    },
     "quantity_breaks": {
       "type": "quantity-breaks",
       "settings": {}
@@ -29,7 +25,6 @@
   "order": [
     "vsl_hero",
     "social_proof",
-    "countdown",
     "quantity_breaks",
     "guarantee",
     "faq"

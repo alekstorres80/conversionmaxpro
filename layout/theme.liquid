@@ -94,6 +94,24 @@
 
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
 
+  {%- comment -%} AI Copywriter — only loaded inside the theme editor {%- endcomment -%}
+  {%- if request.design_mode -%}
+    {{ 'ai-copywriter.css' | asset_url | stylesheet_tag }}
+    <script
+      src="{{ 'ai-copywriter.js' | asset_url }}"
+      data-ai-copywriter
+      data-provider="{{ settings.ai_provider }}"
+      data-api-key="{{ settings.ai_api_key }}"
+      data-tone="{{ settings.ai_tone }}"
+      data-product-name="{{ settings.ai_product_name | escape }}"
+      data-product-desc="{{ settings.ai_product_description | escape }}"
+      data-audience="{{ settings.ai_target_audience | escape }}"
+      data-pain-points="{{ settings.ai_pain_points | escape }}"
+      data-benefits="{{ settings.ai_key_benefits | escape }}"
+      data-social-proof="{{ settings.ai_social_proof | escape }}"
+    ></script>
+  {%- endif -%}
+
   {%- comment -%}
     Section-specific JS — loaded only when the section is on the page.
     Each section template includes its own script tag referencing its asset.

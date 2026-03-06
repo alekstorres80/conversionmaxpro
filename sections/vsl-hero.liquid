@@ -110,6 +110,25 @@
       </a>
     {%- endif -%}
   </div>
+
+  {%- comment -%} AI Copywriter — editor only {%- endcomment -%}
+  {%- if request.design_mode -%}
+    <div class="cmp-ai-panel-mount" data-ai-section="vsl-hero"></div>
+    <script>
+      (function() {
+        if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) {
+          document.addEventListener('DOMContentLoaded', init);
+        } else { init(); }
+        function init() {
+          if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) return;
+          var mount = document.querySelector('[data-ai-section="vsl-hero"]');
+          if (mount && !mount.hasChildNodes()) {
+            CMP.ai.createPanel({ container: mount, sectionType: 'vsl-hero' });
+          }
+        }
+      })();
+    </script>
+  {%- endif -%}
 </section>
 
 {% schema %}

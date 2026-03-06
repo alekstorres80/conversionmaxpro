@@ -1,41 +1,33 @@
-{% comment %}countdown-timer v2.0{% endcomment %}
-<section id="countdown-{{ section.id }}" class="cmp-countdown cmp-section"
-  style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};"
-  data-countdown-section="{{ section.id }}"
-  data-countdown-mode="{{ section.settings.mode }}"
-  data-countdown-duration="{{ section.settings.evergreen_minutes }}"
-  data-countdown-storage-key="cmp_countdown_{{ section.id }}"
-  data-countdown-end="{{ section.settings.end_date }}T{{ section.settings.end_time }}"
+<section class="cmp-countdown cmp-section"
+  style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }}; padding: 40px 20px; text-align: center;"
 >
   <div class="cmp-container">
-    {%- if section.settings.heading != blank -%}
-      <h2 class="cmp-countdown__heading" style="color: {{ section.settings.text_color }};">{{ section.settings.heading }}</h2>
-    {%- endif -%}
+    <h2 style="color: {{ section.settings.text_color }}; margin-bottom: 20px;">{{ section.settings.heading }}</h2>
 
-    <div class="cmp-countdown__timer" data-countdown-timer>
-      <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number" data-countdown-days>00</span>
-        <span class="cmp-countdown__label">Days</span>
+    <div style="display: flex; justify-content: center; gap: 20px;">
+      <div>
+        <span style="font-size: 2rem; font-weight: bold;">00</span>
+        <br>
+        <span>Days</span>
       </div>
-      <span class="cmp-countdown__separator">:</span>
-      <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number" data-countdown-hours>00</span>
-        <span class="cmp-countdown__label">Hours</span>
+      <span style="font-size: 2rem;">:</span>
+      <div>
+        <span style="font-size: 2rem; font-weight: bold;">00</span>
+        <br>
+        <span>Hours</span>
       </div>
-      <span class="cmp-countdown__separator">:</span>
-      <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number" data-countdown-mins>00</span>
-        <span class="cmp-countdown__label">Minutes</span>
+      <span style="font-size: 2rem;">:</span>
+      <div>
+        <span style="font-size: 2rem; font-weight: bold;">00</span>
+        <br>
+        <span>Minutes</span>
       </div>
-      <span class="cmp-countdown__separator">:</span>
-      <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number" data-countdown-secs>00</span>
-        <span class="cmp-countdown__label">Seconds</span>
+      <span style="font-size: 2rem;">:</span>
+      <div>
+        <span style="font-size: 2rem; font-weight: bold;">00</span>
+        <br>
+        <span>Seconds</span>
       </div>
-    </div>
-
-    <div class="cmp-countdown__expired" data-countdown-expired style="display: none;">
-      {{ section.settings.expired_message | default: 'This offer has expired.' }}
     </div>
   </div>
 </section>
@@ -49,43 +41,6 @@
       "id": "heading",
       "label": "Heading",
       "default": "This Special Offer Expires In..."
-    },
-    {
-      "type": "select",
-      "id": "mode",
-      "label": "Timer mode",
-      "options": [
-        { "value": "fixed", "label": "Fixed end date" },
-        { "value": "evergreen", "label": "Evergreen (per visitor)" }
-      ],
-      "default": "evergreen"
-    },
-    {
-      "type": "text",
-      "id": "end_date",
-      "label": "End date (YYYY-MM-DD)",
-      "default": "2026-12-31"
-    },
-    {
-      "type": "text",
-      "id": "end_time",
-      "label": "End time (HH:MM)",
-      "default": "23:59"
-    },
-    {
-      "type": "range",
-      "id": "evergreen_minutes",
-      "label": "Timer duration (minutes)",
-      "min": 5,
-      "max": 1440,
-      "step": 5,
-      "default": 30
-    },
-    {
-      "type": "text",
-      "id": "expired_message",
-      "label": "Expired message",
-      "default": "This offer has expired."
     },
     {
       "type": "color",

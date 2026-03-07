@@ -1,45 +1,47 @@
 <div
   class="cmp-countdown cmp-section"
   id="countdown-{{ section.id }}"
-  data-countdown-section
-  data-countdown-mode="{{ section.settings.mode }}"
-  data-countdown-end="{{ section.settings.end_date }}T{{ section.settings.end_time }}:00"
-  data-countdown-duration="{{ section.settings.evergreen_minutes | default: 30 }}"
-  data-countdown-storage-key="cmp_countdown_{{ section.id }}"
   style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }}; padding: 40px 20px; text-align: center;"
 >
+  <style>
+    #countdown-{{ section.id }} .cmp-countdown__timer { display: flex !important; justify-content: center !important; gap: 20px !important; visibility: visible !important; opacity: 1 !important; }
+    #countdown-{{ section.id }} .cmp-countdown__unit { display: flex !important; flex-direction: column !important; align-items: center !important; min-width: 70px; }
+    #countdown-{{ section.id }} .cmp-countdown__number { display: inline-block !important; min-width: 56px; color: {{ section.settings.text_color }} !important; background: rgba(0,0,0,0.12); border-radius: 8px; padding: 8px 10px; line-height: 1; }
+    #countdown-{{ section.id }} .cmp-countdown__label { color: {{ section.settings.text_color }} !important; opacity: 0.9; }
+  </style>
+
   <div class="cmp-container">
     {% if section.settings.heading != blank %}
       <h2 style="color: {{ section.settings.text_color }}; margin-bottom: 20px;">{{ section.settings.heading }}</h2>
     {% endif %}
 
-    <div class="cmp-countdown__timer" data-countdown-timer style="display: flex; justify-content: center; gap: 20px;">
+    <div class="cmp-countdown__timer" data-countdown-timer>
       <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number cmp-countdown__days" data-countdown-days style="font-size: 2rem; font-weight: bold;">00</span>
+        <span class="cmp-countdown__number" data-countdown-days style="font-size: 2rem; font-weight: bold;">00</span>
         <br>
         <span class="cmp-countdown__label">Days</span>
       </div>
-      <span style="font-size: 2rem;">:</span>
+      <span style="font-size: 2rem; color: {{ section.settings.text_color }};">:</span>
       <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number cmp-countdown__hours" data-countdown-hours style="font-size: 2rem; font-weight: bold;">00</span>
+        <span class="cmp-countdown__number" data-countdown-hours style="font-size: 2rem; font-weight: bold;">00</span>
         <br>
         <span class="cmp-countdown__label">Hours</span>
       </div>
-      <span style="font-size: 2rem;">:</span>
+      <span style="font-size: 2rem; color: {{ section.settings.text_color }};">:</span>
       <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number cmp-countdown__mins" data-countdown-mins style="font-size: 2rem; font-weight: bold;">00</span>
+        <span class="cmp-countdown__number" data-countdown-mins style="font-size: 2rem; font-weight: bold;">00</span>
         <br>
         <span class="cmp-countdown__label">Minutes</span>
       </div>
-      <span style="font-size: 2rem;">:</span>
+      <span style="font-size: 2rem; color: {{ section.settings.text_color }};">:</span>
       <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number cmp-countdown__secs" data-countdown-secs style="font-size: 2rem; font-weight: bold;">00</span>
+        <span class="cmp-countdown__number" data-countdown-secs style="font-size: 2rem; font-weight: bold;">00</span>
         <br>
         <span class="cmp-countdown__label">Seconds</span>
       </div>
     </div>
 
-    <div class="cmp-countdown__expired" data-countdown-expired style="display: none;">
+    <div class="cmp-countdown__expired" data-countdown-expired style="display: none; color: {{ section.settings.text_color }}; margin-top: 12px;">
       {{ section.settings.expired_message }}
     </div>
   </div>
@@ -48,67 +50,44 @@
 <script>
   (function () {
     var sectionId = 'countdown-{{ section.id }}';
-    var mode = {{ section.settings.mode | json }};
     var durationMinutes = {{ section.settings.evergreen_minutes | default: 30 }};
-    var endDate = {{ section.settings.end_date | json }};
-    var endTime = {{ section.settings.end_time | json }};
-    var expiredMessage = {{ section.settings.expired_message | json }};
     var storageKey = 'cmp_countdown_{{ section.id }}';
 
-    function pad(n) {
-      return n < 10 ? '0' + n : '' + n;
-    }
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
-    function computeEvergreenEnd() {
-      var ms = Date.now() + (durationMinutes * 60 * 1000);
-      try { localStorage.setItem(storageKey, String(ms)); } catch (e) {}
-      return ms;
-    }
-
-    function computeEndTime() {
-      if (mode === 'fixed') {
-        var parsed = Date.parse((endDate || '') + 'T' + (endTime || '00:00') + ':00');
-        if (!isNaN(parsed) && parsed > Date.now()) return parsed;
-      }
-
+    function getEndStamp() {
       try {
         var stored = localStorage.getItem(storageKey);
         if (stored) {
-          var parsedStored = parseInt(stored, 10);
-          if (!isNaN(parsedStored) && parsedStored > Date.now()) return parsedStored;
+          var parsed = parseInt(stored, 10);
+          if (!isNaN(parsed) && parsed > Date.now()) return parsed;
         }
       } catch (e) {}
 
-      return computeEvergreenEnd();
+      var fresh = Date.now() + (durationMinutes * 60 * 1000);
+      try { localStorage.setItem(storageKey, String(fresh)); } catch (e) {}
+      return fresh;
     }
 
-    function initCountdown() {
-      var el = document.getElementById(sectionId);
-      if (!el || el.dataset.countdownInitialized === 'true') return;
+    function init() {
+      var root = document.getElementById(sectionId);
+      if (!root || root.dataset.countdownInitialized === 'true') return;
+      root.dataset.countdownInitialized = 'true';
 
-      var timerEl = el.querySelector('[data-countdown-timer]');
-      var expiredEl = el.querySelector('[data-countdown-expired]');
-      var daysEl = el.querySelector('[data-countdown-days]');
-      var hoursEl = el.querySelector('[data-countdown-hours]');
-      var minsEl = el.querySelector('[data-countdown-mins]');
-      var secsEl = el.querySelector('[data-countdown-secs]');
+      var daysEl = root.querySelector('[data-countdown-days]');
+      var hoursEl = root.querySelector('[data-countdown-hours]');
+      var minsEl = root.querySelector('[data-countdown-mins]');
+      var secsEl = root.querySelector('[data-countdown-secs]');
 
-      if (!timerEl || !expiredEl || !daysEl || !hoursEl || !minsEl || !secsEl) return;
+      if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
 
-      el.dataset.countdownInitialized = 'true';
-      var endStamp = computeEndTime();
+      var endStamp = getEndStamp();
 
       function tick() {
         var diff = endStamp - Date.now();
-
         if (diff <= 0) {
-          if (mode === 'fixed' && expiredMessage && expiredMessage.trim() !== '') {
-            timerEl.style.display = 'none';
-            expiredEl.style.display = '';
-            return;
-          }
-
-          endStamp = computeEvergreenEnd();
+          endStamp = Date.now() + (durationMinutes * 60 * 1000);
+          try { localStorage.setItem(storageKey, String(endStamp)); } catch (e) {}
           diff = endStamp - Date.now();
         }
 
@@ -123,7 +102,6 @@
         minsEl.textContent = pad(mins);
         secsEl.textContent = pad(secs);
 
-        if (diff < 3600000) el.classList.add('cmp-countdown--urgent');
         setTimeout(tick, 1000);
       }
 
@@ -131,12 +109,12 @@
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initCountdown);
+      document.addEventListener('DOMContentLoaded', init);
     } else {
-      initCountdown();
+      init();
     }
 
-    document.addEventListener('shopify:section:load', initCountdown);
+    document.addEventListener('shopify:section:load', init);
   })();
 </script>
 

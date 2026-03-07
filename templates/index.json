@@ -1,6 +1,6 @@
 {
   "sections": {
-    "vsl-hero": {
+    "vsl_hero": {
       "type": "vsl-hero",
       "settings": {
         "video_type": "youtube",
@@ -15,7 +15,7 @@
         "cta_link": ""
       }
     },
-    "social-proof-strip": {
+    "social_proof": {
       "type": "social-proof-strip",
       "settings": {
         "show_stats": true,
@@ -26,7 +26,7 @@
         "bg_color": "#F8F9FA"
       }
     },
-    "featured-product": {
+    "featured_product": {
       "type": "featured-product",
       "settings": {
         "badge_text": "Best Seller",
@@ -37,28 +37,28 @@
         "bg_color": "#FFFFFF"
       },
       "blocks": {
-        "highlight-1": {
+        "highlight_1": {
           "type": "highlight",
           "settings": {
             "text": "Free shipping on all orders"
           }
         },
-        "highlight-2": {
+        "highlight_2": {
           "type": "highlight",
           "settings": {
             "text": "30-day money-back guarantee"
           }
         },
-        "highlight-3": {
+        "highlight_3": {
           "type": "highlight",
           "settings": {
             "text": "24/7 customer support"
           }
         }
       },
-      "block_order": ["highlight-1", "highlight-2", "highlight-3"]
+      "block_order": ["highlight_1", "highlight_2", "highlight_3"]
     },
-    "countdown-timer": {
+    "countdown": {
       "type": "countdown-timer",
       "settings": {
         "heading": "This Special Offer Expires In...",
@@ -71,7 +71,7 @@
         "text_color": "#FFFFFF"
       }
     },
-    "quantity-breaks": {
+    "quantity_breaks": {
       "type": "quantity-breaks",
       "settings": {
         "heading": "Choose Your Package",
@@ -79,7 +79,7 @@
         "button_text": "Add to Cart — Best Deal!"
       },
       "blocks": {
-        "tier-1": {
+        "tier_1": {
           "type": "tier",
           "settings": {
             "quantity": "1",
@@ -89,7 +89,7 @@
             "best_value": false
           }
         },
-        "tier-2": {
+        "tier_2": {
           "type": "tier",
           "settings": {
             "quantity": "3",
@@ -99,7 +99,7 @@
             "best_value": true
           }
         },
-        "tier-3": {
+        "tier_3": {
           "type": "tier",
           "settings": {
             "quantity": "6",
@@ -110,9 +110,9 @@
           }
         }
       },
-      "block_order": ["tier-1", "tier-2", "tier-3"]
+      "block_order": ["tier_1", "tier_2", "tier_3"]
     },
-    "guarantee-block": {
+    "guarantee": {
       "type": "guarantee-block",
       "settings": {
         "icon_bg_color": "#2D6A4F",
@@ -123,7 +123,7 @@
         "bg_color": "#FFFFFF"
       }
     },
-    "best-sellers": {
+    "best_sellers": {
       "type": "best-sellers",
       "settings": {
         "heading": "Best Sellers",
@@ -135,35 +135,35 @@
         "bg_color": "#FFFFFF"
       }
     },
-    "faq-accordion": {
+    "faq": {
       "type": "faq-accordion",
       "settings": {
         "heading": "Frequently Asked Questions",
         "subheading": "Got questions? We've got answers."
       },
       "blocks": {
-        "faq-1": {
+        "faq_1": {
           "type": "faq",
           "settings": {
             "question": "How does this product work?",
             "answer": "<p>Our product works by leveraging proven techniques to deliver results you can see and feel. Simply follow the included instructions and you'll be on your way.</p>"
           }
         },
-        "faq-2": {
+        "faq_2": {
           "type": "faq",
           "settings": {
             "question": "Is there a money-back guarantee?",
             "answer": "<p>Yes! We offer a full 60-day money-back guarantee. If you're not satisfied for any reason, just contact us for a complete refund.</p>"
           }
         },
-        "faq-3": {
+        "faq_3": {
           "type": "faq",
           "settings": {
             "question": "How long does shipping take?",
             "answer": "<p>Orders are processed within 1-2 business days. Domestic shipping typically takes 3-5 business days, and international orders take 7-14 business days.</p>"
           }
         },
-        "faq-4": {
+        "faq_4": {
           "type": "faq",
           "settings": {
             "question": "Can I track my order?",
@@ -171,12 +171,11 @@
           }
         }
       },
-      "block_order": ["faq-1", "faq-2", "faq-3", "faq-4"]
+      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4"]
     },
-    "promo-banner": {
+    "promo_banner": {
       "type": "promo-banner",
       "settings": {
-        "icon": "🔥",
         "eyebrow": "Limited Time Offer",
         "heading": "Spring Sale — 25% Off Everything",
         "body": "Don't miss out on our biggest sale of the year. Ends Sunday.",
@@ -190,14 +189,14 @@
     }
   },
   "order": [
-    "vsl-hero",
-    "social-proof-strip",
-    "featured-product",
-    "countdown-timer",
-    "quantity-breaks",
-    "guarantee-block",
-    "best-sellers",
-    "faq-accordion",
-    "promo-banner"
+    "vsl_hero",
+    "social_proof",
+    "featured_product",
+    "countdown",
+    "quantity_breaks",
+    "guarantee",
+    "best_sellers",
+    "faq",
+    "promo_banner"
   ]
 }

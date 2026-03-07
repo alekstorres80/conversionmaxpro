@@ -79,7 +79,37 @@
     },
     "quantity_breaks": {
       "type": "quantity-breaks",
-      "settings": {}
+      "settings": {},
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "quantity": "1",
+            "price_cents": "4900",
+            "compare_price_cents": "5900"
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "quantity": "3",
+            "price_cents": "11700",
+            "compare_price_cents": "17700",
+            "badge_text": "Most Popular",
+            "best_value": true
+          }
+        },
+        "tier_3": {
+          "type": "tier",
+          "settings": {
+            "quantity": "6",
+            "price_cents": "17400",
+            "compare_price_cents": "35400",
+            "badge_text": "Best Value"
+          }
+        }
+      },
+      "block_order": ["tier_1", "tier_2", "tier_3"]
     }
   },
   "order": [

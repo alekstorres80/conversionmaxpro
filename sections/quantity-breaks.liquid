@@ -1,6 +1,69 @@
 <div class="cmp-quantity-breaks cmp-section">
   <div class="cmp-container">
-    <h2>{{ section.settings.heading }}</h2>
+    {%- if section.settings.heading != blank -%}
+      <div class="cmp-quantity-breaks__heading">
+        <h2>{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}
+          <p style="color: var(--color-text-light); margin-top: 8px;">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="cmp-quantity-breaks__grid" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin: 32px 0;">
+      {%- for block in section.blocks -%}
+        {%- assign qty = block.settings.quantity | plus: 0 -%}
+        {%- assign price_cents = block.settings.price_cents | plus: 0 -%}
+        {%- assign compare_cents = block.settings.compare_price_cents | plus: 0 -%}
+        {%- assign is_best = block.settings.best_value -%}
+        {%- assign badge_text = block.settings.badge_text -%}
+        {%- assign savings = compare_cents | minus: price_cents -%}
+
+        <div
+          class="cmp-qb-card{% if is_best %} cmp-qb-card--best{% endif %}"
+          style="border: 2px solid {% if is_best %}var(--color-primary){% else %}var(--color-border){% endif %}; border-radius: 12px; padding: 24px; text-align: center; min-width: 180px; flex: 1; max-width: 260px;{% if is_best %} box-shadow: 0 4px 12px rgba(0,0,0,0.1);{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          {%- if badge_text != blank -%}
+            <span style="display: inline-block; background: var(--color-primary); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 12px;">
+              {{ badge_text }}
+            </span>
+          {%- endif -%}
+
+          <div style="font-size: 2rem; font-weight: 700;">{{ qty }}</div>
+          <div style="color: var(--color-text-light); margin-bottom: 12px;">
+            {%- if qty == 1 -%}Bottle{%- else -%}Bottles{%- endif -%}
+          </div>
+
+          {%- if compare_cents > price_cents -%}
+            <div style="color: var(--color-text-light); text-decoration: line-through; font-size: 0.9rem;">
+              ${{ compare_cents | divided_by: 100.0 }}
+            </div>
+          {%- endif -%}
+
+          <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-heading);">
+            ${{ price_cents | divided_by: 100.0 }}
+          </div>
+
+          {%- if qty > 1 and price_cents > 0 -%}
+            <div style="font-size: 0.85rem; color: var(--color-text-light); margin-top: 4px;">
+              ${{ price_cents | divided_by: qty | divided_by: 100.0 }} each
+            </div>
+          {%- endif -%}
+
+          {%- if savings > 0 -%}
+            <div style="font-size: 0.85rem; color: var(--color-success); font-weight: 600; margin-top: 8px;">
+              You save ${{ savings | divided_by: 100.0 }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div style="text-align: center;">
+      <button class="cmp-btn cmp-btn--primary cmp-btn--large">
+        {{ section.settings.button_text | default: 'Add to Cart' }}
+      </button>
+    </div>
   </div>
 </div>
 
@@ -15,11 +78,99 @@
       "id": "heading",
       "label": "Heading",
       "default": "Choose Your Package"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Buy more and save more — free shipping on all orders"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Add to Cart — Best Deal!"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "Quantity Tier",
+      "settings": [
+        {
+          "type": "text",
+          "id": "quantity",
+          "label": "Quantity",
+          "default": "1"
+        },
+        {
+          "type": "text",
+          "id": "variant_id",
+          "label": "Variant ID"
+        },
+        {
+          "type": "text",
+          "id": "price_cents",
+          "label": "Total price (cents)",
+          "default": "4900"
+        },
+        {
+          "type": "text",
+          "id": "compare_price_cents",
+          "label": "Compare-at price (cents)",
+          "default": "0"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge text"
+        },
+        {
+          "type": "checkbox",
+          "id": "best_value",
+          "label": "Highlight as best value",
+          "default": false
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Quantity Breaks"
+      "name": "Quantity Breaks",
+      "blocks": [
+        {
+          "type": "tier",
+          "settings": {
+            "quantity": "1",
+            "price_cents": "4900",
+            "compare_price_cents": "5900"
+          }
+        },
+        {
+          "type": "tier",
+          "settings": {
+            "quantity": "3",
+            "price_cents": "11700",
+            "compare_price_cents": "17700",
+            "badge_text": "Most Popular",
+            "best_value": true
+          }
+        },
+        {
+          "type": "tier",
+          "settings": {
+            "quantity": "6",
+            "price_cents": "17400",
+            "compare_price_cents": "35400",
+            "badge_text": "Best Value"
+          }
+        }
+      ]
     }
   ]
 }

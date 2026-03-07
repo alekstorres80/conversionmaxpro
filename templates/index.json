@@ -32,11 +32,56 @@
         }
       },
       "block_order": ["highlight_1", "highlight_2", "highlight_3"]
+    },
+    "countdown": {
+      "type": "countdown-timer",
+      "settings": {}
+    },
+    "quantity_breaks": {
+      "type": "quantity-breaks",
+      "settings": {},
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "quantity": "1",
+            "price_cents": "4900",
+            "compare_price_cents": "5900"
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "quantity": "3",
+            "price_cents": "11700",
+            "compare_price_cents": "17700",
+            "badge_text": "Most Popular",
+            "best_value": true
+          }
+        },
+        "tier_3": {
+          "type": "tier",
+          "settings": {
+            "quantity": "6",
+            "price_cents": "17400",
+            "compare_price_cents": "35400",
+            "badge_text": "Best Value"
+          }
+        }
+      },
+      "block_order": ["tier_1", "tier_2", "tier_3"]
+    },
+    "guarantee": {
+      "type": "guarantee-block",
+      "settings": {}
     }
   },
   "order": [
     "vsl_hero",
     "social_proof",
-    "featured_product"
+    "featured_product",
+    "countdown",
+    "quantity_breaks",
+    "guarantee"
   ]
 }

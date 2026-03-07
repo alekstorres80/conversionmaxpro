@@ -1239,3 +1239,45 @@ p + p { margin-top: 1em; }
 
 
 
+
+.cmp-mobile-sticky-cart {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-primary, #1B7FC3);
+  color: #fff;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
+.cmp-mobile-sticky-cart:hover {
+  text-decoration: none;
+  background: var(--color-primary-hover, #155B8A);
+}
+
+.cmp-mobile-sticky-cart__icon {
+  line-height: 1;
+}
+
+.cmp-mobile-sticky-cart__count {
+  background: rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  padding: 1px 7px;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 980px) {
+  .cmp-mobile-sticky-cart {
+    display: inline-flex;
+  }
+}
+
+.template-cart .cmp-mobile-sticky-cart {
+  display: none !important;
+}

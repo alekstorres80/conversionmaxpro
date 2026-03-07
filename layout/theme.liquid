@@ -217,6 +217,11 @@
     </div>
   </footer>
 
+  <a class="cmp-mobile-sticky-cart" href="{{ routes.cart_url }}" aria-label="View cart">
+    <span class="cmp-mobile-sticky-cart__icon" aria-hidden="true">&#128722;</span>
+    <span>Cart</span>
+    {% if cart.item_count > 0 %}<span class="cmp-mobile-sticky-cart__count">{{ cart.item_count }}</span>{% endif %}
+  </a>
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
   <script>
     (function () {
@@ -256,5 +261,7 @@
   {%- endcomment -%}
 </body>
 </html>
+
+
 
 

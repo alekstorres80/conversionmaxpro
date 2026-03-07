@@ -11,7 +11,7 @@
   endif
 -%}
 
-<section id="quantity-breaks-{{ section.id }}" class="cmp-quantity-breaks cmp-section" data-section-id="{{ section.id }}">
+<div class="cmp-quantity-breaks cmp-section">
   <div class="cmp-container">
     {%- if section.settings.heading != blank -%}
       <div class="cmp-quantity-breaks__heading">
@@ -22,13 +22,12 @@
       </div>
     {%- endif -%}
 
-    <div class="cmp-quantity-breaks__grid" data-qb-grid>
+    <div class="cmp-quantity-breaks__grid">
       {%- for block in section.blocks -%}
         {%- liquid
-          assign qty = block.settings.quantity
-          assign price_cents = block.settings.price_cents
-          assign compare_cents = block.settings.compare_price_cents
-          assign per_unit = price_cents | divided_by: qty
+          assign qty = block.settings.quantity | plus: 0
+          assign price_cents = block.settings.price_cents | plus: 0
+          assign compare_cents = block.settings.compare_price_cents | plus: 0
           assign is_best = block.settings.best_value
           assign badge_text = block.settings.badge_text
           assign savings = compare_cents | minus: price_cents
@@ -36,10 +35,6 @@
 
         <div
           class="cmp-qb-card{% if is_best %} cmp-qb-card--best{% endif %}{% if forloop.index == 1 %} cmp-qb-card--selected{% endif %}"
-          data-qb-card
-          data-quantity="{{ qty }}"
-          data-price="{{ price_cents }}"
-          data-variant-id="{{ block.settings.variant_id }}"
           {{ block.shopify_attributes }}
         >
           {%- if badge_text != blank -%}
@@ -59,18 +54,19 @@
 
           {%- if compare_cents > price_cents -%}
             <div class="cmp-qb-card__original-price">
-              <s>{{ compare_cents | money }}</s>
+              <s>${{ compare_cents | divided_by: 100.0 }}</s>
             </div>
           {%- endif -%}
 
-          <div class="cmp-qb-card__price">{{ price_cents | money }}</div>
+          <div class="cmp-qb-card__price">${{ price_cents | divided_by: 100.0 }}</div>
 
           {%- if qty > 1 -%}
-            <div class="cmp-qb-card__per-unit">{{ per_unit | money }} each</div>
+            {%- assign per_unit = price_cents | divided_by: qty | divided_by: 100.0 -%}
+            <div class="cmp-qb-card__per-unit">${{ per_unit }} each</div>
           {%- endif -%}
 
           {%- if savings > 0 -%}
-            <div class="cmp-qb-card__savings">You save {{ savings | money }}</div>
+            <div class="cmp-qb-card__savings">You save ${{ savings | divided_by: 100.0 }}</div>
           {%- endif -%}
         </div>
       {%- endfor -%}
@@ -79,16 +75,13 @@
     <div class="cmp-quantity-breaks__atc">
       <button
         class="cmp-btn cmp-btn--primary cmp-btn--large"
-        data-qb-atc
         {% if section.blocks.size == 0 %}disabled{% endif %}
       >
         {{ section.settings.button_text | default: 'Add to Cart' }}
       </button>
     </div>
   </div>
-</section>
-
-<script src="{{ 'quantity-breaks.js' | asset_url }}" defer></script>
+</div>
 
 {% schema %}
 {
@@ -173,18 +166,18 @@
         {
           "type": "tier",
           "settings": {
-            "quantity": 1,
-            "price_cents": 4900,
-            "compare_price_cents": 5900,
+            "quantity": "1",
+            "price_cents": "4900",
+            "compare_price_cents": "5900",
             "badge_text": ""
           }
         },
         {
           "type": "tier",
           "settings": {
-            "quantity": 3,
-            "price_cents": 11700,
-            "compare_price_cents": 17700,
+            "quantity": "3",
+            "price_cents": "11700",
+            "compare_price_cents": "17700",
             "badge_text": "Most Popular",
             "best_value": true
           }
@@ -192,9 +185,9 @@
         {
           "type": "tier",
           "settings": {
-            "quantity": 6,
-            "price_cents": 17400,
-            "compare_price_cents": 35400,
+            "quantity": "6",
+            "price_cents": "17400",
+            "compare_price_cents": "35400",
             "badge_text": "Best Value"
           }
         }

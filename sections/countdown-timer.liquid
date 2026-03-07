@@ -1,11 +1,4 @@
-<div class="cmp-countdown cmp-section"
-  style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }}; padding: 40px 20px; text-align: center;"
-  data-countdown-section="{{ section.id }}"
-  data-countdown-mode="{{ section.settings.mode }}"
-  data-countdown-duration="{{ section.settings.evergreen_minutes }}"
-  data-countdown-storage-key="cmp_countdown_{{ section.id }}"
-  data-countdown-end="{{ section.settings.end_date }}T{{ section.settings.end_time }}"
->
+<div class="cmp-countdown cmp-section" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }}; padding: 40px 20px; text-align: center;">
   <div class="cmp-container">
     {% if section.settings.heading != blank %}
       <h2 style="color: {{ section.settings.text_color }}; margin-bottom: 20px;">{{ section.settings.heading }}</h2>
@@ -13,25 +6,25 @@
 
     <div class="cmp-countdown__timer" style="display: flex; justify-content: center; gap: 20px;">
       <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number" data-countdown-days style="font-size: 2rem; font-weight: bold;">00</span>
+        <span class="cmp-countdown__number" style="font-size: 2rem; font-weight: bold;">00</span>
         <br>
         <span class="cmp-countdown__label">Days</span>
       </div>
       <span style="font-size: 2rem;">:</span>
       <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number" data-countdown-hours style="font-size: 2rem; font-weight: bold;">00</span>
+        <span class="cmp-countdown__number" style="font-size: 2rem; font-weight: bold;">00</span>
         <br>
         <span class="cmp-countdown__label">Hours</span>
       </div>
       <span style="font-size: 2rem;">:</span>
       <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number" data-countdown-mins style="font-size: 2rem; font-weight: bold;">00</span>
+        <span class="cmp-countdown__number" style="font-size: 2rem; font-weight: bold;">00</span>
         <br>
         <span class="cmp-countdown__label">Minutes</span>
       </div>
       <span style="font-size: 2rem;">:</span>
       <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number" data-countdown-secs style="font-size: 2rem; font-weight: bold;">00</span>
+        <span class="cmp-countdown__number" style="font-size: 2rem; font-weight: bold;">00</span>
         <br>
         <span class="cmp-countdown__label">Seconds</span>
       </div>
@@ -42,8 +35,6 @@
     </div>
   </div>
 </div>
-
-<script src="{{ 'countdown-timer.js' | asset_url }}" defer></script>
 
 {% schema %}
 {

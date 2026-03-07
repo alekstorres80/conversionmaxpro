@@ -8,6 +8,56 @@
     "theme_support_url": "https://support.conversionmaxpro.com"
   },
   {
+    "name": "Branding & Navigation",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Header"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Logo width",
+        "min": 80,
+        "max": 280,
+        "step": 10,
+        "default": 160
+      },
+      {
+        "type": "link_list",
+        "id": "main_menu",
+        "label": "Main menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_header_search",
+        "label": "Enable header search",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Footer"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_menu",
+        "label": "Footer menu",
+        "default": "footer"
+      },
+      {
+        "type": "link_list",
+        "id": "legal_menu",
+        "label": "Legal menu"
+      }
+    ]
+  },
+  {
     "name": "License",
     "settings": [
       {

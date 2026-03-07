@@ -81,18 +81,133 @@
   {%- comment -%} License banner — admin only {%- endcomment -%}
   {% render 'license-banner' %}
 
+  <header class="cmp-header" role="banner">
+    <div class="cmp-container cmp-header__inner">
+      <a href="{{ routes.root_url }}" class="cmp-header__brand" aria-label="{{ shop.name }}">
+        {% if settings.logo != blank %}
+          <img
+            src="{{ settings.logo | image_url: width: 280 }}"
+            alt="{{ settings.logo.alt | default: shop.name | escape }}"
+            width="{{ settings.logo_width | default: 160 }}"
+            loading="eager"
+          >
+        {% else %}
+          <span class="cmp-header__brand-text">{{ shop.name }}</span>
+        {% endif %}
+      </a>
+
+      <nav class="cmp-header__nav" aria-label="Primary">
+        {% if settings.main_menu != blank %}
+          <ul class="cmp-header__menu">
+            {% for link in linklists[settings.main_menu].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </nav>
+
+      <div class="cmp-header__tools">
+        {% if settings.enable_header_search %}
+          <form class="cmp-header__search" action="{{ routes.search_url }}" method="get" role="search">
+            <input
+              type="search"
+              name="q"
+              value="{{ search.terms | escape }}"
+              placeholder="Search products"
+              aria-label="Search products"
+            >
+            <button type="submit" aria-label="Search">Search</button>
+          </form>
+        {% endif %}
+
+        <button class="cmp-header__menu-toggle" type="button" data-cmp-menu-toggle aria-expanded="false" aria-controls="cmp-mobile-menu">
+          Menu
+        </button>
+      </div>
+    </div>
+
+    <div id="cmp-mobile-menu" class="cmp-header__mobile" data-cmp-mobile-menu hidden>
+      <div class="cmp-container">
+        {% if settings.main_menu != blank %}
+          <ul class="cmp-header__mobile-menu">
+            {% for link in linklists[settings.main_menu].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% if settings.enable_header_search %}
+          <form class="cmp-header__search cmp-header__search--mobile" action="{{ routes.search_url }}" method="get" role="search">
+            <input
+              type="search"
+              name="q"
+              value="{{ search.terms | escape }}"
+              placeholder="Search products"
+              aria-label="Search products"
+            >
+            <button type="submit" aria-label="Search">Search</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
   <main id="main-content" role="main">
     {{ content_for_layout }}
   </main>
 
-  {%- comment -%} Minimal footer {%- endcomment -%}
   <footer class="cmp-footer" role="contentinfo">
-    <div class="cmp-container">
-      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+    <div class="cmp-container cmp-footer__inner">
+      <div class="cmp-footer__brand">
+        {% if settings.logo != blank %}
+          <img
+            src="{{ settings.logo | image_url: width: 220 }}"
+            alt="{{ settings.logo.alt | default: shop.name | escape }}"
+            width="120"
+            loading="lazy"
+          >
+        {% else %}
+          <span>{{ shop.name }}</span>
+        {% endif %}
+      </div>
+
+      {% if settings.footer_menu != blank %}
+        <nav class="cmp-footer__nav" aria-label="Footer">
+          <ul>
+            {% for link in linklists[settings.footer_menu].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </nav>
+      {% endif %}
+
+      {% if settings.legal_menu != blank %}
+        <nav class="cmp-footer__legal" aria-label="Legal">
+          <ul>
+            {% for link in linklists[settings.legal_menu].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </nav>
+      {% endif %}
+
+      <p class="cmp-footer__copyright">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
     </div>
   </footer>
 
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  <script>
+    (function () {
+      var toggle = document.querySelector('[data-cmp-menu-toggle]');
+      var panel = document.querySelector('[data-cmp-mobile-menu]');
+      if (!toggle || !panel) return;
+
+      toggle.addEventListener('click', function () {
+        var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+        panel.hidden = isOpen;
+      });
+    })();
+  </script>
 
   {%- comment -%} AI Copywriter — only loaded inside the theme editor {%- endcomment -%}
   {%- if request.design_mode -%}
@@ -118,5 +233,3 @@
   {%- endcomment -%}
 </body>
 </html>
-
-

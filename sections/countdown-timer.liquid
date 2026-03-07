@@ -1,4 +1,4 @@
-<div class="cmp-countdown cmp-section" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }}; padding: 40px 20px; text-align: center;">
+<div class="cmp-countdown cmp-section" id="countdown-{{ section.id }}" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }}; padding: 40px 20px; text-align: center;">
   <div class="cmp-container">
     {% if section.settings.heading != blank %}
       <h2 style="color: {{ section.settings.text_color }}; margin-bottom: 20px;">{{ section.settings.heading }}</h2>
@@ -6,25 +6,25 @@
 
     <div class="cmp-countdown__timer" style="display: flex; justify-content: center; gap: 20px;">
       <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number" style="font-size: 2rem; font-weight: bold;">00</span>
+        <span class="cmp-countdown__number cmp-countdown__days" style="font-size: 2rem; font-weight: bold;">00</span>
         <br>
         <span class="cmp-countdown__label">Days</span>
       </div>
       <span style="font-size: 2rem;">:</span>
       <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number" style="font-size: 2rem; font-weight: bold;">00</span>
+        <span class="cmp-countdown__number cmp-countdown__hours" style="font-size: 2rem; font-weight: bold;">00</span>
         <br>
         <span class="cmp-countdown__label">Hours</span>
       </div>
       <span style="font-size: 2rem;">:</span>
       <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number" style="font-size: 2rem; font-weight: bold;">00</span>
+        <span class="cmp-countdown__number cmp-countdown__mins" style="font-size: 2rem; font-weight: bold;">00</span>
         <br>
         <span class="cmp-countdown__label">Minutes</span>
       </div>
       <span style="font-size: 2rem;">:</span>
       <div class="cmp-countdown__unit">
-        <span class="cmp-countdown__number" style="font-size: 2rem; font-weight: bold;">00</span>
+        <span class="cmp-countdown__number cmp-countdown__secs" style="font-size: 2rem; font-weight: bold;">00</span>
         <br>
         <span class="cmp-countdown__label">Seconds</span>
       </div>
@@ -36,7 +36,67 @@
   </div>
 </div>
 
-<script src="{{ 'countdown-timer.js' | asset_url }}" defer></script>
+<script>
+  (function() {
+    var el = document.getElementById('countdown-{{ section.id }}');
+    if (!el) return;
+
+    var mode = {{ section.settings.mode | json }};
+    var duration = {{ section.settings.evergreen_minutes | default: 30 }};
+    var endDate = {{ section.settings.end_date | json }};
+    var endTime = {{ section.settings.end_time | json }};
+    var storageKey = 'cmp_countdown_{{ section.id }}';
+
+    var endStamp;
+    if (mode === 'fixed') {
+      endStamp = new Date(endDate + 'T' + endTime).getTime();
+    } else {
+      try {
+        var stored = localStorage.getItem(storageKey);
+        if (stored) {
+          endStamp = parseInt(stored, 10);
+          if (endStamp <= Date.now()) {
+            endStamp = Date.now() + duration * 60 * 1000;
+            localStorage.setItem(storageKey, endStamp.toString());
+          }
+        } else {
+          endStamp = Date.now() + duration * 60 * 1000;
+          localStorage.setItem(storageKey, endStamp.toString());
+        }
+      } catch(e) {
+        endStamp = Date.now() + duration * 60 * 1000;
+      }
+    }
+
+    var daysEl = el.querySelector('.cmp-countdown__days');
+    var hoursEl = el.querySelector('.cmp-countdown__hours');
+    var minsEl = el.querySelector('.cmp-countdown__mins');
+    var secsEl = el.querySelector('.cmp-countdown__secs');
+    var timerEl = el.querySelector('.cmp-countdown__timer');
+    var expiredEl = el.querySelector('.cmp-countdown__expired');
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function tick() {
+      var diff = endStamp - Date.now();
+      if (diff <= 0) {
+        if (timerEl) timerEl.style.display = 'none';
+        if (expiredEl) expiredEl.style.display = 'block';
+        return;
+      }
+      var s = Math.floor(diff / 1000);
+      var d = Math.floor(s / 86400); s -= d * 86400;
+      var h = Math.floor(s / 3600); s -= h * 3600;
+      var m = Math.floor(s / 60); s -= m * 60;
+      if (daysEl) daysEl.textContent = pad(d);
+      if (hoursEl) hoursEl.textContent = pad(h);
+      if (minsEl) minsEl.textContent = pad(m);
+      if (secsEl) secsEl.textContent = pad(s);
+      setTimeout(tick, 1000);
+    }
+    tick();
+  })();
+</script>
 
 {% schema %}
 {

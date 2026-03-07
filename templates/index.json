@@ -3,16 +3,10 @@
     "vsl_hero": {
       "type": "vsl-hero",
       "settings": {
-        "video_type": "youtube",
-        "video_url": "",
-        "autoplay": true,
         "layout": "inline",
-        "overlay_opacity": 50,
-        "bg_color": "#000000",
         "headline": "Watch This Short Video To Discover...",
         "subheadline": "The proven system that helps you get more customers, more sales, and more freedom.",
-        "cta_text": "Get Started Now",
-        "cta_link": ""
+        "cta_text": "Get Started Now"
       }
     },
     "social_proof": {
@@ -21,9 +15,7 @@
         "show_stats": true,
         "star_rating": 5,
         "review_count": "2,847",
-        "customer_count": "10,000",
-        "logos_heading": "As Seen In",
-        "bg_color": "#F8F9FA"
+        "customer_count": "10,000"
       }
     },
     "featured_product": {
@@ -33,8 +25,7 @@
         "eyebrow": "Introducing",
         "heading": "Featured Product",
         "cta_text": "Shop Now",
-        "layout": "image-left",
-        "bg_color": "#FFFFFF"
+        "layout": "image-left"
       },
       "blocks": {
         "highlight_1": {
@@ -63,20 +54,14 @@
       "settings": {
         "heading": "This Special Offer Expires In...",
         "mode": "evergreen",
-        "end_date": "2026-12-31",
-        "end_time": "23:59",
-        "evergreen_minutes": 30,
-        "expired_message": "This offer has expired.",
-        "bg_color": "#1D3557",
-        "text_color": "#FFFFFF"
+        "evergreen_minutes": 30
       }
     },
     "quantity_breaks": {
       "type": "quantity-breaks",
       "settings": {
         "heading": "Choose Your Package",
-        "subheading": "Buy more and save more — free shipping on all orders",
-        "button_text": "Add to Cart — Best Deal!"
+        "subheading": "Buy more and save more — free shipping on all orders"
       },
       "blocks": {
         "tier_1": {
@@ -85,8 +70,7 @@
             "quantity": "1",
             "price_cents": "4900",
             "compare_price_cents": "5900",
-            "badge_text": "",
-            "best_value": false
+            "badge_text": ""
           }
         },
         "tier_2": {
@@ -105,8 +89,7 @@
             "quantity": "6",
             "price_cents": "17400",
             "compare_price_cents": "35400",
-            "badge_text": "Best Value",
-            "best_value": false
+            "badge_text": "Best Value"
           }
         }
       },
@@ -115,12 +98,8 @@
     "guarantee": {
       "type": "guarantee-block",
       "settings": {
-        "icon_bg_color": "#2D6A4F",
         "headline": "100% Money-Back Guarantee",
-        "body": "<p>We're so confident you'll love this product that we offer a full 60-day money-back guarantee. If you're not completely satisfied, simply contact our support team for a hassle-free refund. No questions asked.</p>",
-        "headline_color": "#2D6A4F",
-        "border_color": "#2D6A4F",
-        "bg_color": "#FFFFFF"
+        "body": "<p>We're so confident you'll love this product that we offer a full 60-day money-back guarantee. If you're not completely satisfied, simply contact our support team for a hassle-free refund. No questions asked.</p>"
       }
     },
     "best_sellers": {
@@ -131,8 +110,7 @@
         "products_to_show": 4,
         "show_rank": true,
         "show_reviews": true,
-        "cta_text": "View All Best Sellers",
-        "bg_color": "#FFFFFF"
+        "cta_text": "View All Best Sellers"
       }
     },
     "faq": {
@@ -146,45 +124,33 @@
           "type": "faq",
           "settings": {
             "question": "How does this product work?",
-            "answer": "<p>Our product works by leveraging proven techniques to deliver results you can see and feel. Simply follow the included instructions and you'll be on your way.</p>"
+            "answer": "<p>Our product works by leveraging proven techniques to deliver results you can see and feel.</p>"
           }
         },
         "faq_2": {
           "type": "faq",
           "settings": {
             "question": "Is there a money-back guarantee?",
-            "answer": "<p>Yes! We offer a full 60-day money-back guarantee. If you're not satisfied for any reason, just contact us for a complete refund.</p>"
+            "answer": "<p>Yes! We offer a full 60-day money-back guarantee.</p>"
           }
         },
         "faq_3": {
           "type": "faq",
           "settings": {
             "question": "How long does shipping take?",
-            "answer": "<p>Orders are processed within 1-2 business days. Domestic shipping typically takes 3-5 business days, and international orders take 7-14 business days.</p>"
-          }
-        },
-        "faq_4": {
-          "type": "faq",
-          "settings": {
-            "question": "Can I track my order?",
-            "answer": "<p>Absolutely! You'll receive a tracking number via email as soon as your order ships. You can use this to track your package in real-time.</p>"
+            "answer": "<p>Orders are processed within 1-2 business days. Domestic shipping typically takes 3-5 business days.</p>"
           }
         }
       },
-      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4"]
+      "block_order": ["faq_1", "faq_2", "faq_3"]
     },
     "promo_banner": {
       "type": "promo-banner",
       "settings": {
         "eyebrow": "Limited Time Offer",
         "heading": "Spring Sale — 25% Off Everything",
-        "body": "Don't miss out on our biggest sale of the year. Ends Sunday.",
-        "cta_text": "Shop the Sale",
-        "bg_color": "#1D3557",
-        "bg_gradient": "linear-gradient(135deg, #1B7FC3, #155B8A)",
-        "text_color": "#FFFFFF",
-        "button_color": "#FFFFFF",
-        "button_text_color": "#1D3557"
+        "body": "Don't miss out on our biggest sale of the year.",
+        "cta_text": "Shop the Sale"
       }
     }
   },

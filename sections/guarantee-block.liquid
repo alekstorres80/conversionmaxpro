@@ -3,15 +3,10 @@
   Icon + headline + body text, fully customizable in theme editor.
 {%- endcomment -%}
 
-<section
-  id="guarantee-{{ section.id }}"
-  class="cmp-guarantee cmp-section"
-  style="{% if section.settings.bg_color != blank %}background-color: {{ section.settings.bg_color }};{% endif %}"
->
+<div class="cmp-guarantee cmp-section" style="{% if section.settings.bg_color != blank %}background-color: {{ section.settings.bg_color }};{% endif %}">
   <div class="cmp-container">
     <div class="cmp-guarantee__inner" style="{% if section.settings.border_color != blank %}border-color: {{ section.settings.border_color }};{% endif %}">
 
-      {%- comment -%} Icon {%- endcomment -%}
       <div class="cmp-guarantee__icon">
         {%- if section.settings.icon_image != blank -%}
           <img
@@ -22,16 +17,12 @@
             loading="lazy"
           >
         {%- else -%}
-          <div class="cmp-guarantee__icon--default" style="{% if section.settings.icon_bg_color != blank %}background-color: {{ section.settings.icon_bg_color }};{% endif %}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              <path d="M9 12l2 2 4-4"/>
-            </svg>
+          <div class="cmp-guarantee__icon--default" style="{% if section.settings.icon_bg_color != blank %}background-color: {{ section.settings.icon_bg_color }};{% endif %} width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2rem;">
+            &#x1F6E1;
           </div>
         {%- endif -%}
       </div>
 
-      {%- comment -%} Text {%- endcomment -%}
       <div class="cmp-guarantee__text">
         {%- if section.settings.headline != blank -%}
           <h3 class="cmp-guarantee__headline" style="{% if section.settings.headline_color != blank %}color: {{ section.settings.headline_color }};{% endif %}">
@@ -46,27 +37,8 @@
         {%- endif -%}
       </div>
     </div>
-
-    {%- comment -%} AI Copywriter — editor only {%- endcomment -%}
-    {%- if request.design_mode -%}
-      <div class="cmp-ai-panel-mount" data-ai-section="guarantee"></div>
-      <script>
-        (function() {
-          if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) {
-            document.addEventListener('DOMContentLoaded', init);
-          } else { init(); }
-          function init() {
-            if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) return;
-            var mount = document.querySelector('[data-ai-section="guarantee"]');
-            if (mount && !mount.hasChildNodes()) {
-              CMP.ai.createPanel({ container: mount, sectionType: 'guarantee' });
-            }
-          }
-        })();
-      </script>
-    {%- endif -%}
   </div>
-</section>
+</div>
 
 {% schema %}
 {
@@ -81,15 +53,13 @@
     {
       "type": "image_picker",
       "id": "icon_image",
-      "label": "Custom icon/badge image",
-      "info": "Upload a custom guarantee badge. Leave blank to use the default shield icon."
+      "label": "Custom icon/badge image"
     },
     {
       "type": "color",
       "id": "icon_bg_color",
       "label": "Default icon background color",
-      "default": "#2D6A4F",
-      "info": "Only used when no custom image is uploaded."
+      "default": "#2D6A4F"
     },
     {
       "type": "header",
@@ -105,7 +75,7 @@
       "type": "richtext",
       "id": "body",
       "label": "Body text",
-      "default": "<p>We're so confident you'll love this product that we offer a full 60-day money-back guarantee. If you're not completely satisfied, simply contact our support team for a hassle-free refund. No questions asked.</p>"
+      "default": "<p>We offer a full 60-day money-back guarantee. If you're not completely satisfied, contact our support team for a hassle-free refund. No questions asked.</p>"
     },
     {
       "type": "header",

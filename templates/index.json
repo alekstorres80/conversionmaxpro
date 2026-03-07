@@ -1,9 +1,5 @@
 {
   "sections": {
-    "vsl_hero": {
-      "type": "vsl-hero",
-      "settings": {}
-    },
     "social_proof": {
       "type": "social-proof-strip",
       "settings": {}
@@ -32,10 +28,6 @@
         }
       },
       "block_order": ["highlight_1", "highlight_2", "highlight_3"]
-    },
-    "countdown": {
-      "type": "countdown-timer",
-      "settings": {}
     },
     "best_sellers": {
       "type": "best-sellers",
@@ -76,48 +68,11 @@
     "promo_banner": {
       "type": "promo-banner",
       "settings": {}
-    },
-    "quantity_breaks": {
-      "type": "quantity-breaks",
-      "settings": {},
-      "blocks": {
-        "tier_1": {
-          "type": "tier",
-          "settings": {
-            "quantity": "1",
-            "price_cents": "4900",
-            "compare_price_cents": "5900"
-          }
-        },
-        "tier_2": {
-          "type": "tier",
-          "settings": {
-            "quantity": "3",
-            "price_cents": "11700",
-            "compare_price_cents": "17700",
-            "badge_text": "Most Popular",
-            "best_value": true
-          }
-        },
-        "tier_3": {
-          "type": "tier",
-          "settings": {
-            "quantity": "6",
-            "price_cents": "17400",
-            "compare_price_cents": "35400",
-            "badge_text": "Best Value"
-          }
-        }
-      },
-      "block_order": ["tier_1", "tier_2", "tier_3"]
     }
   },
   "order": [
-    "vsl_hero",
     "social_proof",
     "featured_product",
-    "countdown",
-    "quantity_breaks",
     "best_sellers",
     "guarantee",
     "faq",

@@ -9,6 +9,31 @@
         "cta_text": ""
       }
     },
+    "featured_product": {
+      "type": "featured-product",
+      "settings": {},
+      "blocks": {
+        "highlight_1": {
+          "type": "highlight",
+          "settings": {
+            "text": "Free shipping on all orders"
+          }
+        },
+        "highlight_2": {
+          "type": "highlight",
+          "settings": {
+            "text": "30-day money-back guarantee"
+          }
+        },
+        "highlight_3": {
+          "type": "highlight",
+          "settings": {
+            "text": "24/7 customer support"
+          }
+        }
+      },
+      "block_order": ["highlight_1", "highlight_2", "highlight_3"]
+    },
     "countdown": {
       "type": "countdown-timer",
       "settings": {}
@@ -18,14 +43,6 @@
       "settings": {
         "heading": "Choose Your Package",
         "subheading": "Select the best option for you"
-      }
-    },
-    "social_proof": {
-      "type": "social-proof-strip",
-      "settings": {
-        "show_stats": true,
-        "star_rating": 5,
-        "review_count": "2,847"
       }
     },
     "guarantee": {
@@ -51,9 +68,9 @@
   },
   "order": [
     "vsl_hero",
+    "featured_product",
     "countdown",
     "quantity_breaks",
-    "social_proof",
     "guarantee",
     "faq",
     "sticky_atc"

@@ -37,8 +37,8 @@
       "type": "countdown-timer",
       "settings": {}
     },
-    "guarantee": {
-      "type": "guarantee-block",
+    "best_sellers": {
+      "type": "best-sellers",
       "settings": {}
     }
   },
@@ -47,6 +47,6 @@
     "social_proof",
     "featured_product",
     "countdown",
-    "guarantee"
+    "best_sellers"
   ]
 }

@@ -120,6 +120,21 @@
           </form>
         {% endif %}
 
+        <div class="cmp-header__actions" aria-label="Account and cart">
+          {% if shop.customer_accounts_enabled %}
+            <a class="cmp-header__icon-link" href="{{ routes.account_url }}" aria-label="Account">
+              <span class="cmp-header__icon" aria-hidden="true">&#128100;</span>
+            </a>
+          {% endif %}
+
+          <a class="cmp-header__icon-link cmp-header__icon-link--cart" href="{{ routes.cart_url }}" aria-label="Cart">
+            <span class="cmp-header__icon" aria-hidden="true">&#128722;</span>
+            {% if cart.item_count > 0 %}
+              <span class="cmp-header__cart-count">{{ cart.item_count }}</span>
+            {% endif %}
+          </a>
+        </div>
+
         <button class="cmp-header__menu-toggle" type="button" data-cmp-menu-toggle aria-expanded="false" aria-controls="cmp-mobile-menu">
           Menu
         </button>
@@ -135,6 +150,14 @@
             {% endfor %}
           </ul>
         {% endif %}
+
+        <div class="cmp-header__mobile-actions" aria-label="Mobile account and cart">
+          {% if shop.customer_accounts_enabled %}
+            <a class="cmp-header__icon-link" href="{{ routes.account_url }}">Account</a>
+          {% endif %}
+          <a class="cmp-header__icon-link" href="{{ routes.cart_url }}">Cart{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}</a>
+        </div>
+
         {% if settings.enable_header_search %}
           <form class="cmp-header__search cmp-header__search--mobile" action="{{ routes.search_url }}" method="get" role="search">
             <input
@@ -233,3 +256,5 @@
   {%- endcomment -%}
 </body>
 </html>
+
+

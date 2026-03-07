@@ -1,11 +1,13 @@
 /**
- * Countdown Timer — ConversionMax Pro
+ * Countdown Timer - ConversionMax Pro
  * Supports fixed end date and evergreen (per-visitor via localStorage) modes.
  */
 (function () {
   'use strict';
 
-  document.querySelectorAll('[data-countdown-section]').forEach(function (section) {
+  function initCountdownSection(section) {
+    if (!section || section.dataset.countdownInitialized === 'true') return;
+
     var mode = section.getAttribute('data-countdown-mode');
     var timerEl = section.querySelector('[data-countdown-timer]');
     var expiredEl = section.querySelector('[data-countdown-expired]');
@@ -14,13 +16,14 @@
     var minsEl = section.querySelector('[data-countdown-mins]');
     var secsEl = section.querySelector('[data-countdown-secs]');
 
+    if (!timerEl || !expiredEl || !daysEl || !hoursEl || !minsEl || !secsEl) return;
+
     var endTime;
 
     if (mode === 'fixed') {
       var endStr = section.getAttribute('data-countdown-end');
       endTime = new Date(endStr).getTime();
     } else {
-      // Evergreen mode
       var duration = parseInt(section.getAttribute('data-countdown-duration'), 10) || 30;
       var storageKey = section.getAttribute('data-countdown-storage-key');
 
@@ -28,7 +31,6 @@
         var stored = localStorage.getItem(storageKey);
         if (stored) {
           endTime = parseInt(stored, 10);
-          // If the stored end time has already passed, reset it
           if (endTime <= Date.now()) {
             endTime = Date.now() + duration * 60 * 1000;
             localStorage.setItem(storageKey, endTime.toString());
@@ -38,9 +40,15 @@
           localStorage.setItem(storageKey, endTime.toString());
         }
       } catch (e) {
-        // localStorage not available — just use a live timer
         endTime = Date.now() + duration * 60 * 1000;
       }
+    }
+
+    if (!Number.isFinite(endTime)) {
+      timerEl.style.display = 'none';
+      expiredEl.style.display = '';
+      section.dataset.countdownInitialized = 'true';
+      return;
     }
 
     function pad(n) {
@@ -48,11 +56,9 @@
     }
 
     function tick() {
-      var now = Date.now();
-      var diff = endTime - now;
+      var diff = endTime - Date.now();
 
       if (diff <= 0) {
-        // Expired
         timerEl.style.display = 'none';
         expiredEl.style.display = '';
         return;
@@ -69,16 +75,30 @@
       minsEl.textContent = pad(mins);
       secsEl.textContent = pad(secs);
 
-      // Add urgency class when under 1 hour
       if (diff < 3600000) {
         section.classList.add('cmp-countdown--urgent');
       }
 
-      requestAnimationFrame(function () {
-        setTimeout(tick, 1000);
-      });
+      setTimeout(tick, 1000);
     }
 
+    section.dataset.countdownInitialized = 'true';
     tick();
+  }
+
+  function initAllCountdowns(root) {
+    (root || document).querySelectorAll('[data-countdown-section]').forEach(initCountdownSection);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      initAllCountdowns(document);
+    });
+  } else {
+    initAllCountdowns(document);
+  }
+
+  document.addEventListener('shopify:section:load', function (event) {
+    initAllCountdowns(event.target);
   });
 })();

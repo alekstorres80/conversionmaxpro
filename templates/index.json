@@ -1,11 +1,138 @@
 {
   "sections": {
-    "hero": {
+    "vsl_hero": {
       "type": "vsl-hero",
+      "settings": {}
+    },
+    "social_proof": {
+      "type": "social-proof-strip",
+      "settings": {
+        "show_stats": true,
+        "star_rating": 5,
+        "review_count": "2,847",
+        "customer_count": "10,000"
+      }
+    },
+    "featured_product": {
+      "type": "featured-product",
+      "settings": {},
+      "blocks": {
+        "highlight_1": {
+          "type": "highlight",
+          "settings": {
+            "text": "Free shipping on all orders"
+          }
+        },
+        "highlight_2": {
+          "type": "highlight",
+          "settings": {
+            "text": "30-day money-back guarantee"
+          }
+        },
+        "highlight_3": {
+          "type": "highlight",
+          "settings": {
+            "text": "24/7 customer support"
+          }
+        }
+      },
+      "block_order": ["highlight_1", "highlight_2", "highlight_3"]
+    },
+    "countdown": {
+      "type": "countdown-timer",
+      "settings": {}
+    },
+    "quantity_breaks": {
+      "type": "quantity-breaks",
+      "settings": {},
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "quantity": "1",
+            "price_cents": "4900",
+            "compare_price_cents": "5900"
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "quantity": "3",
+            "price_cents": "11700",
+            "compare_price_cents": "17700",
+            "badge_text": "Most Popular",
+            "best_value": true
+          }
+        },
+        "tier_3": {
+          "type": "tier",
+          "settings": {
+            "quantity": "6",
+            "price_cents": "17400",
+            "compare_price_cents": "35400",
+            "badge_text": "Best Value"
+          }
+        }
+      },
+      "block_order": ["tier_1", "tier_2", "tier_3"]
+    },
+    "guarantee": {
+      "type": "guarantee-block",
+      "settings": {}
+    },
+    "best_sellers": {
+      "type": "best-sellers",
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq-accordion",
+      "settings": {},
+      "blocks": {
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "How does this product work?",
+            "answer": "<p>Our product works by leveraging proven techniques to deliver results you can see and feel. Simply follow the included instructions and you'll be on your way.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "Is there a money-back guarantee?",
+            "answer": "<p>Yes! We offer a full 60-day money-back guarantee. If you're not satisfied for any reason, just contact us for a complete refund.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Orders are processed within 1-2 business days. Domestic shipping typically takes 3-5 business days.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I track my order?",
+            "answer": "<p>Absolutely! You'll receive a tracking number via email as soon as your order ships.</p>"
+          }
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4"]
+    },
+    "promo_banner": {
+      "type": "promo-banner",
       "settings": {}
     }
   },
   "order": [
-    "hero"
+    "vsl_hero",
+    "social_proof",
+    "featured_product",
+    "countdown",
+    "quantity_breaks",
+    "guarantee",
+    "best_sellers",
+    "faq",
+    "promo_banner"
   ]
 }

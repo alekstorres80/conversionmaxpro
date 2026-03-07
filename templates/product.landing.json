@@ -1,0 +1,153 @@
+{
+  "sections": {
+    "vsl_hero": {
+      "type": "vsl-hero",
+      "settings": {
+        "video_type": "youtube",
+        "video_url": "",
+        "autoplay": false,
+        "layout": "inline",
+        "headline": "Watch This 3-Minute Breakdown Before You Decide",
+        "subheadline": "See what it is, how it works, and why customers keep coming back.",
+        "cta_text": "Unlock Today\u2019s Offer",
+        "cta_link": "#offers"
+      }
+    },
+    "social_proof": {
+      "type": "social-proof-strip",
+      "settings": {
+        "show_stats": true,
+        "star_rating": 5,
+        "review_count": "2,847",
+        "customer_count": "10,000",
+        "logos_heading": "As featured on",
+        "bg_color": "#FFFFFF"
+      }
+    },
+    "featured_product": {
+      "type": "featured-product",
+      "settings": {
+        "badge_text": "Limited Offer",
+        "eyebrow": "Why Customers Choose This",
+        "cta_text": "Go To Packages",
+        "layout": "image-right",
+        "bg_color": "#F8FAFC"
+      },
+      "blocks": {
+        "highlight_1": {
+          "type": "highlight",
+          "settings": {
+            "text": "Results-focused formula"
+          }
+        },
+        "highlight_2": {
+          "type": "highlight",
+          "settings": {
+            "text": "Backed by a 60-day guarantee"
+          }
+        },
+        "highlight_3": {
+          "type": "highlight",
+          "settings": {
+            "text": "Fast shipping and responsive support"
+          }
+        }
+      },
+      "block_order": ["highlight_1", "highlight_2", "highlight_3"]
+    },
+    "countdown": {
+      "type": "countdown-timer",
+      "settings": {
+        "heading": "Today\u2019s Promotional Window Ends In...",
+        "mode": "evergreen",
+        "evergreen_minutes": 45,
+        "bg_color": "#1D3557",
+        "text_color": "#FFFFFF"
+      }
+    },
+    "quantity_breaks": {
+      "type": "quantity-breaks",
+      "settings": {
+        "heading": "Choose Your Package",
+        "subheading": "The more you buy, the more you save",
+        "button_text": "Add to Cart - Claim My Deal"
+      }
+    },
+    "guarantee": {
+      "type": "guarantee-block",
+      "settings": {
+        "headline": "Try It 100% Risk-Free",
+        "body": "<p>You are covered by our 60-day money-back guarantee. If it is not right for you, contact us for a full refund.</p>",
+        "headline_color": "#1D3557",
+        "border_color": "#1B7FC3",
+        "icon_bg_color": "#1B7FC3",
+        "bg_color": "#FFFFFF"
+      }
+    },
+    "faq": {
+      "type": "faq-accordion",
+      "settings": {
+        "heading": "Still Have Questions?",
+        "subheading": "Everything you need to know before checkout"
+      },
+      "blocks": {
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "How quickly can I get started?",
+            "answer": "<p>You can start immediately after purchase with clear usage instructions included.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "<p>Yes, shipping availability depends on destination and local carrier options.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "What if I change my mind?",
+            "answer": "<p>No problem. You are protected by our 60-day money-back guarantee.</p>"
+          }
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3"]
+    },
+    "promo_banner": {
+      "type": "promo-banner",
+      "settings": {
+        "icon": "SALE",
+        "eyebrow": "Bonus Offer",
+        "heading": "Save 15% On Your First Order",
+        "body": "Use the code below before the timer expires.",
+        "discount_code": "WELCOME15",
+        "cta_text": "Apply Offer",
+        "cta_link": "#offers",
+        "bg_gradient": "linear-gradient(135deg, #1B7FC3, #1D3557)",
+        "text_color": "#FFFFFF",
+        "button_color": "#FFFFFF",
+        "button_text_color": "#1D3557"
+      }
+    },
+    "sticky_atc": {
+      "type": "sticky-atc",
+      "settings": {
+        "scroll_trigger": 250,
+        "button_text": "Add to Cart"
+      }
+    }
+  },
+  "order": [
+    "vsl_hero",
+    "social_proof",
+    "featured_product",
+    "countdown",
+    "quantity_breaks",
+    "guarantee",
+    "faq",
+    "promo_banner",
+    "sticky_atc"
+  ]
+}

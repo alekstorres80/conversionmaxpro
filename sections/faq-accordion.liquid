@@ -3,7 +3,7 @@
   Question/answer pairs with smooth expand/collapse animation.
 {%- endcomment -%}
 
-<section id="faq-{{ section.id }}" class="cmp-faq cmp-section">
+<div class="cmp-faq cmp-section">
   <div class="cmp-container">
     {%- if section.settings.heading != blank -%}
       <div class="cmp-faq__heading">
@@ -19,10 +19,7 @@
         <li class="cmp-faq__item" {{ block.shopify_attributes }}>
           <button class="cmp-faq__question" type="button" aria-expanded="false">
             <span>{{ block.settings.question }}</span>
-            <svg class="cmp-faq__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19"/>
-              <line x1="5" y1="12" x2="19" y2="12"/>
-            </svg>
+            <span class="cmp-faq__icon">+</span>
           </button>
           <div class="cmp-faq__answer" role="region">
             <div class="cmp-faq__answer-inner">
@@ -32,27 +29,8 @@
         </li>
       {%- endfor -%}
     </ul>
-
-    {%- comment -%} AI Copywriter — editor only {%- endcomment -%}
-    {%- if request.design_mode -%}
-      <div class="cmp-ai-panel-mount" data-ai-section="faq"></div>
-      <script>
-        (function() {
-          if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) {
-            document.addEventListener('DOMContentLoaded', init);
-          } else { init(); }
-          function init() {
-            if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) return;
-            var mount = document.querySelector('[data-ai-section="faq"]');
-            if (mount && !mount.hasChildNodes()) {
-              CMP.ai.createPanel({ container: mount, sectionType: 'faq' });
-            }
-          }
-        })();
-      </script>
-    {%- endif -%}
   </div>
-</section>
+</div>
 
 {% schema %}
 {
@@ -88,7 +66,7 @@
           "type": "richtext",
           "id": "answer",
           "label": "Answer",
-          "default": "<p>Our product works by leveraging proven techniques to deliver results you can see and feel. Simply follow the included instructions and you'll be on your way.</p>"
+          "default": "<p>Our product works by leveraging proven techniques to deliver results you can see and feel.</p>"
         }
       ]
     }
@@ -101,28 +79,21 @@
           "type": "faq",
           "settings": {
             "question": "How does this product work?",
-            "answer": "<p>Our product works by leveraging proven techniques to deliver results you can see and feel. Simply follow the included instructions and you'll be on your way.</p>"
+            "answer": "<p>Our product works by leveraging proven techniques to deliver results you can see and feel.</p>"
           }
         },
         {
           "type": "faq",
           "settings": {
             "question": "Is there a money-back guarantee?",
-            "answer": "<p>Yes! We offer a full 60-day money-back guarantee. If you're not satisfied for any reason, just contact us for a complete refund.</p>"
+            "answer": "<p>Yes! We offer a full 60-day money-back guarantee.</p>"
           }
         },
         {
           "type": "faq",
           "settings": {
             "question": "How long does shipping take?",
-            "answer": "<p>Orders are processed within 1-2 business days. Domestic shipping typically takes 3-5 business days, and international orders take 7-14 business days.</p>"
-          }
-        },
-        {
-          "type": "faq",
-          "settings": {
-            "question": "Can I track my order?",
-            "answer": "<p>Absolutely! You'll receive a tracking number via email as soon as your order ships. You can use this to track your package in real-time.</p>"
+            "answer": "<p>Orders are processed within 1-2 business days. Domestic shipping typically takes 3-5 business days.</p>"
           }
         }
       ]

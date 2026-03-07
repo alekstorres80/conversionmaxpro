@@ -37,7 +37,7 @@
             <span class="cmp-promo-banner__code" data-copy-code="{{ section.settings.discount_code }}">
               {{ section.settings.discount_code }}
             </span>
-            <button class="cmp-promo-banner__copy-btn" onclick="navigator.clipboard.writeText('{{ section.settings.discount_code | escape }}');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000);">Copy</button>
+            <button class="cmp-promo-banner__copy-btn" data-copy-btn>Copy</button>
           </div>
         {%- endif -%}
       </div>

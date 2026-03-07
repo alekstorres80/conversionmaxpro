@@ -35,7 +35,7 @@ iframe {
 }
 
 a {
-  color: var(--color-primary, #E63946);
+  color: var(--color-primary, #1B7FC3);
   text-decoration: none;
 }
 
@@ -128,14 +128,14 @@ p + p { margin-top: 1em; }
 }
 
 .cmp-btn--primary {
-  background-color: var(--color-primary, #E63946);
+  background-color: var(--color-primary, #1B7FC3);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(230, 57, 70, 0.3);
+  box-shadow: 0 4px 14px rgba(27, 127, 195, 0.3);
 }
 
 .cmp-btn--primary:hover {
-  background-color: var(--color-primary-hover, #C62828);
-  box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
+  background-color: var(--color-primary-hover, #155B8A);
+  box-shadow: 0 6px 20px rgba(27, 127, 195, 0.4);
 }
 
 .cmp-btn--secondary {
@@ -149,12 +149,12 @@ p + p { margin-top: 1em; }
 
 .cmp-btn--outline {
   background-color: transparent;
-  color: var(--color-primary, #E63946);
-  border: 2px solid var(--color-primary, #E63946);
+  color: var(--color-primary, #1B7FC3);
+  border: 2px solid var(--color-primary, #1B7FC3);
 }
 
 .cmp-btn--outline:hover {
-  background-color: var(--color-primary, #E63946);
+  background-color: var(--color-primary, #1B7FC3);
   color: #fff;
 }
 
@@ -180,7 +180,7 @@ p + p { margin-top: 1em; }
 }
 
 .cmp-badge--primary {
-  background-color: var(--color-primary, #E63946);
+  background-color: var(--color-primary, #1B7FC3);
   color: #fff;
 }
 
@@ -333,12 +333,12 @@ p + p { margin-top: 1em; }
 
 .cmp-qb-card--selected {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
+  box-shadow: 0 0 0 3px rgba(27, 127, 195, 0.15);
 }
 
 .cmp-qb-card--best {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15), 0 8px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 0 0 3px rgba(27, 127, 195, 0.15), 0 8px 30px rgba(0,0,0,0.08);
 }
 
 .cmp-qb-card__badge {
@@ -423,7 +423,7 @@ p + p { margin-top: 1em; }
 
 .cmp-bundle-product--selected {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
+  box-shadow: 0 0 0 3px rgba(27, 127, 195, 0.15);
 }
 
 .cmp-bundle-product__image {

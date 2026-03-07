@@ -37,14 +37,14 @@
         "type": "color",
         "id": "color_primary",
         "label": "Primary",
-        "default": "#E63946",
+        "default": "#1B7FC3",
         "info": "Main CTA and accent color"
       },
       {
         "type": "color",
         "id": "color_primary_hover",
         "label": "Primary Hover",
-        "default": "#C62828"
+        "default": "#155B8A"
       },
       {
         "type": "color",

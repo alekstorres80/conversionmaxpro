@@ -563,17 +563,20 @@ p + p { margin-top: 1em; }
    Countdown Timer
    ============================================ */
 .cmp-countdown {
-  padding: 24px 0;
+  background: var(--cmp-countdown-bg, transparent);
+  color: var(--cmp-countdown-text, var(--color-text));
+  padding: 40px 20px;
   text-align: center;
 }
 
 .cmp-countdown__heading {
+  color: var(--cmp-countdown-text, var(--color-heading));
   margin-bottom: 20px;
 }
 
 .cmp-countdown__timer {
-  display: inline-flex;
-  gap: 12px;
+  display: flex;
+  gap: 20px;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -587,44 +590,44 @@ p + p { margin-top: 1em; }
 
 .cmp-countdown__number {
   font-family: var(--font-heading);
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 800;
-  color: var(--color-heading);
+  color: var(--cmp-countdown-text, var(--color-heading));
   line-height: 1;
-  background: var(--color-bg-alt);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 8px;
-  padding: 12px 16px;
-  min-width: 70px;
+  padding: 10px 12px;
+  min-width: 56px;
 }
 
 .cmp-countdown__label {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--color-text-light);
+  color: var(--cmp-countdown-text, var(--color-text-light));
+  opacity: 0.9;
   margin-top: 6px;
 }
 
 .cmp-countdown__separator {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--color-text-light);
+  color: var(--cmp-countdown-text, var(--color-text-light));
   align-self: flex-start;
-  padding-top: 12px;
+  padding-top: 6px;
 }
 
 .cmp-countdown--urgent .cmp-countdown__number {
-  color: var(--color-warning);
-  background: rgba(231, 111, 81, 0.1);
+  color: #fff;
+  background: rgba(231, 111, 81, 0.3);
 }
 
 .cmp-countdown__expired {
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--color-warning);
-  padding: 20px;
+  color: var(--cmp-countdown-text, var(--color-warning));
+  margin-top: 12px;
 }
-
 /* ============================================
    Social Proof Strip
    ============================================ */
@@ -971,3 +974,4 @@ p + p { margin-top: 1em; }
     font-size: 1.1rem;
   }
 }
+

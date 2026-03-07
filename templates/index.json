@@ -2,11 +2,24 @@
   "sections": {
     "social_proof": {
       "type": "social-proof-strip",
-      "settings": {}
+      "settings": {
+        "show_stats": true,
+        "star_rating": 5,
+        "review_count": "2,847",
+        "customer_count": "10,000",
+        "logos_heading": "Trusted by fast-growing brands",
+        "bg_color": "#FFFFFF"
+      }
     },
     "featured_product": {
       "type": "featured-product",
-      "settings": {},
+      "settings": {
+        "badge_text": "Top Pick",
+        "eyebrow": "Featured Solution",
+        "cta_text": "View Product",
+        "layout": "image-right",
+        "bg_color": "#F8FAFC"
+      },
       "blocks": {
         "highlight_1": {
           "type": "highlight",
@@ -31,15 +44,33 @@
     },
     "best_sellers": {
       "type": "best-sellers",
-      "settings": {}
+      "settings": {
+        "heading": "Customer Favorites",
+        "subheading": "Most-loved products chosen by our community",
+        "products_to_show": 4,
+        "show_rank": true,
+        "show_reviews": true,
+        "cta_text": "",
+        "bg_color": "#FFFFFF"
+      }
     },
     "guarantee": {
       "type": "guarantee-block",
-      "settings": {}
+      "settings": {
+        "headline": "60-Day Money-Back Guarantee",
+        "body": "<p>Try it with confidence. If it is not the right fit, contact support within 60 days for a hassle-free refund.</p>",
+        "headline_color": "#1D3557",
+        "border_color": "#1B7FC3",
+        "icon_bg_color": "#1B7FC3",
+        "bg_color": "#F8FAFC"
+      }
     },
     "faq": {
       "type": "faq-accordion",
-      "settings": {},
+      "settings": {
+        "heading": "Questions Before You Buy?",
+        "subheading": "Everything shoppers ask most before checkout"
+      },
       "blocks": {
         "faq_1": {
           "type": "faq",
@@ -67,7 +98,19 @@
     },
     "promo_banner": {
       "type": "promo-banner",
-      "settings": {}
+      "settings": {
+        "icon": "SALE",
+        "eyebrow": "Limited-Time Offer",
+        "heading": "Get 15% Off Your First Order",
+        "body": "Use the code below at checkout and get free shipping on eligible orders.",
+        "discount_code": "WELCOME15",
+        "cta_text": "Shop Now",
+        "cta_link": "/collections/all",
+        "bg_gradient": "linear-gradient(135deg, #1B7FC3, #1D3557)",
+        "text_color": "#FFFFFF",
+        "button_color": "#FFFFFF",
+        "button_text_color": "#1D3557"
+      }
     }
   },
   "order": [

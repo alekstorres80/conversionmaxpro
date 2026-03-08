@@ -94,14 +94,39 @@
               <p class="cmp-main-product__label">{{ section.settings.offers_heading }}</p>
               <div class="cmp-main-product__offers" data-main-product-offers>
                 {%- for variant in product_obj.variants -%}
+                  {%- assign save_pct = 0 -%}
+                  {%- if variant.compare_at_price > variant.price and variant.compare_at_price > 0 -%}
+                    {%- assign save_pct = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price -%}
+                  {%- endif -%}
                   <button
                     type="button"
                     class="cmp-main-product__offer{% if variant.id == current_variant.id %} is-active{% endif %}"
                     data-variant-id="{{ variant.id }}"
                     {% unless variant.available %}disabled{% endunless %}
                   >
-                    <span class="cmp-main-product__offer-title">{{ variant.title }}</span>
-                    <span class="cmp-main-product__offer-price">{{ variant.price | money }}</span>
+                    {%- if forloop.index == section.settings.most_popular_index and section.settings.most_popular_badge != blank -%}
+                      <span class="cmp-main-product__offer-badge cmp-main-product__offer-badge--popular">{{ section.settings.most_popular_badge }}</span>
+                    {%- elsif forloop.index == section.settings.best_value_index and section.settings.best_value_badge != blank -%}
+                      <span class="cmp-main-product__offer-badge cmp-main-product__offer-badge--value">{{ section.settings.best_value_badge }}</span>
+                    {%- endif -%}
+
+                    <span class="cmp-main-product__offer-left">
+                      <span class="cmp-main-product__offer-radio" aria-hidden="true"></span>
+                      <span class="cmp-main-product__offer-copy">
+                        <span class="cmp-main-product__offer-title">{{ variant.title }}</span>
+                        <span class="cmp-main-product__offer-subtitle">{{ section.settings.offer_subtitle }}</span>
+                        {%- if save_pct > 0 -%}
+                          <span class="cmp-main-product__offer-save">Save {{ save_pct }}%</span>
+                        {%- endif -%}
+                      </span>
+                    </span>
+
+                    <span class="cmp-main-product__offer-right">
+                      <span class="cmp-main-product__offer-price">{{ variant.price | money }}</span>
+                      {%- if variant.compare_at_price > variant.price -%}
+                        <span class="cmp-main-product__offer-compare">{{ variant.compare_at_price | money }}</span>
+                      {%- endif -%}
+                    </span>
                   </button>
                 {%- endfor -%}
               </div>
@@ -407,40 +432,124 @@
     display: none;
   }
   .cmp-main-product__offers-wrap {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   .cmp-main-product__offers {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
   .cmp-main-product__offer {
-    border: 2px solid var(--color-border, #d8dee4);
-    border-radius: 10px;
+    position: relative;
+    border: 1px solid var(--color-border, #d8dee4);
+    border-radius: 12px;
     background: #fff;
-    padding: 10px;
-    text-align: center;
+    padding: 14px 14px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    gap: 14px;
     cursor: pointer;
   }
   .cmp-main-product__offer.is-active {
-    border-color: var(--color-primary, #1B7FC3);
-    box-shadow: 0 0 0 2px rgba(27, 127, 195, 0.12);
+    border-color: #2c2c2c;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06);
   }
   .cmp-main-product__offer:disabled {
     opacity: 0.45;
     cursor: not-allowed;
   }
+  .cmp-main-product__offer-badge {
+    position: absolute;
+    right: 12px;
+    top: -10px;
+    display: inline-block;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    border: 1px solid #c7b48f;
+    background: #e6d3af;
+    color: #3a3426;
+  }
+  .cmp-main-product__offer-badge--value {
+    border-color: #d3ab72;
+    background: #ecd0a8;
+  }
+  .cmp-main-product__offer-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+  .cmp-main-product__offer-radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #4c4c4c;
+    border-radius: 999px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .cmp-main-product__offer.is-active .cmp-main-product__offer-radio::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #2f2f2f;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .cmp-main-product__offer-copy {
+    display: grid;
+    gap: 2px;
+  }
   .cmp-main-product__offer-title {
-    display: block;
-    font-size: 0.8rem;
+    display: inline-block;
+    font-size: 1.03rem;
+    font-weight: 700;
+    color: #2f2f2f;
+  }
+  .cmp-main-product__offer-subtitle {
+    display: inline-block;
+    font-size: 0.95rem;
     color: var(--color-text-light, #6C757D);
+  }
+  .cmp-main-product__offer-save {
+    display: inline-block;
+    margin-top: 2px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #3c3a2e;
+    background: #eee9dd;
+    border-radius: 999px;
+    padding: 2px 8px;
+    width: fit-content;
+  }
+  .cmp-main-product__offer-right {
+    display: grid;
+    justify-items: end;
+    align-content: center;
+    gap: 2px;
+    flex-shrink: 0;
   }
   .cmp-main-product__offer-price {
     display: block;
-    margin-top: 2px;
+    font-size: 2rem;
+    line-height: 1;
+    font-weight: 700;
+    color: #2f2f2f;
+  }
+  .cmp-main-product__offer-compare {
+    display: block;
+    color: #bcae93;
+    text-decoration: line-through;
     font-size: 1rem;
     font-weight: 700;
-    color: var(--color-heading, #1D3557);
   }
   .cmp-main-product__select,
   .cmp-main-product__qty {
@@ -530,7 +639,7 @@
   @media (max-width: 900px) {
     .cmp-main-product__grid { grid-template-columns: 1fr; gap: 24px; }
     .cmp-main-product__button { width: 100%; }
-    .cmp-main-product__offers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cmp-main-product__offer-price { font-size: 1.4rem; }
   }
 </style>
 {%- endif -%}
@@ -596,6 +705,42 @@
       "id": "offers_heading",
       "label": "Offers heading",
       "default": "Choose your package"
+    },
+    {
+      "type": "text",
+      "id": "offer_subtitle",
+      "label": "Offer subtitle",
+      "default": "Standard price"
+    },
+    {
+      "type": "range",
+      "id": "most_popular_index",
+      "label": "Most popular badge on offer #",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "text",
+      "id": "most_popular_badge",
+      "label": "Most popular badge text",
+      "default": "Most popular"
+    },
+    {
+      "type": "range",
+      "id": "best_value_index",
+      "label": "Best value badge on offer #",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "best_value_badge",
+      "label": "Best value badge text",
+      "default": "Best value"
     },
     {
       "type": "text",

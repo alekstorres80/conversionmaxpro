@@ -382,10 +382,16 @@
           '<span class="cmp-ai-panel__btn-icon">&#9734;</span> Generate Social Proof' +
         '</button>' +
       '</div>';
-    } else if (options.sectionType === 'featured-product') {
+    } else if (options.sectionType === 'main-product') {
       html += '<div class="cmp-ai-panel__actions">' +
         '<button class="cmp-ai-panel__btn cmp-ai-panel__btn--primary" data-ai-action="product-description"' + (hasKey ? '' : ' disabled') + '>' +
-          '<span class="cmp-ai-panel__btn-icon">&#9998;</span> Generate Product Copy' +
+          '<span class="cmp-ai-panel__btn-icon">&#9998;</span> Generate Product Description' +
+        '</button>' +
+        '<button class="cmp-ai-panel__btn" data-ai-action="vsl-script"' + (hasKey ? '' : ' disabled') + '>' +
+          '<span class="cmp-ai-panel__btn-icon">&#9733;</span> Generate VSL Script' +
+        '</button>' +
+        '<button class="cmp-ai-panel__btn" data-ai-action="headlines"' + (hasKey ? '' : ' disabled') + '>' +
+          '<span class="cmp-ai-panel__btn-icon">&#9734;</span> Generate Headlines' +
         '</button>' +
       '</div>';
     }

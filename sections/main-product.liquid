@@ -173,6 +173,25 @@
   </div>
 </section>
 
+{%- comment -%} AI Copywriter — editor only {%- endcomment -%}
+{%- if request.design_mode -%}
+  <div class="cmp-ai-panel-mount" data-ai-section="main-product"></div>
+  <script>
+    (function() {
+      if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) {
+        document.addEventListener('DOMContentLoaded', init);
+      } else { init(); }
+      function init() {
+        if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) return;
+        var mount = document.querySelector('[data-ai-section="main-product"]');
+        if (mount && !mount.hasChildNodes()) {
+          CMP.ai.createPanel({ container: mount, sectionType: 'main-product' });
+        }
+      }
+    })();
+  </script>
+{%- endif -%}
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var sectionId = '{{ section.id }}';

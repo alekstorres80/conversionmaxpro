@@ -1,0 +1,388 @@
+{%- liquid
+  assign product_obj = product
+  assign current_variant = product_obj.selected_or_first_available_variant
+-%}
+
+{%- if product_obj != blank -%}
+<section class="cmp-main-product cmp-section" id="cmp-main-product-{{ section.id }}">
+  <div class="cmp-container">
+    <div class="cmp-main-product__grid">
+      <div class="cmp-main-product__media">
+        {%- if current_variant.featured_image != blank -%}
+          <img
+            id="cmp-main-product-image-{{ section.id }}"
+            src="{{ current_variant.featured_image | image_url: width: 1200 }}"
+            alt="{{ current_variant.featured_image.alt | default: product_obj.title | escape }}"
+            width="{{ current_variant.featured_image.width }}"
+            height="{{ current_variant.featured_image.height }}"
+            loading="eager"
+          >
+        {%- elsif product_obj.featured_image != blank -%}
+          <img
+            id="cmp-main-product-image-{{ section.id }}"
+            src="{{ product_obj.featured_image | image_url: width: 1200 }}"
+            alt="{{ product_obj.featured_image.alt | default: product_obj.title | escape }}"
+            width="{{ product_obj.featured_image.width }}"
+            height="{{ product_obj.featured_image.height }}"
+            loading="eager"
+          >
+        {%- else -%}
+          <div class="cmp-main-product__placeholder">{{ 'product-1' | placeholder_svg_tag: 'cmp-placeholder-svg' }}</div>
+        {%- endif -%}
+      </div>
+
+      <div class="cmp-main-product__content">
+        {%- if section.settings.show_vendor and product_obj.vendor != blank -%}
+          <p class="cmp-main-product__vendor">{{ product_obj.vendor }}</p>
+        {%- endif -%}
+
+        <h1 class="cmp-main-product__title">{{ product_obj.title }}</h1>
+
+        {%- if section.settings.show_rating -%}
+          <div class="cmp-main-product__rating" aria-label="Product rating">
+            <span class="cmp-main-product__stars">{{ section.settings.stars_text }}</span>
+            <span class="cmp-main-product__rating-text">{{ section.settings.rating_text }}</span>
+          </div>
+        {%- endif -%}
+
+        <div class="cmp-main-product__price" id="cmp-main-product-price-{{ section.id }}" data-price-area>
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            <span class="cmp-main-product__price-compare" data-price-compare>{{ current_variant.compare_at_price | money }}</span>
+          {%- else -%}
+            <span class="cmp-main-product__price-compare" data-price-compare style="display:none"></span>
+          {%- endif -%}
+          <span class="cmp-main-product__price-current" data-price-current>{{ current_variant.price | money }}</span>
+        </div>
+
+        {%- if section.settings.show_description -%}
+          <div class="cmp-main-product__description">
+            {{ product_obj.description | strip_html | truncate: section.settings.description_chars }}
+          </div>
+        {%- endif -%}
+
+        <div class="cmp-main-product__review-app-blocks">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when '@app' -%}
+                {% render block %}
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+
+        <form method="post" action="/cart/add" class="cmp-main-product__form" data-main-product-form>
+          {%- if product_obj.variants.size > 1 -%}
+            <label for="cmp-main-product-variant-{{ section.id }}" class="cmp-main-product__label">{{ section.settings.variant_label }}</label>
+            <select
+              id="cmp-main-product-variant-{{ section.id }}"
+              name="id"
+              class="cmp-main-product__select"
+              data-main-product-variant
+            >
+              {%- for variant in product_obj.variants -%}
+                <option
+                  value="{{ variant.id }}"
+                  data-price="{{ variant.price }}"
+                  data-compare="{{ variant.compare_at_price | default: 0 }}"
+                  data-image="{% if variant.featured_image %}{{ variant.featured_image | image_url: width: 1200 }}{% endif %}"
+                  {% if variant.id == current_variant.id %}selected{% endif %}
+                  {% unless variant.available %}disabled{% endunless %}
+                >
+                  {{ variant.title }}{% unless variant.available %} - Sold out{% endunless %}
+                </option>
+              {%- endfor -%}
+            </select>
+          {%- else -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+          {%- endif -%}
+
+          <label for="cmp-main-product-qty-{{ section.id }}" class="cmp-main-product__label">Quantity</label>
+          <input
+            id="cmp-main-product-qty-{{ section.id }}"
+            type="number"
+            name="quantity"
+            min="1"
+            value="1"
+            class="cmp-main-product__qty"
+          >
+
+          <button type="submit" class="cmp-btn cmp-btn--primary cmp-btn--large cmp-main-product__button" {% unless current_variant.available %}disabled{% endunless %}>
+            {% if current_variant.available %}{{ section.settings.button_text }}{% else %}Sold out{% endif %}
+          </button>
+        </form>
+
+        {%- if section.settings.show_secure_badges -%}
+          <div class="cmp-main-product__trust">
+            <p class="cmp-main-product__trust-heading">{{ section.settings.trust_heading }}</p>
+            <div class="cmp-main-product__trust-items">
+              <span>{{ section.settings.trust_item_1 }}</span>
+              <span>{{ section.settings.trust_item_2 }}</span>
+              <span>{{ section.settings.trust_item_3 }}</span>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var sectionId = '{{ section.id }}';
+    var variantSelect = document.querySelector('#cmp-main-product-variant-' + sectionId);
+    if (!variantSelect) return;
+
+    var priceCurrent = document.querySelector('#cmp-main-product-price-' + sectionId + ' [data-price-current]');
+    var priceCompare = document.querySelector('#cmp-main-product-price-' + sectionId + ' [data-price-compare]');
+    var image = document.querySelector('#cmp-main-product-image-' + sectionId);
+
+    function formatMoney(cents) {
+      return '$' + (Number(cents || 0) / 100).toFixed(2);
+    }
+    }
+
+    variantSelect.addEventListener('change', function () {
+      var opt = variantSelect.options[variantSelect.selectedIndex];
+      var price = opt.getAttribute('data-price');
+      var compare = opt.getAttribute('data-compare');
+      var imageUrl = opt.getAttribute('data-image');
+
+      if (priceCurrent) priceCurrent.textContent = formatMoney(price);
+      if (priceCompare) {
+        if (compare && Number(compare) > Number(price)) {
+          priceCompare.style.display = '';
+          priceCompare.textContent = formatMoney(compare);
+        } else {
+          priceCompare.style.display = 'none';
+          priceCompare.textContent = '';
+        }
+      }
+
+      if (image && imageUrl) {
+        image.setAttribute('src', imageUrl);
+      }
+    });
+  });
+</script>
+
+<style>
+  .cmp-main-product { padding: 36px 0 18px; }
+  .cmp-main-product__grid {
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) minmax(320px, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+  .cmp-main-product__media img {
+    width: 100%;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .cmp-main-product__placeholder {
+    border: 1px solid var(--color-border, #d8dee4);
+    border-radius: 14px;
+    padding: 40px;
+    background: #fff;
+  }
+  .cmp-main-product__vendor {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary, #1B7FC3);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .cmp-main-product__title {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .cmp-main-product__rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .cmp-main-product__stars { color: #f4b400; font-size: 1rem; line-height: 1; }
+  .cmp-main-product__rating-text { color: var(--color-text-light, #6C757D); font-size: 0.95rem; }
+  .cmp-main-product__price {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .cmp-main-product__price-current {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-heading, #1D3557);
+  }
+  .cmp-main-product__price-compare {
+    text-decoration: line-through;
+    color: var(--color-text-light, #6C757D);
+    font-size: 1.1rem;
+  }
+  .cmp-main-product__description {
+    color: var(--color-text, #1F2937);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .cmp-main-product__form {
+    display: grid;
+    gap: 8px;
+    max-width: 420px;
+  }
+  .cmp-main-product__label {
+    font-size: 0.85rem;
+    color: var(--color-text-light, #6C757D);
+    font-weight: 700;
+    margin-top: 6px;
+  }
+  .cmp-main-product__select,
+  .cmp-main-product__qty {
+    width: 100%;
+    border: 1px solid var(--color-border, #d8dee4);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 1rem;
+    background: #fff;
+  }
+  .cmp-main-product__qty { max-width: 120px; }
+  .cmp-main-product__button { margin-top: 10px; width: 100%; }
+  .cmp-main-product__review-app-blocks { margin-bottom: 6px; }
+  .cmp-main-product__trust {
+    margin-top: 18px;
+    padding: 14px;
+    border: 1px solid var(--color-border, #d8dee4);
+    border-radius: 12px;
+    background: #fff;
+  }
+  .cmp-main-product__trust-heading {
+    margin: 0 0 8px;
+    font-weight: 700;
+    color: var(--color-heading, #1D3557);
+  }
+  .cmp-main-product__trust-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: var(--color-text-light, #6C757D);
+    font-size: 0.9rem;
+  }
+  .cmp-main-product__trust-items span {
+    border: 1px solid var(--color-border, #d8dee4);
+    border-radius: 999px;
+    padding: 6px 10px;
+    background: #f8fafc;
+  }
+  @media (max-width: 900px) {
+    .cmp-main-product__grid { grid-template-columns: 1fr; gap: 24px; }
+    .cmp-main-product__button { width: 100%; }
+  }
+</style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Main Product",
+  "tag": "section",
+  "class": "cmp-section-main-product",
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show star rating row",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "stars_text",
+      "label": "Stars text",
+      "default": "*****"
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "4.9/5 from 2,000+ reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show product description preview",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "description_chars",
+      "label": "Description max characters",
+      "min": 80,
+      "max": 360,
+      "step": 20,
+      "default": 200
+    },
+    {
+      "type": "text",
+      "id": "variant_label",
+      "label": "Variant label",
+      "default": "Choose option"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Add to cart button text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secure_badges",
+      "label": "Show trust badges",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trust_heading",
+      "label": "Trust heading",
+      "default": "Secure checkout"
+    },
+    {
+      "type": "text",
+      "id": "trust_item_1",
+      "label": "Trust item 1",
+      "default": "SSL encrypted checkout"
+    },
+    {
+      "type": "text",
+      "id": "trust_item_2",
+      "label": "Trust item 2",
+      "default": "30-day returns"
+    },
+    {
+      "type": "text",
+      "id": "trust_item_3",
+      "label": "Trust item 3",
+      "default": "Fast shipping"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main Product"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}
+
+

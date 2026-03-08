@@ -9,6 +9,24 @@
  */
 {
   "sections": {
+    "main_product": {
+      "type": "main-product",
+      "settings": {
+        "show_vendor": false,
+        "show_rating": true,
+        "stars_text": "*****",
+        "rating_text": "4.9/5 from 2,000+ reviews",
+        "show_description": true,
+        "description_chars": 200,
+        "variant_label": "Choose option",
+        "button_text": "Add to Cart",
+        "show_secure_badges": true,
+        "trust_heading": "Secure checkout",
+        "trust_item_1": "SSL encrypted checkout",
+        "trust_item_2": "30-day returns",
+        "trust_item_3": "Fast shipping"
+      }
+    },
     "vsl_hero": {
       "type": "vsl-hero",
       "settings": {
@@ -21,37 +39,6 @@
         "cta_text": "See Packages",
         "cta_link": "#offers"
       }
-    },
-    "featured_product": {
-      "type": "featured-product",
-      "settings": {
-        "badge_text": "Most Popular",
-        "eyebrow": "Editor Pick",
-        "cta_text": "Choose Your Package",
-        "layout": "image-left",
-        "bg_color": "#F8FAFC"
-      },
-      "blocks": {
-        "highlight_1": {
-          "type": "highlight",
-          "settings": {
-            "text": "Fast shipping on all orders"
-          }
-        },
-        "highlight_2": {
-          "type": "highlight",
-          "settings": {
-            "text": "60-day money-back guarantee"
-          }
-        },
-        "highlight_3": {
-          "type": "highlight",
-          "settings": {
-            "text": "Support team available 7 days a week"
-          }
-        }
-      },
-      "block_order": ["highlight_1", "highlight_2", "highlight_3"]
     },
     "countdown": {
       "type": "countdown-timer",
@@ -122,8 +109,8 @@
     }
   },
   "order": [
+    "main_product",
     "vsl_hero",
-    "featured_product",
     "countdown",
     "quantity_breaks",
     "guarantee",
@@ -131,3 +118,4 @@
     "sticky_atc"
   ]
 }
+

@@ -463,9 +463,9 @@
     var html = '';
 
     if (action === 'vsl-script') {
-      html += renderCopyField('Headline', data.headline);
-      html += renderCopyField('Subheadline', data.subheadline);
-      html += renderCopyField('CTA Button Text', data.cta_text);
+      html += renderCopyField('Headline', data.headline, 'title');
+      html += renderCopyField('Subheadline', data.subheadline, 'description');
+      html += renderCopyField('CTA Button Text', data.cta_text, 'button');
       if (data.video_script) {
         html += '<div class="cmp-ai-panel__field">' +
           '<label class="cmp-ai-panel__label">Full VSL Script</label>' +
@@ -484,6 +484,7 @@
             '<div class="cmp-ai-panel__headline-text">' + escapeHtml(h.text) + '</div>' +
             '<div class="cmp-ai-panel__headline-framework">' + escapeHtml(h.framework) + '</div>' +
           '</div>' +
+          '<button class="cmp-ai-panel__apply cmp-ai-panel__apply--sm" data-apply-target="title" data-apply-value="' + escapeAttr(h.text) + '">Apply</button>' +
           '<button class="cmp-ai-panel__copy cmp-ai-panel__copy--sm" data-copy-text="' + escapeAttr(h.text) + '">Copy</button>' +
         '</div>';
       });
@@ -506,8 +507,8 @@
     }
 
     else if (action === 'guarantee') {
-      html += renderCopyField('Headline', data.headline);
-      html += renderCopyField('Body', data.body);
+      html += renderCopyField('Headline', data.headline, 'guarantee-heading');
+      html += renderCopyField('Body', data.body, 'guarantee-body');
     }
 
     else if (action === 'social-proof') {
@@ -534,10 +535,10 @@
     }
 
     else if (action === 'product-description') {
-      html += renderCopyField('Badge Text', data.badge_text);
-      html += renderCopyField('Eyebrow', data.eyebrow);
-      html += renderCopyField('Description', data.description);
-      html += renderCopyField('CTA Button', data.cta_text);
+      html += renderCopyField('Badge Text', data.badge_text, 'badge');
+      html += renderCopyField('Eyebrow', data.eyebrow, 'vendor');
+      html += renderCopyField('Description', data.description, 'description');
+      html += renderCopyField('CTA Button', data.cta_text, 'button');
       if (data.highlights && data.highlights.length) {
         html += '<div class="cmp-ai-panel__field"><label class="cmp-ai-panel__label">Highlight Bullets</label>';
         data.highlights.forEach(function (h, i) {
@@ -549,6 +550,9 @@
         });
         html += '</div>';
       }
+      html += '<div class="cmp-ai-panel__apply-all-wrap">' +
+        '<button class="cmp-ai-panel__apply cmp-ai-panel__apply--all" data-apply-all="product-description">Apply All to Page</button>' +
+      '</div>';
     }
 
     container.innerHTML = html;
@@ -568,14 +572,54 @@
         });
       });
     });
+
+    // Wire apply buttons — update live preview DOM elements directly
+    container.querySelectorAll('[data-apply-target]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = btn.getAttribute('data-apply-target');
+        var value = btn.getAttribute('data-apply-value');
+        applyToPage(target, value);
+        copyToClipboard(value);
+        btn.textContent = 'Applied!';
+        btn.classList.add('cmp-ai-panel__apply--success');
+        setTimeout(function () {
+          btn.textContent = 'Apply';
+          btn.classList.remove('cmp-ai-panel__apply--success');
+        }, 2500);
+      });
+    });
+
+    // Wire "Apply All" button
+    container.querySelectorAll('[data-apply-all]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        container.querySelectorAll('[data-apply-target]').forEach(function (applyBtn) {
+          var target = applyBtn.getAttribute('data-apply-target');
+          var value = applyBtn.getAttribute('data-apply-value');
+          applyToPage(target, value);
+        });
+        btn.textContent = 'All Applied!';
+        btn.classList.add('cmp-ai-panel__apply--success');
+        setTimeout(function () {
+          btn.textContent = 'Apply All to Page';
+          btn.classList.remove('cmp-ai-panel__apply--success');
+        }, 2500);
+      });
+    });
   }
 
-  function renderCopyField(label, value) {
+  function renderCopyField(label, value, applyTarget) {
     if (!value) return '';
+    var applyBtn = '';
+    if (applyTarget) {
+      applyBtn = '<button class="cmp-ai-panel__apply" data-apply-target="' + escapeAttr(applyTarget) + '" data-apply-value="' + escapeAttr(value) + '">Apply</button>';
+    }
     return '<div class="cmp-ai-panel__field">' +
       '<label class="cmp-ai-panel__label">' + label + '</label>' +
       '<div class="cmp-ai-panel__value">' + escapeHtml(value) + '</div>' +
-      '<button class="cmp-ai-panel__copy" data-copy-text="' + escapeAttr(value) + '">Copy</button>' +
+      '<div class="cmp-ai-panel__field-actions">' +
+        applyBtn +
+        '<button class="cmp-ai-panel__copy" data-copy-text="' + escapeAttr(value) + '">Copy</button>' +
+      '</div>' +
     '</div>';
   }
 
@@ -596,6 +640,39 @@
 
   function escapeAttr(str) {
     return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  /* ================================================
+     Apply to Page — maps AI output fields to live DOM
+     ================================================ */
+  var applyTargetSelectors = {
+    'title':              '.cmp-main-product__title',
+    'description':        '.cmp-main-product__description',
+    'button':             '.cmp-main-product__button',
+    'vendor':             '.cmp-main-product__vendor',
+    'badge':              '.cmp-main-product__badge',
+    'guarantee-heading':  '.cmp-guarantee__headline',
+    'guarantee-body':     '.cmp-guarantee__body'
+  };
+
+  function applyToPage(target, value) {
+    var selector = applyTargetSelectors[target];
+    if (!selector) return;
+
+    var els = document.querySelectorAll(selector);
+    if (!els.length) return;
+
+    els.forEach(function (el) {
+      // For buttons, only update the text content (preserve the element)
+      if (el.tagName === 'BUTTON') {
+        el.textContent = value;
+      } else {
+        el.textContent = value;
+      }
+      // Brief highlight animation
+      el.classList.add('cmp-ai-applied');
+      setTimeout(function () { el.classList.remove('cmp-ai-applied'); }, 1500);
+    });
   }
 
   function copyToClipboard(text) {

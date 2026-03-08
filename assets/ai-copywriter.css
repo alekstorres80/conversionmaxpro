@@ -301,3 +301,66 @@
   display: flex;
   gap: 6px;
 }
+
+/* ---- Apply Buttons ---- */
+.cmp-ai-panel__field-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.cmp-ai-panel__apply {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #2D6A4F, #40916C);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.cmp-ai-panel__apply:hover {
+  background: linear-gradient(135deg, #245A42, #368B5E);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(45, 106, 79, 0.3);
+}
+
+.cmp-ai-panel__apply--sm {
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+.cmp-ai-panel__apply--success {
+  background: #2D6A4F !important;
+  box-shadow: 0 0 0 2px rgba(45, 106, 79, 0.3);
+}
+
+.cmp-ai-panel__apply-all-wrap {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #E0D6FF;
+  text-align: center;
+}
+
+.cmp-ai-panel__apply--all {
+  padding: 10px 24px;
+  font-size: 14px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+/* ---- Applied highlight animation on page elements ---- */
+@keyframes cmp-ai-applied-flash {
+  0% { outline: 3px solid #40916C; outline-offset: 2px; }
+  100% { outline: 3px solid transparent; outline-offset: 2px; }
+}
+
+.cmp-ai-applied {
+  animation: cmp-ai-applied-flash 1.5s ease forwards;
+}

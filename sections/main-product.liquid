@@ -128,6 +128,25 @@
             {% if current_variant.available %}{{ section.settings.button_text }}{% else %}Sold out{% endif %}
           </button>
 
+          {%- if section.settings.show_secure_badges -%}
+            <div class="cmp-main-product__trust">
+              {%- if section.settings.trust_badges_image != blank -%}
+                <img
+                  class="cmp-main-product__trust-image"
+                  src="{{ section.settings.trust_badges_image | image_url: width: 900 }}"
+                  alt="Guaranteed safe checkout"
+                  loading="lazy"
+                >
+              {%- else -%}
+                <div class="cmp-main-product__trust-items">
+                  <span>{{ section.settings.trust_item_1 }}</span>
+                  <span>{{ section.settings.trust_item_2 }}</span>
+                  <span>{{ section.settings.trust_item_3 }}</span>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
           {%- if section.settings.show_inline_timer -%}
             <div
               class="cmp-main-product__timer"
@@ -149,25 +168,6 @@
           {%- endif -%}
         </form>
 
-        {%- if section.settings.show_secure_badges -%}
-          <div class="cmp-main-product__trust">
-            <p class="cmp-main-product__trust-heading">{{ section.settings.trust_heading }}</p>
-            {%- if section.settings.trust_badges_image != blank -%}
-              <img
-                class="cmp-main-product__trust-image"
-                src="{{ section.settings.trust_badges_image | image_url: width: 900 }}"
-                alt="{{ section.settings.trust_heading | escape }}"
-                loading="lazy"
-              >
-            {%- else -%}
-              <div class="cmp-main-product__trust-items">
-                <span>{{ section.settings.trust_item_1 }}</span>
-                <span>{{ section.settings.trust_item_2 }}</span>
-                <span>{{ section.settings.trust_item_3 }}</span>
-              </div>
-            {%- endif -%}
-          </div>
-        {%- endif -%}
       </div>
     </div>
   </div>
@@ -464,16 +464,8 @@
   }
   .cmp-main-product__review-app-blocks { margin-bottom: 6px; }
   .cmp-main-product__trust {
-    margin-top: 18px;
-    padding: 14px;
-    border: 1px solid var(--color-border, #d8dee4);
-    border-radius: 12px;
-    background: #fff;
-  }
-  .cmp-main-product__trust-heading {
-    margin: 0 0 8px;
-    font-weight: 700;
-    color: var(--color-heading, #1D3557);
+    margin-top: 10px;
+    text-align: center;
   }
   .cmp-main-product__trust-image {
     max-width: 100%;
@@ -589,12 +581,6 @@
       "id": "show_secure_badges",
       "label": "Show secure checkout",
       "default": true
-    },
-    {
-      "type": "text",
-      "id": "trust_heading",
-      "label": "Trust heading",
-      "default": "Secure checkout"
     },
     {
       "type": "image_picker",

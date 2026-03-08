@@ -89,56 +89,76 @@
         </div>
 
         <form method="post" action="/cart/add" class="cmp-main-product__form" data-main-product-form>
-          {%- if product_obj.variants.size > 1 and section.settings.show_quantity_offers -%}
+          {%- if section.settings.show_quantity_offers -%}
+            {%- assign offer_1_qty = section.settings.offer_1_qty | plus: 0 -%}
+            {%- assign offer_1_price = section.settings.offer_1_price_cents | plus: 0 -%}
+            {%- assign offer_1_compare = section.settings.offer_1_compare_cents | plus: 0 -%}
+            {%- assign offer_2_qty = section.settings.offer_2_qty | plus: 0 -%}
+            {%- assign offer_2_price = section.settings.offer_2_price_cents | plus: 0 -%}
+            {%- assign offer_2_compare = section.settings.offer_2_compare_cents | plus: 0 -%}
+            {%- assign offer_3_qty = section.settings.offer_3_qty | plus: 0 -%}
+            {%- assign offer_3_price = section.settings.offer_3_price_cents | plus: 0 -%}
+            {%- assign offer_3_compare = section.settings.offer_3_compare_cents | plus: 0 -%}
             <div class="cmp-main-product__offers-wrap">
               <p class="cmp-main-product__label">{{ section.settings.offers_heading }}</p>
               <div class="cmp-main-product__offers" data-main-product-offers>
-                {%- for variant in product_obj.variants -%}
-                  {%- assign save_pct = 0 -%}
-                  {%- if variant.compare_at_price > variant.price and variant.compare_at_price > 0 -%}
-                    {%- assign save_pct = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price -%}
-                  {%- endif -%}
-                  <button
-                    type="button"
-                    class="cmp-main-product__offer{% if variant.id == current_variant.id %} is-active{% endif %}"
-                    data-variant-id="{{ variant.id }}"
-                    {% unless variant.available %}disabled{% endunless %}
-                  >
-                    {%- if forloop.index == section.settings.most_popular_index and section.settings.most_popular_badge != blank -%}
-                      <span class="cmp-main-product__offer-badge cmp-main-product__offer-badge--popular">{{ section.settings.most_popular_badge }}</span>
-                    {%- elsif forloop.index == section.settings.best_value_index and section.settings.best_value_badge != blank -%}
-                      <span class="cmp-main-product__offer-badge cmp-main-product__offer-badge--value">{{ section.settings.best_value_badge }}</span>
-                    {%- endif -%}
-
+                {%- if offer_1_qty > 0 -%}
+                  <button type="button" class="cmp-main-product__offer is-active" data-offer-qty="{{ offer_1_qty }}">
                     <span class="cmp-main-product__offer-left">
                       <span class="cmp-main-product__offer-radio" aria-hidden="true"></span>
                       <span class="cmp-main-product__offer-copy">
-                        <span class="cmp-main-product__offer-title">{{ variant.title }}</span>
-                        <span class="cmp-main-product__offer-subtitle">{{ section.settings.offer_subtitle }}</span>
-                        {%- if save_pct > 0 -%}
-                          <span class="cmp-main-product__offer-save">Save {{ save_pct }}%</span>
-                        {%- endif -%}
+                        <span class="cmp-main-product__offer-title">{{ section.settings.offer_1_title }}</span>
+                        <span class="cmp-main-product__offer-subtitle">{{ section.settings.offer_1_subtitle }}</span>
                       </span>
                     </span>
-
                     <span class="cmp-main-product__offer-right">
-                      <span class="cmp-main-product__offer-price">{{ variant.price | money }}</span>
-                      {%- if variant.compare_at_price > variant.price -%}
-                        <span class="cmp-main-product__offer-compare">{{ variant.compare_at_price | money }}</span>
-                      {%- endif -%}
+                      <span class="cmp-main-product__offer-price">{{ offer_1_price | money }}</span>
+                      {%- if offer_1_compare > offer_1_price -%}<span class="cmp-main-product__offer-compare">{{ offer_1_compare | money }}</span>{%- endif -%}
                     </span>
                   </button>
-                {%- endfor -%}
+                {%- endif -%}
+                {%- if offer_2_qty > 0 -%}
+                  <button type="button" class="cmp-main-product__offer" data-offer-qty="{{ offer_2_qty }}">
+                    {%- if section.settings.offer_2_badge != blank -%}<span class="cmp-main-product__offer-badge cmp-main-product__offer-badge--popular">{{ section.settings.offer_2_badge }}</span>{%- endif -%}
+                    <span class="cmp-main-product__offer-left">
+                      <span class="cmp-main-product__offer-radio" aria-hidden="true"></span>
+                      <span class="cmp-main-product__offer-copy">
+                        <span class="cmp-main-product__offer-title">{{ section.settings.offer_2_title }}</span>
+                        <span class="cmp-main-product__offer-subtitle">{{ section.settings.offer_2_subtitle }}</span>
+                      </span>
+                    </span>
+                    <span class="cmp-main-product__offer-right">
+                      <span class="cmp-main-product__offer-price">{{ offer_2_price | money }}</span>
+                      {%- if offer_2_compare > offer_2_price -%}<span class="cmp-main-product__offer-compare">{{ offer_2_compare | money }}</span>{%- endif -%}
+                    </span>
+                  </button>
+                {%- endif -%}
+                {%- if offer_3_qty > 0 -%}
+                  <button type="button" class="cmp-main-product__offer" data-offer-qty="{{ offer_3_qty }}">
+                    {%- if section.settings.offer_3_badge != blank -%}<span class="cmp-main-product__offer-badge cmp-main-product__offer-badge--value">{{ section.settings.offer_3_badge }}</span>{%- endif -%}
+                    <span class="cmp-main-product__offer-left">
+                      <span class="cmp-main-product__offer-radio" aria-hidden="true"></span>
+                      <span class="cmp-main-product__offer-copy">
+                        <span class="cmp-main-product__offer-title">{{ section.settings.offer_3_title }}</span>
+                        <span class="cmp-main-product__offer-subtitle">{{ section.settings.offer_3_subtitle }}</span>
+                      </span>
+                    </span>
+                    <span class="cmp-main-product__offer-right">
+                      <span class="cmp-main-product__offer-price">{{ offer_3_price | money }}</span>
+                      {%- if offer_3_compare > offer_3_price -%}<span class="cmp-main-product__offer-compare">{{ offer_3_compare | money }}</span>{%- endif -%}
+                    </span>
+                  </button>
+                {%- endif -%}
               </div>
             </div>
           {%- endif -%}
 
           {%- if product_obj.variants.size > 1 -%}
-            <label for="cmp-main-product-variant-{{ section.id }}" class="cmp-main-product__label{% if section.settings.show_quantity_offers %} cmp-main-product__label--hidden{% endif %}">{{ section.settings.variant_label }}</label>
+            <label for="cmp-main-product-variant-{{ section.id }}" class="cmp-main-product__label">{{ section.settings.variant_label }}</label>
             <select
               id="cmp-main-product-variant-{{ section.id }}"
               name="id"
-              class="cmp-main-product__select{% if section.settings.show_quantity_offers %} cmp-main-product__select--hidden{% endif %}"
+              class="cmp-main-product__select"
               data-main-product-variant
             >
               {%- for variant in product_obj.variants -%}
@@ -240,9 +260,9 @@
       }
     }
 
-    function updateOfferSelection(variantId) {
+    function updateOfferSelection(selectedBtn) {
       offerButtons.forEach(function (btn) {
-        btn.classList.toggle('is-active', btn.getAttribute('data-variant-id') === String(variantId));
+        btn.classList.toggle('is-active', btn === selectedBtn);
       });
     }
 
@@ -266,16 +286,17 @@
         }
 
         if (imageUrl) setMainImage(imageUrl);
-        updateOfferSelection(opt.value);
+
       });
     }
 
-    if (offerButtons.length && variantSelect) {
+    if (offerButtons.length) {
+      var qtyInput = sectionRoot.querySelector('#cmp-main-product-qty-' + sectionId);
       offerButtons.forEach(function (btn) {
         btn.addEventListener('click', function () {
-          var variantId = btn.getAttribute('data-variant-id');
-          variantSelect.value = variantId;
-          variantSelect.dispatchEvent(new Event('change', { bubbles: true }));
+          var qty = Number(btn.getAttribute('data-offer-qty') || 1);
+          if (qtyInput) qtyInput.value = qty;
+          updateOfferSelection(btn);
         });
       });
     }
@@ -706,41 +727,107 @@
       "label": "Offers heading",
       "default": "Choose your package"
     },
+        {
+      "type": "text",
+      "id": "offer_1_title",
+      "label": "Offer 1 title",
+      "default": "1 Item"
+    },
     {
       "type": "text",
-      "id": "offer_subtitle",
-      "label": "Offer subtitle",
+      "id": "offer_1_subtitle",
+      "label": "Offer 1 subtitle",
       "default": "Standard price"
     },
     {
-      "type": "range",
-      "id": "most_popular_index",
-      "label": "Most popular badge on offer #",
-      "min": 1,
-      "max": 6,
-      "step": 1,
-      "default": 2
+      "type": "number",
+      "id": "offer_1_qty",
+      "label": "Offer 1 quantity",
+      "default": 1
+    },
+    {
+      "type": "number",
+      "id": "offer_1_price_cents",
+      "label": "Offer 1 price (cents)",
+      "default": 8200
+    },
+    {
+      "type": "number",
+      "id": "offer_1_compare_cents",
+      "label": "Offer 1 compare-at (cents)",
+      "default": 0
     },
     {
       "type": "text",
-      "id": "most_popular_badge",
-      "label": "Most popular badge text",
+      "id": "offer_2_title",
+      "label": "Offer 2 title",
+      "default": "2 Items"
+    },
+    {
+      "type": "text",
+      "id": "offer_2_subtitle",
+      "label": "Offer 2 subtitle",
+      "default": "Duo saver pack"
+    },
+    {
+      "type": "text",
+      "id": "offer_2_badge",
+      "label": "Offer 2 badge",
       "default": "Most popular"
     },
     {
-      "type": "range",
-      "id": "best_value_index",
-      "label": "Best value badge on offer #",
-      "min": 1,
-      "max": 6,
-      "step": 1,
-      "default": 3
+      "type": "number",
+      "id": "offer_2_qty",
+      "label": "Offer 2 quantity",
+      "default": 2
+    },
+    {
+      "type": "number",
+      "id": "offer_2_price_cents",
+      "label": "Offer 2 price (cents)",
+      "default": 15000
+    },
+    {
+      "type": "number",
+      "id": "offer_2_compare_cents",
+      "label": "Offer 2 compare-at (cents)",
+      "default": 16400
     },
     {
       "type": "text",
-      "id": "best_value_badge",
-      "label": "Best value badge text",
+      "id": "offer_3_title",
+      "label": "Offer 3 title",
+      "default": "3 Items"
+    },
+    {
+      "type": "text",
+      "id": "offer_3_subtitle",
+      "label": "Offer 3 subtitle",
       "default": "Best value"
+    },
+    {
+      "type": "text",
+      "id": "offer_3_badge",
+      "label": "Offer 3 badge",
+      "default": "Best value"
+    },
+    {
+      "type": "number",
+      "id": "offer_3_qty",
+      "label": "Offer 3 quantity",
+      "default": 3
+    },
+    {
+      "type": "number",
+      "id": "offer_3_price_cents",
+      "label": "Offer 3 price (cents)",
+      "default": 20000
+    },
+    {
+      "type": "number",
+      "id": "offer_3_compare_cents",
+      "label": "Offer 3 compare-at (cents)",
+      "default": 24600
     },
     {
       "type": "text",

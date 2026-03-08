@@ -32,13 +32,6 @@
     },
     "quantity_breaks": {
       "type": "quantity-breaks",
-      "settings": {
-        "only_selected_product": true,
-        "heading": "Bundle & Save - Limited Time",
-        "show_variant_selector": false,
-        "variant_label": "Choose variant",
-        "button_text": "Add to Cart"
-      },
       "blocks": {
         "tier_1": {
           "type": "tier",
@@ -47,7 +40,8 @@
             "subtitle": "Standard price",
             "quantity": 1,
             "price": 82,
-            "compare_price": 0
+            "compare_price": 0,
+            "badge_text": ""
           }
         },
         "tier_2": {
@@ -73,25 +67,33 @@
           }
         }
       },
-      "block_order": ["tier_1", "tier_2", "tier_3"]
+      "block_order": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "settings": {
+        "product": "",
+        "only_selected_product": true,
+        "heading": "Bundle & Save - Limited Time",
+        "show_variant_selector": false,
+        "variant_label": "Choose variant",
+        "button_text": "Add to Cart"
+      }
     },
     "guarantee": {
       "type": "guarantee-block",
       "settings": {
+        "icon_bg_color": "#1b7fc3",
         "headline": "60-Day Money-Back Guarantee",
         "body": "<p>Try it risk-free for 60 days. If you are not satisfied, contact support for a quick refund.</p>",
-        "headline_color": "#1D3557",
-        "border_color": "#1B7FC3",
-        "icon_bg_color": "#1B7FC3",
-        "bg_color": "#F8FAFC"
+        "headline_color": "#1d3557",
+        "border_color": "#1b7fc3",
+        "bg_color": "#f8fafc"
       }
     },
     "faq": {
       "type": "faq-accordion",
-      "settings": {
-        "heading": "Frequently Asked Questions",
-        "subheading": "Answers to the most common pre-purchase questions"
-      },
       "blocks": {
         "faq_1": {
           "type": "faq",
@@ -115,11 +117,20 @@
           }
         }
       },
-      "block_order": ["faq_1", "faq_2", "faq_3"]
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3"
+      ],
+      "settings": {
+        "heading": "Frequently Asked Questions",
+        "subheading": "Answers to the most common pre-purchase questions"
+      }
     },
     "sticky_atc": {
       "type": "sticky-atc",
       "settings": {
+        "product": "",
         "scroll_trigger": 300,
         "button_text": "Add to Cart"
       }

@@ -1,71 +1,260 @@
-<div class="cmp-quantity-breaks cmp-section">
-  <div class="cmp-container">
+{%- liquid
+  assign configured_product = section.settings.product
+  if section.settings.only_selected_product
+    if configured_product == blank
+      break
+    endif
+    if product == blank or configured_product.id != product.id
+      break
+    endif
+  endif
+
+  assign target_product = configured_product
+  if target_product == blank
+    assign target_product = product
+  endif
+
+  if target_product == blank
+    break
+  endif
+
+  assign selected_variant = target_product.selected_or_first_available_variant
+-%}
+
+<section class="cmp-quantity-breaks cmp-section" id="cmp-quantity-breaks-{{ section.id }}">
+  <div class="cmp-container cmp-quantity-breaks__container">
     {%- if section.settings.heading != blank -%}
-      <div class="cmp-quantity-breaks__heading">
-        <h2>{{ section.settings.heading }}</h2>
-        {%- if section.settings.subheading != blank -%}
-          <p style="color: var(--color-text-light); margin-top: 8px;">{{ section.settings.subheading }}</p>
-        {%- endif -%}
-      </div>
+      <h3 class="cmp-quantity-breaks__heading">{{ section.settings.heading }}</h3>
     {%- endif -%}
 
-    <div class="cmp-quantity-breaks__grid" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin: 32px 0;">
-      {%- for block in section.blocks -%}
-        {%- assign qty = block.settings.quantity | plus: 0 -%}
-        {%- assign price_cents = block.settings.price_cents | plus: 0 -%}
-        {%- assign compare_cents = block.settings.compare_price_cents | plus: 0 -%}
-        {%- assign is_best = block.settings.best_value -%}
-        {%- assign badge_text = block.settings.badge_text -%}
-        {%- assign savings = compare_cents | minus: price_cents -%}
+    <form method="post" action="/cart/add" class="cmp-quantity-breaks__form" data-qb-form>
+      <input type="hidden" name="id" value="{{ selected_variant.id }}" data-qb-id-input>
 
-        <div
-          class="cmp-qb-card{% if is_best %} cmp-qb-card--best{% endif %}"
-          style="border: 2px solid {% if is_best %}var(--color-primary){% else %}var(--color-border){% endif %}; border-radius: 12px; padding: 24px; text-align: center; min-width: 180px; flex: 1; max-width: 260px;{% if is_best %} box-shadow: 0 4px 12px rgba(0,0,0,0.1);{% endif %}"
-          {{ block.shopify_attributes }}
-        >
-          {%- if badge_text != blank -%}
-            <span style="display: inline-block; background: var(--color-primary); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 12px;">
-              {{ badge_text }}
-            </span>
+      {%- if target_product.variants.size > 1 and section.settings.show_variant_selector -%}
+        <label for="cmp-qb-variant-{{ section.id }}" class="cmp-quantity-breaks__label">{{ section.settings.variant_label }}</label>
+        <select id="cmp-qb-variant-{{ section.id }}" class="cmp-quantity-breaks__select" data-qb-variant>
+          {%- for variant in target_product.variants -%}
+            <option value="{{ variant.id }}" {% if variant.id == selected_variant.id %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
+              {{ variant.title }}{% unless variant.available %} - Sold out{% endunless %}
+            </option>
+          {%- endfor -%}
+        </select>
+      {%- endif -%}
+
+      <div class="cmp-quantity-breaks__tiers" data-qb-tiers>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'tier' -%}
+            {%- assign qty = block.settings.quantity | plus: 0 -%}
+            {%- assign price = block.settings.price | times: 100 | round -%}
+            {%- assign compare = block.settings.compare_price | times: 100 | round -%}
+            {%- if qty > 0 and price > 0 -%}
+              <button
+                type="button"
+                class="cmp-qb-tier{% if forloop.first %} is-active{% endif %}"
+                data-qb-qty="{{ qty }}"
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.badge_text != blank -%}
+                  <span class="cmp-qb-tier__badge">{{ block.settings.badge_text }}</span>
+                {%- endif -%}
+
+                <span class="cmp-qb-tier__left">
+                  <span class="cmp-qb-tier__radio"></span>
+                  <span class="cmp-qb-tier__copy">
+                    <span class="cmp-qb-tier__title">{{ block.settings.title }}</span>
+                    {%- if block.settings.subtitle != blank -%}
+                      <span class="cmp-qb-tier__subtitle">{{ block.settings.subtitle }}</span>
+                    {%- endif -%}
+                  </span>
+                </span>
+
+                <span class="cmp-qb-tier__right">
+                  <span class="cmp-qb-tier__price">{{ price | money }}</span>
+                  {%- if compare > price -%}
+                    <span class="cmp-qb-tier__compare">{{ compare | money }}</span>
+                  {%- endif -%}
+                </span>
+              </button>
+            {%- endif -%}
           {%- endif -%}
+        {%- endfor -%}
+      </div>
 
-          <div style="font-size: 2rem; font-weight: 700;">{{ qty }}</div>
-          <div style="color: var(--color-text-light); margin-bottom: 12px;">
-            {%- if qty == 1 -%}Bottle{%- else -%}Bottles{%- endif -%}
-          </div>
+      <input type="number" class="cmp-quantity-breaks__qty" name="quantity" value="1" min="1" data-qb-qty-input>
 
-          {%- if compare_cents > price_cents -%}
-            <div style="color: var(--color-text-light); text-decoration: line-through; font-size: 0.9rem;">
-              ${{ compare_cents | divided_by: 100.0 }}
-            </div>
-          {%- endif -%}
-
-          <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-heading);">
-            ${{ price_cents | divided_by: 100.0 }}
-          </div>
-
-          {%- if qty > 1 and price_cents > 0 -%}
-            <div style="font-size: 0.85rem; color: var(--color-text-light); margin-top: 4px;">
-              ${{ price_cents | divided_by: qty | divided_by: 100.0 }} each
-            </div>
-          {%- endif -%}
-
-          {%- if savings > 0 -%}
-            <div style="font-size: 0.85rem; color: var(--color-success); font-weight: 600; margin-top: 8px;">
-              You save ${{ savings | divided_by: 100.0 }}
-            </div>
-          {%- endif -%}
-        </div>
-      {%- endfor -%}
-    </div>
-
-    <div style="text-align: center;">
-      <button class="cmp-btn cmp-btn--primary cmp-btn--large">
+      <button type="submit" class="cmp-btn cmp-btn--primary cmp-btn--large cmp-quantity-breaks__cta">
         {{ section.settings.button_text | default: 'Add to Cart' }}
       </button>
-    </div>
+    </form>
   </div>
-</div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var root = document.querySelector('#cmp-quantity-breaks-{{ section.id }}');
+    if (!root) return;
+
+    var tierButtons = root.querySelectorAll('.cmp-qb-tier');
+    var qtyInput = root.querySelector('[data-qb-qty-input]');
+    var idInput = root.querySelector('[data-qb-id-input]');
+    var localVariantSelect = root.querySelector('[data-qb-variant]');
+    var mainVariantSelect = document.querySelector('[data-main-product-variant]');
+
+    if (!tierButtons.length || !qtyInput || !idInput) return;
+
+    if (localVariantSelect) {
+      localVariantSelect.addEventListener('change', function () {
+        idInput.value = localVariantSelect.value;
+      });
+    }
+
+    if (mainVariantSelect) {
+      idInput.value = mainVariantSelect.value;
+      mainVariantSelect.addEventListener('change', function () {
+        idInput.value = mainVariantSelect.value;
+        if (localVariantSelect) {
+          localVariantSelect.value = mainVariantSelect.value;
+        }
+      });
+    }
+
+    tierButtons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var qty = Number(btn.getAttribute('data-qb-qty') || 1);
+        qtyInput.value = qty;
+
+        tierButtons.forEach(function (item) {
+          item.classList.remove('is-active');
+        });
+        btn.classList.add('is-active');
+      });
+    });
+  });
+</script>
+
+<style>
+  .cmp-quantity-breaks__container {
+    max-width: 860px;
+  }
+  .cmp-quantity-breaks__heading {
+    margin-bottom: 12px;
+    font-size: 1.8rem;
+    text-align: center;
+  }
+  .cmp-quantity-breaks__label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text-light, #6C757D);
+  }
+  .cmp-quantity-breaks__select {
+    width: 100%;
+    max-width: 280px;
+    margin-bottom: 12px;
+    border: 1px solid var(--color-border, #d8dee4);
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: #fff;
+  }
+  .cmp-quantity-breaks__tiers {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .cmp-qb-tier {
+    position: relative;
+    width: 100%;
+    border: 1px solid var(--color-border, #d8dee4);
+    border-radius: 12px;
+    background: #fff;
+    padding: 16px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: left;
+    cursor: pointer;
+  }
+  .cmp-qb-tier.is-active {
+    border-color: #2f2f2f;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  }
+  .cmp-qb-tier__badge {
+    position: absolute;
+    top: -10px;
+    right: 12px;
+    background: #e6d3af;
+    border: 1px solid #ccb389;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #3a3426;
+  }
+  .cmp-qb-tier__left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+  .cmp-qb-tier__radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #4c4c4c;
+    border-radius: 999px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .cmp-qb-tier.is-active .cmp-qb-tier__radio::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #2f2f2f;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .cmp-qb-tier__copy {
+    display: grid;
+    gap: 2px;
+  }
+  .cmp-qb-tier__title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #2f2f2f;
+  }
+  .cmp-qb-tier__subtitle {
+    font-size: 0.95rem;
+    color: var(--color-text-light, #6C757D);
+  }
+  .cmp-qb-tier__right {
+    display: grid;
+    justify-items: end;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+  .cmp-qb-tier__price {
+    font-size: 1.9rem;
+    line-height: 1;
+    font-weight: 700;
+    color: #2f2f2f;
+  }
+  .cmp-qb-tier__compare {
+    text-decoration: line-through;
+    font-size: 1rem;
+    color: #bcae93;
+    font-weight: 700;
+  }
+  .cmp-quantity-breaks__qty {
+    display: none;
+  }
+  .cmp-quantity-breaks__cta {
+    width: 100%;
+  }
+</style>
 
 {% schema %}
 {
@@ -74,67 +263,81 @@
   "class": "cmp-section-quantity-breaks",
   "settings": [
     {
+      "type": "product",
+      "id": "product",
+      "label": "Target product"
+    },
+    {
+      "type": "checkbox",
+      "id": "only_selected_product",
+      "label": "Show only on selected product page",
+      "default": true
+    },
+    {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Choose Your Package"
+      "default": "Bundle & Save - Limited Time"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variant_selector",
+      "label": "Show variant selector (size/color)",
+      "default": false
     },
     {
       "type": "text",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "Buy more and save more — free shipping on all orders"
-    },
-    {
-      "type": "product",
-      "id": "product",
-      "label": "Product"
+      "id": "variant_label",
+      "label": "Variant label",
+      "default": "Choose variant"
     },
     {
       "type": "text",
       "id": "button_text",
       "label": "Button text",
-      "default": "Add to Cart — Best Deal!"
+      "default": "Add to Cart"
     }
   ],
   "blocks": [
     {
       "type": "tier",
-      "name": "Quantity Tier",
+      "name": "Tier",
+      "limit": 6,
       "settings": [
         {
           "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "1 Item"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Standard price"
+        },
+        {
+          "type": "number",
           "id": "quantity",
           "label": "Quantity",
-          "default": "1"
+          "default": 1
         },
         {
-          "type": "text",
-          "id": "variant_id",
-          "label": "Variant ID"
+          "type": "number",
+          "id": "price",
+          "label": "Bundle price",
+          "default": 82
         },
         {
-          "type": "text",
-          "id": "price_cents",
-          "label": "Total price (cents)",
-          "default": "4900"
-        },
-        {
-          "type": "text",
-          "id": "compare_price_cents",
-          "label": "Compare-at price (cents)",
-          "default": "0"
+          "type": "number",
+          "id": "compare_price",
+          "label": "Compare-at price",
+          "default": 0
         },
         {
           "type": "text",
           "id": "badge_text",
           "label": "Badge text"
-        },
-        {
-          "type": "checkbox",
-          "id": "best_value",
-          "label": "Highlight as best value",
-          "default": false
         }
       ]
     }
@@ -146,32 +349,40 @@
         {
           "type": "tier",
           "settings": {
-            "quantity": "1",
-            "price_cents": "4900",
-            "compare_price_cents": "5900"
+            "title": "1 Item",
+            "subtitle": "Standard price",
+            "quantity": 1,
+            "price": 82,
+            "compare_price": 0
           }
         },
         {
           "type": "tier",
           "settings": {
-            "quantity": "3",
-            "price_cents": "11700",
-            "compare_price_cents": "17700",
-            "badge_text": "Most Popular",
-            "best_value": true
+            "title": "2 Items",
+            "subtitle": "Duo saver pack",
+            "quantity": 2,
+            "price": 150,
+            "compare_price": 164,
+            "badge_text": "Most popular"
           }
         },
         {
           "type": "tier",
           "settings": {
-            "quantity": "6",
-            "price_cents": "17400",
-            "compare_price_cents": "35400",
-            "badge_text": "Best Value"
+            "title": "3 Items",
+            "subtitle": "Best value",
+            "quantity": 3,
+            "price": 200,
+            "compare_price": 246,
+            "badge_text": "Best value"
           }
         }
       ]
     }
-  ]
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
 }
 {% endschema %}

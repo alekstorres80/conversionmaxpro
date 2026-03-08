@@ -89,70 +89,6 @@
         </div>
 
         <form method="post" action="/cart/add" class="cmp-main-product__form" data-main-product-form>
-          {%- if section.settings.show_quantity_offers -%}
-            {%- assign offer_1_qty = section.settings.offer_1_qty | plus: 0 -%}
-            {%- assign offer_1_price = section.settings.offer_1_price_cents | plus: 0 -%}
-            {%- assign offer_1_compare = section.settings.offer_1_compare_cents | plus: 0 -%}
-            {%- assign offer_2_qty = section.settings.offer_2_qty | plus: 0 -%}
-            {%- assign offer_2_price = section.settings.offer_2_price_cents | plus: 0 -%}
-            {%- assign offer_2_compare = section.settings.offer_2_compare_cents | plus: 0 -%}
-            {%- assign offer_3_qty = section.settings.offer_3_qty | plus: 0 -%}
-            {%- assign offer_3_price = section.settings.offer_3_price_cents | plus: 0 -%}
-            {%- assign offer_3_compare = section.settings.offer_3_compare_cents | plus: 0 -%}
-            <div class="cmp-main-product__offers-wrap">
-              <p class="cmp-main-product__label">{{ section.settings.offers_heading }}</p>
-              <div class="cmp-main-product__offers" data-main-product-offers>
-                {%- if offer_1_qty > 0 -%}
-                  <button type="button" class="cmp-main-product__offer is-active" data-offer-qty="{{ offer_1_qty }}">
-                    <span class="cmp-main-product__offer-left">
-                      <span class="cmp-main-product__offer-radio" aria-hidden="true"></span>
-                      <span class="cmp-main-product__offer-copy">
-                        <span class="cmp-main-product__offer-title">{{ section.settings.offer_1_title }}</span>
-                        <span class="cmp-main-product__offer-subtitle">{{ section.settings.offer_1_subtitle }}</span>
-                      </span>
-                    </span>
-                    <span class="cmp-main-product__offer-right">
-                      <span class="cmp-main-product__offer-price">{{ offer_1_price | money }}</span>
-                      {%- if offer_1_compare > offer_1_price -%}<span class="cmp-main-product__offer-compare">{{ offer_1_compare | money }}</span>{%- endif -%}
-                    </span>
-                  </button>
-                {%- endif -%}
-                {%- if offer_2_qty > 0 -%}
-                  <button type="button" class="cmp-main-product__offer" data-offer-qty="{{ offer_2_qty }}">
-                    {%- if section.settings.offer_2_badge != blank -%}<span class="cmp-main-product__offer-badge cmp-main-product__offer-badge--popular">{{ section.settings.offer_2_badge }}</span>{%- endif -%}
-                    <span class="cmp-main-product__offer-left">
-                      <span class="cmp-main-product__offer-radio" aria-hidden="true"></span>
-                      <span class="cmp-main-product__offer-copy">
-                        <span class="cmp-main-product__offer-title">{{ section.settings.offer_2_title }}</span>
-                        <span class="cmp-main-product__offer-subtitle">{{ section.settings.offer_2_subtitle }}</span>
-                      </span>
-                    </span>
-                    <span class="cmp-main-product__offer-right">
-                      <span class="cmp-main-product__offer-price">{{ offer_2_price | money }}</span>
-                      {%- if offer_2_compare > offer_2_price -%}<span class="cmp-main-product__offer-compare">{{ offer_2_compare | money }}</span>{%- endif -%}
-                    </span>
-                  </button>
-                {%- endif -%}
-                {%- if offer_3_qty > 0 -%}
-                  <button type="button" class="cmp-main-product__offer" data-offer-qty="{{ offer_3_qty }}">
-                    {%- if section.settings.offer_3_badge != blank -%}<span class="cmp-main-product__offer-badge cmp-main-product__offer-badge--value">{{ section.settings.offer_3_badge }}</span>{%- endif -%}
-                    <span class="cmp-main-product__offer-left">
-                      <span class="cmp-main-product__offer-radio" aria-hidden="true"></span>
-                      <span class="cmp-main-product__offer-copy">
-                        <span class="cmp-main-product__offer-title">{{ section.settings.offer_3_title }}</span>
-                        <span class="cmp-main-product__offer-subtitle">{{ section.settings.offer_3_subtitle }}</span>
-                      </span>
-                    </span>
-                    <span class="cmp-main-product__offer-right">
-                      <span class="cmp-main-product__offer-price">{{ offer_3_price | money }}</span>
-                      {%- if offer_3_compare > offer_3_price -%}<span class="cmp-main-product__offer-compare">{{ offer_3_compare | money }}</span>{%- endif -%}
-                    </span>
-                  </button>
-                {%- endif -%}
-              </div>
-            </div>
-          {%- endif -%}
-
           {%- if product_obj.variants.size > 1 -%}
             <label for="cmp-main-product-variant-{{ section.id }}" class="cmp-main-product__label">{{ section.settings.variant_label }}</label>
             <select
@@ -248,7 +184,6 @@
     var priceCompare = sectionRoot.querySelector('[data-price-compare]');
     var mainImage = sectionRoot.querySelector('#cmp-main-product-image-' + sectionId);
     var thumbButtons = sectionRoot.querySelectorAll('[data-main-product-thumbs] .cmp-main-product__thumb');
-    var offerButtons = sectionRoot.querySelectorAll('[data-main-product-offers] .cmp-main-product__offer');
 
     function formatMoney(cents) {
       return '$' + (Number(cents || 0) / 100).toFixed(2);
@@ -258,12 +193,6 @@
       if (mainImage && imageUrl) {
         mainImage.setAttribute('src', imageUrl);
       }
-    }
-
-    function updateOfferSelection(selectedBtn) {
-      offerButtons.forEach(function (btn) {
-        btn.classList.toggle('is-active', btn === selectedBtn);
-      });
     }
 
     if (variantSelect) {
@@ -286,18 +215,6 @@
         }
 
         if (imageUrl) setMainImage(imageUrl);
-
-      });
-    }
-
-    if (offerButtons.length) {
-      var qtyInput = sectionRoot.querySelector('#cmp-main-product-qty-' + sectionId);
-      offerButtons.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var qty = Number(btn.getAttribute('data-offer-qty') || 1);
-          if (qtyInput) qtyInput.value = qty;
-          updateOfferSelection(btn);
-        });
       });
     }
 
@@ -448,130 +365,6 @@
     font-weight: 700;
     margin-top: 6px;
   }
-  .cmp-main-product__label--hidden,
-  .cmp-main-product__select--hidden {
-    display: none;
-  }
-  .cmp-main-product__offers-wrap {
-    margin-bottom: 10px;
-  }
-  .cmp-main-product__offers {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  .cmp-main-product__offer {
-    position: relative;
-    border: 1px solid var(--color-border, #d8dee4);
-    border-radius: 12px;
-    background: #fff;
-    padding: 14px 14px 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    text-align: left;
-    gap: 14px;
-    cursor: pointer;
-  }
-  .cmp-main-product__offer.is-active {
-    border-color: #2c2c2c;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06);
-  }
-  .cmp-main-product__offer:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-  }
-  .cmp-main-product__offer-badge {
-    position: absolute;
-    right: 12px;
-    top: -10px;
-    display: inline-block;
-    border-radius: 999px;
-    padding: 4px 10px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    line-height: 1;
-    border: 1px solid #c7b48f;
-    background: #e6d3af;
-    color: #3a3426;
-  }
-  .cmp-main-product__offer-badge--value {
-    border-color: #d3ab72;
-    background: #ecd0a8;
-  }
-  .cmp-main-product__offer-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 0;
-  }
-  .cmp-main-product__offer-radio {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #4c4c4c;
-    border-radius: 999px;
-    flex-shrink: 0;
-    position: relative;
-  }
-  .cmp-main-product__offer.is-active .cmp-main-product__offer-radio::after {
-    content: '';
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: #2f2f2f;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .cmp-main-product__offer-copy {
-    display: grid;
-    gap: 2px;
-  }
-  .cmp-main-product__offer-title {
-    display: inline-block;
-    font-size: 1.03rem;
-    font-weight: 700;
-    color: #2f2f2f;
-  }
-  .cmp-main-product__offer-subtitle {
-    display: inline-block;
-    font-size: 0.95rem;
-    color: var(--color-text-light, #6C757D);
-  }
-  .cmp-main-product__offer-save {
-    display: inline-block;
-    margin-top: 2px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: #3c3a2e;
-    background: #eee9dd;
-    border-radius: 999px;
-    padding: 2px 8px;
-    width: fit-content;
-  }
-  .cmp-main-product__offer-right {
-    display: grid;
-    justify-items: end;
-    align-content: center;
-    gap: 2px;
-    flex-shrink: 0;
-  }
-  .cmp-main-product__offer-price {
-    display: block;
-    font-size: 2rem;
-    line-height: 1;
-    font-weight: 700;
-    color: #2f2f2f;
-  }
-  .cmp-main-product__offer-compare {
-    display: block;
-    color: #bcae93;
-    text-decoration: line-through;
-    font-size: 1rem;
-    font-weight: 700;
-  }
   .cmp-main-product__select,
   .cmp-main-product__qty {
     width: 100%;
@@ -660,7 +453,6 @@
   @media (max-width: 900px) {
     .cmp-main-product__grid { grid-template-columns: 1fr; gap: 24px; }
     .cmp-main-product__button { width: 100%; }
-    .cmp-main-product__offer-price { font-size: 1.4rem; }
   }
 </style>
 {%- endif -%}
@@ -714,120 +506,6 @@
       "max": 360,
       "step": 20,
       "default": 200
-    },
-    {
-      "type": "checkbox",
-      "id": "show_quantity_offers",
-      "label": "Show quantity/package offers",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "offers_heading",
-      "label": "Offers heading",
-      "default": "Choose your package"
-    },
-        {
-      "type": "text",
-      "id": "offer_1_title",
-      "label": "Offer 1 title",
-      "default": "1 Item"
-    },
-    {
-      "type": "text",
-      "id": "offer_1_subtitle",
-      "label": "Offer 1 subtitle",
-      "default": "Standard price"
-    },
-    {
-      "type": "number",
-      "id": "offer_1_qty",
-      "label": "Offer 1 quantity",
-      "default": 1
-    },
-    {
-      "type": "number",
-      "id": "offer_1_price_cents",
-      "label": "Offer 1 price (cents)",
-      "default": 8200
-    },
-    {
-      "type": "number",
-      "id": "offer_1_compare_cents",
-      "label": "Offer 1 compare-at (cents)",
-      "default": 0
-    },
-    {
-      "type": "text",
-      "id": "offer_2_title",
-      "label": "Offer 2 title",
-      "default": "2 Items"
-    },
-    {
-      "type": "text",
-      "id": "offer_2_subtitle",
-      "label": "Offer 2 subtitle",
-      "default": "Duo saver pack"
-    },
-    {
-      "type": "text",
-      "id": "offer_2_badge",
-      "label": "Offer 2 badge",
-      "default": "Most popular"
-    },
-    {
-      "type": "number",
-      "id": "offer_2_qty",
-      "label": "Offer 2 quantity",
-      "default": 2
-    },
-    {
-      "type": "number",
-      "id": "offer_2_price_cents",
-      "label": "Offer 2 price (cents)",
-      "default": 15000
-    },
-    {
-      "type": "number",
-      "id": "offer_2_compare_cents",
-      "label": "Offer 2 compare-at (cents)",
-      "default": 16400
-    },
-    {
-      "type": "text",
-      "id": "offer_3_title",
-      "label": "Offer 3 title",
-      "default": "3 Items"
-    },
-    {
-      "type": "text",
-      "id": "offer_3_subtitle",
-      "label": "Offer 3 subtitle",
-      "default": "Best value"
-    },
-    {
-      "type": "text",
-      "id": "offer_3_badge",
-      "label": "Offer 3 badge",
-      "default": "Best value"
-    },
-    {
-      "type": "number",
-      "id": "offer_3_qty",
-      "label": "Offer 3 quantity",
-      "default": 3
-    },
-    {
-      "type": "number",
-      "id": "offer_3_price_cents",
-      "label": "Offer 3 price (cents)",
-      "default": 20000
-    },
-    {
-      "type": "number",
-      "id": "offer_3_compare_cents",
-      "label": "Offer 3 compare-at (cents)",
-      "default": 24600
     },
     {
       "type": "text",

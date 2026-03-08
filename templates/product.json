@@ -18,25 +18,6 @@
         "rating_text": "4.9/5 from 2,000+ reviews",
         "show_description": true,
         "description_chars": 200,
-        "show_quantity_offers": true,
-        "offers_heading": "Bundle & Save - Limited Time",
-        "offer_1_title": "1 Item",
-        "offer_1_subtitle": "Standard price",
-        "offer_1_qty": 1,
-        "offer_1_price_cents": 8200,
-        "offer_1_compare_cents": 0,
-        "offer_2_title": "2 Items",
-        "offer_2_subtitle": "Duo saver pack",
-        "offer_2_badge": "Most popular",
-        "offer_2_qty": 2,
-        "offer_2_price_cents": 15000,
-        "offer_2_compare_cents": 16400,
-        "offer_3_title": "3 Items",
-        "offer_3_subtitle": "Best value",
-        "offer_3_badge": "Best value",
-        "offer_3_qty": 3,
-        "offer_3_price_cents": 20000,
-        "offer_3_compare_cents": 24600,
         "variant_label": "Choose option",
         "button_text": "Add to Cart",
         "show_inline_timer": true,
@@ -48,6 +29,51 @@
         "trust_item_2": "30-day returns",
         "trust_item_3": "Fast shipping"
       }
+    },
+    "quantity_breaks": {
+      "type": "quantity-breaks",
+      "settings": {
+        "only_selected_product": true,
+        "heading": "Bundle & Save - Limited Time",
+        "show_variant_selector": false,
+        "variant_label": "Choose variant",
+        "button_text": "Add to Cart"
+      },
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "title": "1 Item",
+            "subtitle": "Standard price",
+            "quantity": 1,
+            "price": 82,
+            "compare_price": 0
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "title": "2 Items",
+            "subtitle": "Duo saver pack",
+            "quantity": 2,
+            "price": 150,
+            "compare_price": 164,
+            "badge_text": "Most popular"
+          }
+        },
+        "tier_3": {
+          "type": "tier",
+          "settings": {
+            "title": "3 Items",
+            "subtitle": "Best value",
+            "quantity": 3,
+            "price": 200,
+            "compare_price": 246,
+            "badge_text": "Best value"
+          }
+        }
+      },
+      "block_order": ["tier_1", "tier_2", "tier_3"]
     },
     "guarantee": {
       "type": "guarantee-block",
@@ -101,6 +127,7 @@
   },
   "order": [
     "main_product",
+    "quantity_breaks",
     "guarantee",
     "faq",
     "sticky_atc"

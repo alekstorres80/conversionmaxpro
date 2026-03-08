@@ -10,6 +10,10 @@
   if product_obj == blank and product != blank
     assign product_obj = product
   endif
+  assign is_product_template = false
+  if template.name == 'product'
+    assign is_product_template = true
+  endif
   assign layout = section.settings.layout
   assign bg_color = section.settings.bg_color
 -%}
@@ -103,16 +107,24 @@
 
         <div class="cmp-featured-product__actions">
           {%- if product_obj != blank -%}
-            <a href="{{ product_obj.url }}" class="cmp-btn cmp-btn--primary cmp-btn--large">
-              {{ section.settings.cta_text | default: 'Shop Now' }}
-            </a>
+            {%- if is_product_template and product_obj.selected_or_first_available_variant != blank -%}
+              <form method="post" action="/cart/add">
+                <input type="hidden" name="id" value="{{ product_obj.selected_or_first_available_variant.id }}">
+                <button type="submit" class="cmp-btn cmp-btn--primary cmp-btn--large">
+                  {{ section.settings.cta_text | default: 'Add to Cart' }}
+                </button>
+              </form>
+            {%- else -%}
+              <a href="{{ product_obj.url }}" class="cmp-btn cmp-btn--primary cmp-btn--large">
+                {{ section.settings.cta_text | default: 'Shop Now' }}
+              </a>
+            {%- endif -%}
           {%- elsif section.settings.cta_link != blank -%}
             <a href="{{ section.settings.cta_link }}" class="cmp-btn cmp-btn--primary cmp-btn--large">
               {{ section.settings.cta_text | default: 'Shop Now' }}
             </a>
           {%- endif -%}
-        </div>
-      </div>
+        </div>`r`n      </div>
     </div>
   </div>
 </section>
@@ -350,5 +362,4 @@
   ]
 }
 {% endschema %}
-
 

@@ -311,12 +311,81 @@
      JSON parser helper — handles markdown code fences
      ================================================ */
   function parseJSON(text) {
-    var cleaned = text.trim();
-    // Strip markdown code fences if present
+    var cleaned = (text || '').trim();
     if (cleaned.indexOf('```') === 0) {
       cleaned = cleaned.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
     }
-    return JSON.parse(cleaned);
+
+    try {
+      return JSON.parse(cleaned);
+    } catch (e1) {
+      try {
+        return JSON.parse(repairLikelyJSON(cleaned));
+      } catch (e2) {
+        throw new Error('AI returned invalid JSON. Try again or use Copy manually.');
+      }
+    }
+  }
+
+  function repairLikelyJSON(input) {
+    var s = String(input || '')
+      .replace(/\u201C|\u201D/g, '"')
+      .replace(/\u2018|\u2019/g, "'");
+
+    var firstBrace = s.indexOf('{');
+    var lastBrace = s.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace > firstBrace) {
+      s = s.slice(firstBrace, lastBrace + 1);
+    }
+
+    s = s.replace(/,\s*([}\]])/g, '$1');
+    return normalizeJSONStringContent(s);
+  }
+
+  function normalizeJSONStringContent(str) {
+    var out = '';
+    var inString = false;
+    var escaped = false;
+
+    for (var i = 0; i < str.length; i++) {
+      var ch = str.charAt(i);
+
+      if (inString) {
+        if (escaped) {
+          out += ch;
+          escaped = false;
+          continue;
+        }
+        if (ch === '\\') {
+          out += ch;
+          escaped = true;
+          continue;
+        }
+        if (ch === '\r') continue;
+        if (ch === '\n') {
+          out += '\\n';
+          continue;
+        }
+        if (ch === '"') {
+          var j = i + 1;
+          while (j < str.length && /\s/.test(str.charAt(j))) j++;
+          var next = str.charAt(j);
+          if (next && ',}]'.indexOf(next) === -1) {
+            out += '\\"';
+            continue;
+          }
+          inString = false;
+          out += ch;
+          continue;
+        }
+        out += ch;
+      } else {
+        if (ch === '"') inString = true;
+        out += ch;
+      }
+    }
+
+    return out;
   }
 
   /* ================================================
@@ -412,7 +481,7 @@
     // Wire up buttons
     var outputEl = panel.querySelector('[data-ai-output]');
     var loadingEl = panel.querySelector('[data-ai-loading]');
-    restorePanelState(outputEl, panelStorageKey);
+    restorePanelState(outputEl, panelStorageKey, options.sectionType);
 
     panel.querySelectorAll('[data-ai-action]').forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -438,7 +507,7 @@
           .then(function (result) {
             loadingEl.style.display = 'none';
             outputEl.style.display = '';
-            renderResult(outputEl, action, result, panelStorageKey);
+            renderResult(outputEl, action, result, panelStorageKey, options.sectionType);
             persistPanelState(panelStorageKey, { action: action, data: result });
             if (options.onGenerate) options.onGenerate(result, action);
           })
@@ -463,14 +532,15 @@
   /* ================================================
      Result renderers
      ================================================ */
-  function renderResult(container, action, data, panelStorageKey) {
+  function renderResult(container, action, data, panelStorageKey, sectionType) {
     var html = '';
     html += '<div class="cmp-ai-panel__hint">Apply updates preview only. Copy or select values and paste into sidebar settings.</div>';
 
     if (action === 'vsl-script') {
-      html += renderCopyField('Headline', data.headline, 'title');
-      html += renderCopyField('Subheadline', data.subheadline, 'description');
-      html += renderCopyField('CTA Button Text', data.cta_text, 'button');
+      var isVslHero = sectionType === 'vsl-hero';
+      html += renderCopyField('Headline', data.headline, isVslHero ? 'vsl-headline' : 'title');
+      html += renderCopyField('Subheadline', data.subheadline, isVslHero ? 'vsl-subheadline' : 'description');
+      html += renderCopyField('CTA Button Text', data.cta_text, isVslHero ? 'vsl-cta' : 'button');
       if (data.video_script) {
         html += '<div class="cmp-ai-panel__field">' +
           '<label class="cmp-ai-panel__label">Full VSL Script</label>' +
@@ -665,7 +735,10 @@
     'badge':              '.cmp-main-product__badge',
     'guarantee-heading':  '.cmp-guarantee__headline',
     'guarantee-body':     '.cmp-guarantee__body',
-    'highlights':         '.cmp-main-product__highlights'
+    'highlights':         '.cmp-main-product__highlights',
+    'vsl-headline':       '.cmp-vsl-hero__headline',
+    'vsl-subheadline':    '.cmp-vsl-hero__subheadline',
+    'vsl-cta':            '.cmp-vsl-hero .cmp-btn'
   };
 
   function applyToPage(target, value) {
@@ -795,13 +868,13 @@
     } catch (e) {}
   }
 
-  function restorePanelState(outputEl, storageKey) {
+  function restorePanelState(outputEl, storageKey, sectionType) {
     if (!outputEl || !storageKey) return;
     try {
       var current = JSON.parse(localStorage.getItem(storageKey) || '{}');
       if (current.latest && current.latest.action && current.latest.data) {
         outputEl.style.display = '';
-        renderResult(outputEl, current.latest.action, current.latest.data, storageKey);
+        renderResult(outputEl, current.latest.action, current.latest.data, storageKey, sectionType);
       }
       if (current.applied) {
         Object.keys(current.applied).forEach(function (target) {

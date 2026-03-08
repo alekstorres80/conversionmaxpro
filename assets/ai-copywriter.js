@@ -99,7 +99,7 @@
 
     gemini: {
       buildEndpoint: function () {
-        return 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + CFG.apiKey;
+        return 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + CFG.apiKey;
       },
       buildRequest: function (systemPrompt, userPrompt) {
         return {

@@ -28,6 +28,9 @@
         "timer_heading": "Offer timer",
         "timer_minutes": 30,
         "show_secure_badges": true,
+        "show_inline_guarantee": true,
+        "inline_guarantee_title": "30-Day Money-Back Guarantee",
+        "inline_guarantee_body": "Try it risk-free for 30 days. If you are not satisfied, contact support for a quick refund.",
         "trust_badges_image": "shopify://shop_images/badge.png",
         "trust_item_1": "SSL encrypted checkout",
         "trust_item_2": "30-day returns",
@@ -82,6 +85,22 @@
         "heading": "Bundle & Save - Limited Time",
         "show_variant_selector": false,
         "variant_label": "Choose variant"
+      }
+    },
+    "reviews_apps": {
+      "type": "app-blocks",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "heading": "Customer Reviews"
+      }
+    },
+    "fbt_apps": {
+      "type": "app-blocks",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "heading": "Frequently Bought Together"
       }
     },
     "guarantee": {
@@ -142,8 +161,10 @@
   "order": [
     "main_product",
     "quantity_breaks",
-    "guarantee",
+    "reviews_apps",
+    "fbt_apps",
     "faq",
     "sticky_atc"
   ]
 }
+

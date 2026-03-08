@@ -168,6 +168,13 @@
             </div>
           {%- endif -%}
 
+          {%- if section.settings.show_inline_guarantee -%}
+            <div class="cmp-main-product__inline-guarantee">
+              <p class="cmp-main-product__inline-guarantee-title">{{ section.settings.inline_guarantee_title }}</p>
+              <p class="cmp-main-product__inline-guarantee-body">{{ section.settings.inline_guarantee_body }}</p>
+            </div>
+          {%- endif -%}
+
           {%- if section.settings.show_inline_timer -%}
             <div
               class="cmp-main-product__timer"
@@ -528,6 +535,25 @@
     padding: 6px 10px;
     background: #f8fafc;
   }
+  .cmp-main-product__inline-guarantee {
+    margin-top: 8px;
+    padding: 10px 12px;
+    border: 1px solid #d8dee4;
+    border-radius: 10px;
+    background: #f8fafc;
+  }
+  .cmp-main-product__inline-guarantee-title {
+    margin: 0 0 4px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--color-heading, #1D3557);
+  }
+  .cmp-main-product__inline-guarantee-body {
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 1.35;
+    color: var(--color-text-light, #6C757D);
+  }
   @media (max-width: 900px) {
     .cmp-main-product__grid { grid-template-columns: 1fr; gap: 24px; }
     .cmp-main-product__button { width: 100%; }
@@ -656,6 +682,24 @@
       "id": "show_secure_badges",
       "label": "Show secure checkout",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_inline_guarantee",
+      "label": "Show compact guarantee under trust badges",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "inline_guarantee_title",
+      "label": "Guarantee title",
+      "default": "30-Day Money-Back Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "inline_guarantee_body",
+      "label": "Guarantee body",
+      "default": "Try it risk-free for 30 days. If you're not satisfied, contact support for a quick refund."
     },
     {
       "type": "image_picker",

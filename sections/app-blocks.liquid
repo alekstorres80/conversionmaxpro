@@ -1,0 +1,48 @@
+{%- comment -%}
+  Generic App Blocks Section
+  Use this for review widgets, frequently-bought-together widgets, etc.
+{%- endcomment -%}
+
+<section class="cmp-app-blocks cmp-section">
+  <div class="cmp-container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="cmp-app-blocks__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="cmp-app-blocks__content">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when '@app' -%}
+            {% render block %}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "App Blocks",
+  "tag": "section",
+  "class": "cmp-section-app-blocks",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Customer Reviews"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "App Blocks"
+    }
+  ]
+}
+{% endschema %}
+

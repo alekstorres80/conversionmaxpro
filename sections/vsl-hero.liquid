@@ -121,7 +121,7 @@
         } else { init(); }
         function init() {
           if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) return;
-          var mount = document.querySelector('[data-ai-section="vsl-hero" data-section-id="{{ section.id }}"]');
+          var mount = document.querySelector('[data-ai-section="vsl-hero"][data-section-id="{{ section.id }}"]');
           if (mount && !mount.hasChildNodes()) {
             CMP.ai.createPanel({ container: mount, sectionType: 'vsl-hero', sectionId: '{{ section.id }}' });
           }

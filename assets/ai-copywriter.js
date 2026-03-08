@@ -489,7 +489,7 @@
             '<div class="cmp-ai-panel__headline-text">' + escapeHtml(h.text) + '</div>' +
             '<div class="cmp-ai-panel__headline-framework">' + escapeHtml(h.framework) + '</div>' +
           '</div>' +
-          '<button class="cmp-ai-panel__apply cmp-ai-panel__apply--sm" data-apply-target="title" data-apply-value="' + escapeAttr(h.text) + '">Apply</button>' +
+          '<button class="cmp-ai-panel__apply cmp-ai-panel__apply--sm" data-apply-target="title" data-apply-value="' + escapeAttr(h.text) + '">Preview</button>' +
           '<button class="cmp-ai-panel__copy cmp-ai-panel__copy--sm" data-copy-text="' + escapeAttr(h.text) + '">Copy</button>' +
         '</div>';
       });
@@ -544,6 +544,7 @@
       html += renderCopyField('Eyebrow', data.eyebrow, 'vendor');
       html += renderCopyField('Description', data.description, 'description');
       html += renderCopyField('CTA Button', data.cta_text, 'button');
+
       if (data.highlights && data.highlights.length) {
         html += '<div class="cmp-ai-panel__field"><label class="cmp-ai-panel__label">Highlight Bullets</label>';
         data.highlights.forEach(function (h, i) {
@@ -555,11 +556,16 @@
         });
         html += '</div>';
       }
+
+      var highlightsText = (data.highlights || []).join('\n');
+      if (highlightsText) {
+        html += renderCopyField('Highlights (one per line)', highlightsText, 'highlights');
+      }
+
       html += '<div class="cmp-ai-panel__apply-all-wrap">' +
         '<button class="cmp-ai-panel__apply cmp-ai-panel__apply--all" data-apply-all="product-description">Apply All to Preview</button>' +
       '</div>';
     }
-
     container.innerHTML = html;
 
     container.querySelectorAll('[data-copy-text]').forEach(function (btn) {
@@ -586,7 +592,7 @@
         btn.textContent = 'Applied!';
         btn.classList.add('cmp-ai-panel__apply--success');
         setTimeout(function () {
-          btn.textContent = 'Apply';
+          btn.textContent = 'Preview';
           btn.classList.remove('cmp-ai-panel__apply--success');
         }, 2500);
       });
@@ -613,7 +619,7 @@
     if (!value) return '';
     var applyBtn = '';
     if (applyTarget) {
-      applyBtn = '<button class="cmp-ai-panel__apply" data-apply-target="' + escapeAttr(applyTarget) + '" data-apply-value="' + escapeAttr(value) + '">Apply</button>';
+      applyBtn = '<button class="cmp-ai-panel__apply" data-apply-target="' + escapeAttr(applyTarget) + '" data-apply-value="' + escapeAttr(value) + '">Preview</button>';
     }
     var rows = String(value).length > 180 ? 5 : 2;
     return '<div class="cmp-ai-panel__field">' +
@@ -646,22 +652,11 @@
   }
 
   /* ================================================
-     Apply to Page — writes to section settings via
-     the Shopify theme editor postMessage API so
-     changes persist on save.
+     Apply to page for instant preview only.
+     Persisted save still requires copy/paste into
+     section settings in the sidebar.
      ================================================ */
 
-  // Map AI output field names → section setting IDs
-  var applyTargetSettings = {
-    'badge':              'badge_text',
-    'vendor':             'eyebrow_text',
-    'description':        'custom_description',
-    'button':             'button_text',
-    'guarantee-heading':  'guarantee_heading',
-    'guarantee-body':     'guarantee_body'
-  };
-
-  // Map AI output field names → DOM selectors (for instant visual feedback)
   var applyTargetSelectors = {
     'title':              '.cmp-main-product__title',
     'description':        '.cmp-main-product__description',
@@ -669,45 +664,34 @@
     'vendor':             '.cmp-main-product__eyebrow',
     'badge':              '.cmp-main-product__badge',
     'guarantee-heading':  '.cmp-guarantee__headline',
-    'guarantee-body':     '.cmp-guarantee__body'
+    'guarantee-body':     '.cmp-guarantee__body',
+    'highlights':         '.cmp-main-product__highlights'
   };
 
-  /**
-   * Finds the section ID from the nearest AI panel mount element
-   */
-  function findSectionId() {
-    var mount = document.querySelector('[data-ai-section="main-product"][data-section-id]');
-    return mount ? mount.getAttribute('data-section-id') : null;
-  }
-
-  /**
-   * Updates a section setting in the Shopify theme editor via postMessage.
-   * The editor listens for these messages and persists the values.
-   */
-  function updateSectionSetting(settingId, value) {
-    var sectionId = findSectionId();
-    if (!sectionId || !window.parent || window.parent === window) return;
-
-    // Shopify's theme editor listens for setting updates via this format
-    try {
-      window.parent.postMessage({
-        type: 'theme:section:update',
-        sectionId: sectionId,
-        setting: { id: settingId, value: value }
-      }, '*');
-    } catch (e) { /* cross-origin restriction — silent fail */ }
-
-    // Also try Shopify's internal dispatch format
-    try {
-      window.parent.postMessage(JSON.stringify({
-        source: 'theme-content',
-        topic: 'editor:section:update',
-        data: { id: sectionId, settings: {} }
-      }), '*');
-    } catch (e) { /* silent fail */ }
-  }
-
   function applyToPage(target, value) {
+    // Special case: render highlights as bullet list under description.
+    if (target === 'highlights') {
+      var linesList = String(value || '').split(/\r?\n/).map(function (line) { return line.trim(); }).filter(Boolean);
+      var contentRoot = document.querySelector('.cmp-main-product__content');
+      if (!contentRoot) return;
+      var list = contentRoot.querySelector('.cmp-main-product__highlights');
+      if (!list) {
+        list = document.createElement('ul');
+        list.className = 'cmp-main-product__highlights';
+        var desc = contentRoot.querySelector('.cmp-main-product__description');
+        if (desc && desc.parentNode) {
+          desc.parentNode.insertBefore(list, desc.nextSibling);
+        } else {
+          contentRoot.appendChild(list);
+        }
+      }
+      list.innerHTML = linesList.map(function (line) { return '<li>' + escapeHtml(line) + '</li>'; }).join('');
+      list.style.display = linesList.length ? '' : 'none';
+      list.classList.add('cmp-ai-applied');
+      setTimeout(function () { list.classList.remove('cmp-ai-applied'); }, 1500);
+      return;
+    }
+
     // Update the DOM for instant visual feedback
     var selector = applyTargetSelectors[target];
     if (selector) {

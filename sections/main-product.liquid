@@ -87,6 +87,17 @@
               {{ product_obj.description | strip_html | truncate: section.settings.description_chars }}
             {%- endif -%}
           </div>
+          {%- if section.settings.custom_highlights != blank -%}
+            <ul class="cmp-main-product__highlights">
+              {%- assign highlights_lines = section.settings.custom_highlights | newline_to_br | split: '<br />' -%}
+              {%- for line in highlights_lines -%}
+                {%- assign item = line | strip -%}
+                {%- if item != blank -%}
+                  <li>{{ item }}</li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
         {%- endif -%}
 
         <div class="cmp-main-product__review-app-blocks">
@@ -420,6 +431,15 @@
     line-height: 1.6;
     margin-bottom: 16px;
   }
+  .cmp-main-product__highlights {
+    margin: -8px 0 14px 18px;
+    padding: 0;
+    color: var(--color-heading, #1D3557);
+  }
+  .cmp-main-product__highlights li {
+    margin: 4px 0;
+    line-height: 1.45;
+  }
   .cmp-main-product__form {
     display: grid;
     gap: 8px;
@@ -548,6 +568,12 @@
       "id": "custom_description",
       "label": "Custom description",
       "info": "Overrides the default product description when set. Clear to revert to original."
+    },
+    {
+      "type": "textarea",
+      "id": "custom_highlights",
+      "label": "Custom highlights (one per line)",
+      "info": "Rendered as bullet points under the description."
     },
     {
       "type": "header",

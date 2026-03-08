@@ -81,7 +81,9 @@
 
         {%- if section.settings.show_description -%}
           <div class="cmp-main-product__description">
-            {%- if section.settings.custom_description != blank -%}
+            {%- if section.settings.long_description != blank -%}
+              {{ section.settings.long_description }}
+            {%- elsif section.settings.custom_description != blank -%}
               {{ section.settings.custom_description }}
             {%- else -%}
               {{ product_obj.description | strip_html | truncate: section.settings.description_chars }}
@@ -588,6 +590,12 @@
       "id": "eyebrow_text",
       "label": "Eyebrow text",
       "info": "Short label above the title. Overrides vendor when set."
+    },
+    {
+      "type": "richtext",
+      "id": "long_description",
+      "label": "Long description (sales copy)",
+      "info": "Use this for full-length conversion copy. When set, this overrides custom/truncated description."
     },
     {
       "type": "textarea",

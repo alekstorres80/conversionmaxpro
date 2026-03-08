@@ -329,19 +329,21 @@
       },
       {
         "type": "paragraph",
-        "content": "Fill in these fields so the AI understands your product. This context is sent with every generation request to produce relevant, on-brand copy."
+        "content": "Select your product below. The AI will automatically pull the product name, description, price, and other details to generate relevant copy."
       },
       {
-        "type": "text",
-        "id": "ai_product_name",
-        "label": "Product / Brand name",
-        "info": "e.g., GlowMax Skincare Serum"
+        "type": "product",
+        "id": "ai_product",
+        "label": "Product",
+        "info": "Select the product you want to generate copy for. All product details are pulled automatically."
       },
       {
-        "type": "textarea",
-        "id": "ai_product_description",
-        "label": "What does your product do?",
-        "info": "Describe the product, what it does, and why it's special. 2-3 sentences."
+        "type": "header",
+        "content": "Optional Extras"
+      },
+      {
+        "type": "paragraph",
+        "content": "These optional fields add context the AI can't get from your product listing. Leave blank to skip."
       },
       {
         "type": "text",

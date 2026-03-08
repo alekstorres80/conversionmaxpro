@@ -22,12 +22,20 @@
   var scriptTag = document.querySelector('script[data-ai-copywriter]');
   if (!scriptTag) return;
 
+  /* Load product data from the JSON script tag (populated by Liquid product picker) */
+  var productDataEl = document.querySelector('script[data-ai-product]');
+  var productData = null;
+  if (productDataEl) {
+    try { productData = JSON.parse(productDataEl.textContent); } catch (e) { /* ignore parse errors */ }
+  }
+
   var CFG = {
     provider:    scriptTag.getAttribute('data-provider') || 'openai',
     apiKey:      scriptTag.getAttribute('data-api-key') || '',
     tone:        scriptTag.getAttribute('data-tone') || 'urgent',
-    productName: scriptTag.getAttribute('data-product-name') || '',
-    productDesc: scriptTag.getAttribute('data-product-desc') || '',
+    product:     productData,
+    productName: productData ? productData.title : '',
+    productDesc: productData ? productData.description : '',
     audience:    scriptTag.getAttribute('data-audience') || '',
     painPoints:  scriptTag.getAttribute('data-pain-points') || '',
     benefits:    scriptTag.getAttribute('data-benefits') || '',
@@ -146,8 +154,19 @@
      ================================================ */
   function buildProductContext() {
     var parts = [];
-    if (CFG.productName) parts.push('Product/Brand: ' + CFG.productName);
-    if (CFG.productDesc) parts.push('Description: ' + CFG.productDesc);
+    var p = CFG.product;
+    if (p) {
+      parts.push('Product: ' + p.title);
+      if (p.vendor) parts.push('Brand/Vendor: ' + p.vendor);
+      if (p.type) parts.push('Product Type: ' + p.type);
+      if (p.description) parts.push('Description: ' + p.description);
+      if (p.price) parts.push('Price: ' + p.price);
+      if (p.compare_at_price) parts.push('Compare-at Price: ' + p.compare_at_price);
+      if (p.tags && p.tags.length) parts.push('Tags: ' + p.tags.join(', '));
+    } else if (CFG.productName) {
+      parts.push('Product/Brand: ' + CFG.productName);
+      if (CFG.productDesc) parts.push('Description: ' + CFG.productDesc);
+    }
     if (CFG.audience) parts.push('Target Audience: ' + CFG.audience);
     if (CFG.painPoints) parts.push('Customer Pain Points: ' + CFG.painPoints);
     if (CFG.benefits) parts.push('Key Benefits: ' + CFG.benefits);
@@ -172,7 +191,7 @@
     generateVSLScript: function () {
       var context = buildProductContext();
       if (!context) {
-        return Promise.reject(new Error('Please fill in your product details in Theme Settings → AI Copywriter before generating.'));
+        return Promise.reject(new Error('Please select a product in Theme Settings → AI Copywriter before generating.'));
       }
 
       var system = 'You are an elite direct-response copywriter who specializes in Video Sales Letter (VSL) scripts that convert. ' +
@@ -193,7 +212,7 @@
     generateHeadlines: function () {
       var context = buildProductContext();
       if (!context) {
-        return Promise.reject(new Error('Please fill in your product details in Theme Settings → AI Copywriter before generating.'));
+        return Promise.reject(new Error('Please select a product in Theme Settings → AI Copywriter before generating.'));
       }
 
       var system = 'You are an elite direct-response copywriter. ' +
@@ -211,7 +230,7 @@
     generateFAQs: function (count) {
       var context = buildProductContext();
       if (!context) {
-        return Promise.reject(new Error('Please fill in your product details in Theme Settings → AI Copywriter before generating.'));
+        return Promise.reject(new Error('Please select a product in Theme Settings → AI Copywriter before generating.'));
       }
 
       count = count || 6;
@@ -231,7 +250,7 @@
     generateGuarantee: function () {
       var context = buildProductContext();
       if (!context) {
-        return Promise.reject(new Error('Please fill in your product details in Theme Settings → AI Copywriter before generating.'));
+        return Promise.reject(new Error('Please select a product in Theme Settings → AI Copywriter before generating.'));
       }
 
       var system = 'You are a conversion optimization expert who writes risk-reversal copy that eliminates purchase hesitation. ' +
@@ -250,7 +269,7 @@
     generateSocialProof: function () {
       var context = buildProductContext();
       if (!context) {
-        return Promise.reject(new Error('Please fill in your product details in Theme Settings → AI Copywriter before generating.'));
+        return Promise.reject(new Error('Please select a product in Theme Settings → AI Copywriter before generating.'));
       }
 
       var system = 'You are a marketing strategist who crafts compelling social proof elements. ' +
@@ -292,7 +311,7 @@
     panel.className = 'cmp-ai-panel';
 
     var hasKey = !!CFG.apiKey;
-    var hasProduct = !!CFG.productName;
+    var hasProduct = !!CFG.product || !!CFG.productName;
 
     // Build panel HTML
     var html = '<div class="cmp-ai-panel__header">' +
@@ -309,7 +328,7 @@
       '</div>';
     } else if (!hasProduct) {
       html += '<div class="cmp-ai-panel__notice cmp-ai-panel__notice--info">' +
-        'Add your product details in <strong>Theme Settings → AI Copywriter</strong> for better results.' +
+        'Select a product in <strong>Theme Settings → AI Copywriter → Product</strong> for better results.' +
       '</div>';
     }
 

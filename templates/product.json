@@ -12,6 +12,9 @@
     "main_product": {
       "type": "main-product",
       "settings": {
+        "badge_text": "",
+        "eyebrow_text": "",
+        "custom_description": "",
         "show_vendor": false,
         "show_rating": true,
         "stars_text": "*****",
@@ -24,6 +27,7 @@
         "timer_heading": "Offer timer",
         "timer_minutes": 30,
         "show_secure_badges": true,
+        "trust_badges_image": "shopify://shop_images/badge.png",
         "trust_item_1": "SSL encrypted checkout",
         "trust_item_2": "30-day returns",
         "trust_item_3": "Fast shipping"

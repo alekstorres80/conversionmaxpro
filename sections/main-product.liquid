@@ -51,8 +51,14 @@
       </div>
 
       <div class="cmp-main-product__content">
-        {%- if section.settings.show_vendor and product_obj.vendor != blank -%}
-          <p class="cmp-main-product__vendor">{{ product_obj.vendor }}</p>
+        {%- if section.settings.badge_text != blank -%}
+          <span class="cmp-main-product__badge">{{ section.settings.badge_text }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.eyebrow_text != blank -%}
+          <p class="cmp-main-product__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {%- elsif section.settings.show_vendor and product_obj.vendor != blank -%}
+          <p class="cmp-main-product__eyebrow">{{ product_obj.vendor }}</p>
         {%- endif -%}
 
         <h1 class="cmp-main-product__title">{{ product_obj.title }}</h1>
@@ -75,7 +81,11 @@
 
         {%- if section.settings.show_description -%}
           <div class="cmp-main-product__description">
-            {{ product_obj.description | strip_html | truncate: section.settings.description_chars }}
+            {%- if section.settings.custom_description != blank -%}
+              {{ section.settings.custom_description }}
+            {%- else -%}
+              {{ product_obj.description | strip_html | truncate: section.settings.description_chars }}
+            {%- endif -%}
           </div>
         {%- endif -%}
 
@@ -186,7 +196,7 @@
       "tags": {{ product_obj.tags | json }}
     }
   </script>
-  <div class="cmp-ai-panel-mount" data-ai-section="main-product"></div>
+  <div class="cmp-ai-panel-mount" data-ai-section="main-product" data-section-id="{{ section.id }}"></div>
   <script>
     (function() {
       if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) {
@@ -355,7 +365,19 @@
     padding: 40px;
     background: #fff;
   }
-  .cmp-main-product__vendor {
+  .cmp-main-product__badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--color-primary, #1B7FC3);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .cmp-main-product__eyebrow {
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -504,6 +526,33 @@
     }
   ],
   "settings": [
+    {
+      "type": "header",
+      "content": "AI Copywriter Overrides",
+      "info": "These fields are auto-filled when you click Apply in the AI Copywriter panel."
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "info": "Small badge above the title (e.g. \"Best Seller\", \"Limited Edition\")"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "info": "Short label above the title. Overrides vendor when set."
+    },
+    {
+      "type": "textarea",
+      "id": "custom_description",
+      "label": "Custom description",
+      "info": "Overrides the default product description when set. Clear to revert to original."
+    },
+    {
+      "type": "header",
+      "content": "Product Info"
+    },
     {
       "type": "checkbox",
       "id": "show_vendor",

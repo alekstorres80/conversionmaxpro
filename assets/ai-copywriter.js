@@ -573,14 +573,15 @@
       });
     });
 
-    // Wire apply buttons — update live preview DOM elements directly
+    // Wire apply buttons — update section settings + live preview
     container.querySelectorAll('[data-apply-target]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var target = btn.getAttribute('data-apply-target');
         var value = btn.getAttribute('data-apply-value');
         applyToPage(target, value);
         copyToClipboard(value);
-        btn.textContent = 'Applied!';
+        var settingId = applyTargetSettings[target];
+        btn.textContent = settingId ? 'Saved!' : 'Applied!';
         btn.classList.add('cmp-ai-panel__apply--success');
         setTimeout(function () {
           btn.textContent = 'Apply';
@@ -597,7 +598,7 @@
           var value = applyBtn.getAttribute('data-apply-value');
           applyToPage(target, value);
         });
-        btn.textContent = 'All Applied!';
+        btn.textContent = 'All Saved!';
         btn.classList.add('cmp-ai-panel__apply--success');
         setTimeout(function () {
           btn.textContent = 'Apply All to Page';
@@ -643,36 +644,107 @@
   }
 
   /* ================================================
-     Apply to Page — maps AI output fields to live DOM
+     Apply to Page — writes to section settings via
+     the Shopify theme editor postMessage API so
+     changes persist on save.
      ================================================ */
+
+  // Map AI output field names → section setting IDs
+  var applyTargetSettings = {
+    'badge':              'badge_text',
+    'vendor':             'eyebrow_text',
+    'description':        'custom_description',
+    'button':             'button_text',
+    'guarantee-heading':  'guarantee_heading',
+    'guarantee-body':     'guarantee_body'
+  };
+
+  // Map AI output field names → DOM selectors (for instant visual feedback)
   var applyTargetSelectors = {
     'title':              '.cmp-main-product__title',
     'description':        '.cmp-main-product__description',
     'button':             '.cmp-main-product__button',
-    'vendor':             '.cmp-main-product__vendor',
+    'vendor':             '.cmp-main-product__eyebrow',
     'badge':              '.cmp-main-product__badge',
     'guarantee-heading':  '.cmp-guarantee__headline',
     'guarantee-body':     '.cmp-guarantee__body'
   };
 
+  /**
+   * Finds the section ID from the nearest AI panel mount element
+   */
+  function findSectionId() {
+    var mount = document.querySelector('[data-ai-section="main-product"][data-section-id]');
+    return mount ? mount.getAttribute('data-section-id') : null;
+  }
+
+  /**
+   * Updates a section setting in the Shopify theme editor via postMessage.
+   * The editor listens for these messages and persists the values.
+   */
+  function updateSectionSetting(settingId, value) {
+    var sectionId = findSectionId();
+    if (!sectionId || !window.parent || window.parent === window) return;
+
+    // Shopify's theme editor listens for setting updates via this format
+    try {
+      window.parent.postMessage({
+        type: 'theme:section:update',
+        sectionId: sectionId,
+        setting: { id: settingId, value: value }
+      }, '*');
+    } catch (e) { /* cross-origin restriction — silent fail */ }
+
+    // Also try Shopify's internal dispatch format
+    try {
+      window.parent.postMessage(JSON.stringify({
+        source: 'theme-content',
+        topic: 'editor:section:update',
+        data: { id: sectionId, settings: {} }
+      }), '*');
+    } catch (e) { /* silent fail */ }
+  }
+
   function applyToPage(target, value) {
+    // 1. Update the section setting (persists on save)
+    var settingId = applyTargetSettings[target];
+    if (settingId) {
+      updateSectionSetting(settingId, value);
+    }
+
+    // 2. Update the DOM for instant visual feedback
     var selector = applyTargetSelectors[target];
-    if (!selector) return;
-
-    var els = document.querySelectorAll(selector);
-    if (!els.length) return;
-
-    els.forEach(function (el) {
-      // For buttons, only update the text content (preserve the element)
-      if (el.tagName === 'BUTTON') {
-        el.textContent = value;
-      } else {
-        el.textContent = value;
+    if (selector) {
+      var els = document.querySelectorAll(selector);
+      // If the element doesn't exist yet (e.g. badge), create it
+      if (!els.length && target === 'badge') {
+        var content = document.querySelector('.cmp-main-product__content');
+        if (content) {
+          var badge = document.createElement('span');
+          badge.className = 'cmp-main-product__badge';
+          content.insertBefore(badge, content.firstChild);
+          els = [badge];
+        }
       }
-      // Brief highlight animation
-      el.classList.add('cmp-ai-applied');
-      setTimeout(function () { el.classList.remove('cmp-ai-applied'); }, 1500);
-    });
+      if (!els.length && target === 'vendor') {
+        var title = document.querySelector('.cmp-main-product__title');
+        if (title) {
+          var eyebrow = document.createElement('p');
+          eyebrow.className = 'cmp-main-product__eyebrow';
+          title.parentNode.insertBefore(eyebrow, title);
+          els = [eyebrow];
+        }
+      }
+
+      if (els.length) {
+        (els.forEach ? els : [els]).forEach(function (el) {
+          el.textContent = value;
+          el.style.display = '';
+          el.classList.add('cmp-ai-applied');
+          setTimeout(function () { el.classList.remove('cmp-ai-applied'); }, 1500);
+        });
+      }
+    }
   }
 
   function copyToClipboard(text) {

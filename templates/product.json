@@ -12,8 +12,8 @@
     "main_product": {
       "type": "main-product",
       "settings": {
-        "badge_text": "",
-        "eyebrow_text": "",
+        "badge_text": "Limited Stock",
+        "eyebrow_text": "Unleash Your Inner",
         "custom_description": "Unleash your inner goddess NOW with the SKiVYS Femme Goddess Gown – Navy! This isn't just a dress; it's your new secret weapon for effortless style and unparalleled comfort, featuring our exclusive Femme Fit inner layer for total no-bra freedom and support you won't believe. From morning rituals to elegant evenings, experience luxury, versatility, and confidence that's selling out fast – grab yours before it's gone!",
         "show_vendor": false,
         "show_rating": true,
@@ -22,7 +22,7 @@
         "show_description": true,
         "description_chars": 200,
         "variant_label": "Choose option",
-        "button_text": "Add to Cart",
+        "button_text": "Claim Your Gown Now",
         "show_inline_timer": true,
         "timer_heading": "Offer timer",
         "timer_minutes": 30,

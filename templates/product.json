@@ -8,163 +8,159 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {
-    "main_product": {
-      "type": "main-product",
-      "settings": {
-        "badge_text": "Limited Stock",
-        "eyebrow_text": "Unleash Your Inner",
-        "custom_description": "Unleash your inner goddess NOW with the SKiVYS Femme Goddess Gown – Navy! This isn't just a dress; it's your new secret weapon for effortless style and unparalleled comfort, featuring our exclusive Femme Fit inner layer for total no-bra freedom and support you won't believe. From morning rituals to elegant evenings, experience luxury, versatility, and confidence that's selling out fast – grab yours before it's gone!",
-        "custom_highlights": "Ditch Your Bra: Built-in support!\nSilky-Soft Modal: Cool & Cozy\nYES, It Has Pockets!\nCustom Fit: Adjustable Straps\nDay-to-Night Versatility\nEffortless Flow, Forgiving Stretch",
-        "show_vendor": false,
-        "show_rating": true,
-        "stars_text": "*****",
-        "rating_text": "4.9/5 from 2,000+ reviews",
-        "show_description": true,
-        "description_chars": 200,
-        "variant_label": "Choose option",
-        "button_text": "Claim Your Gown Now",
-        "show_inline_timer": true,
-        "timer_heading": "Offer timer",
-        "timer_minutes": 30,
-        "show_secure_badges": true,
-        "show_inline_guarantee": true,
-        "inline_guarantee_title": "30-Day Money-Back Guarantee",
-        "inline_guarantee_body": "Try it risk-free for 30 days. If you are not satisfied, contact support for a quick refund.",
-        "trust_badges_image": "shopify://shop_images/badge.png",
-        "trust_item_1": "SSL encrypted checkout",
-        "trust_item_2": "30-day returns",
-        "trust_item_3": "Fast shipping"
-      }
-    },
-    "quantity_breaks": {
-      "type": "quantity-breaks",
-      "blocks": {
-        "tier_1": {
-          "type": "tier",
-          "settings": {
-            "title": "1 Item",
-            "subtitle": "Standard price",
-            "quantity": 1,
-            "price": 82,
-            "compare_price": 0,
-            "badge_text": ""
-          }
-        },
-        "tier_2": {
-          "type": "tier",
-          "settings": {
-            "title": "2 Items",
-            "subtitle": "Duo saver pack",
-            "quantity": 2,
-            "price": 150,
-            "compare_price": 164,
-            "badge_text": "Most popular"
-          }
-        },
-        "tier_3": {
-          "type": "tier",
-          "settings": {
-            "title": "3 Items",
-            "subtitle": "Best value",
-            "quantity": 3,
-            "price": 200,
-            "compare_price": 246,
-            "badge_text": "Best value"
-          }
-        }
-      },
-      "block_order": [
-        "tier_1",
-        "tier_2",
-        "tier_3"
-      ],
-      "settings": {
-        "product": "goddess-gown-navy",
-        "only_selected_product": true,
-        "heading": "Bundle & Save - Limited Time",
-        "show_variant_selector": false,
-        "variant_label": "Choose variant"
-      }
-    },
-    "reviews_apps": {
-      "type": "app-blocks",
-      "blocks": {},
-      "block_order": [],
-      "settings": {
-        "heading": "Customer Reviews"
-      }
-    },
-    "fbt_apps": {
-      "type": "app-blocks",
-      "blocks": {},
-      "block_order": [],
-      "settings": {
-        "heading": "Frequently Bought Together"
-      }
-    },
-    "guarantee": {
-      "type": "guarantee-block",
-      "settings": {
-        "icon_bg_color": "#1b7fc3",
-        "headline": "30-Day Money-Back Guarantee",
-        "body": "<p>Try it risk-free for 30 days. If you are not satisfied, contact support for a quick refund.</p>",
-        "headline_color": "#1d3557",
-        "border_color": "#1b7fc3",
-        "bg_color": "#f8fafc"
-      }
-    },
-    "faq": {
-      "type": "faq-accordion",
-      "blocks": {
-        "faq_1": {
-          "type": "faq",
-          "settings": {
-            "question": "How does this product work?",
-            "answer": "<p>Our product uses proven techniques designed for practical daily use and visible results.</p>"
-          }
-        },
-        "faq_2": {
-          "type": "faq",
-          "settings": {
-            "question": "When will I receive my order?",
-            "answer": "<p>Orders are processed in 1-2 business days. Delivery times vary by location.</p>"
-          }
-        },
-        "faq_3": {
-          "type": "faq",
-          "settings": {
-            "question": "Is there a guarantee?",
-            "answer": "<p>Yes. You are covered by our full 60-day money-back guarantee.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "faq_1",
-        "faq_2",
-        "faq_3"
-      ],
-      "settings": {
-        "heading": "Frequently Asked Questions",
-        "subheading": "Answers to the most common pre-purchase questions"
-      }
-    },
-    "sticky_atc": {
-      "type": "sticky-atc",
-      "settings": {
-        "product": "",
-        "scroll_trigger": 300,
-        "button_text": "Add to Cart"
-      }
-    }
-  },
-  "order": [
-    "main_product",
-    "quantity_breaks",
-    "reviews_apps",
-    "fbt_apps",
-    "faq",
-    "sticky_atc"
-  ]
-}
+    "sections":  {
+                     "main_product":  {
+                                          "type":  "main-product",
+                                          "settings":  {
+                                                           "badge_text":  "Limited Stock",
+                                                           "eyebrow_text":  "Unleash Your Inner",
+                                                           "custom_description":  "Unleash your inner goddess NOW with the SKiVYS Femme Goddess Gown – Navy! This isn\u0027t just a dress; it\u0027s your new secret weapon for effortless style and unparalleled comfort, featuring our exclusive Femme Fit inner layer for total no-bra freedom and support you won\u0027t believe. From morning rituals to elegant evenings, experience luxury, versatility, and confidence that\u0027s selling out fast – grab yours before it\u0027s gone!",
+                                                           "custom_highlights":  "Ditch Your Bra: Built-in support!\nSilky-Soft Modal: Cool \u0026 Cozy\nYES, It Has Pockets!\nCustom Fit: Adjustable Straps\nDay-to-Night Versatility\nEffortless Flow, Forgiving Stretch",
+                                                           "show_vendor":  false,
+                                                           "show_rating":  true,
+                                                           "stars_text":  "*****",
+                                                           "rating_text":  "4.9/5 from 2,000+ reviews",
+                                                           "show_description":  true,
+                                                           "description_chars":  200,
+                                                           "variant_label":  "Choose option",
+                                                           "button_text":  "Claim Your Gown Now",
+                                                           "show_inline_timer":  true,
+                                                           "timer_heading":  "Offer timer",
+                                                           "timer_minutes":  30,
+                                                           "show_secure_badges":  true,
+                                                           "show_inline_guarantee":  true,
+                                                           "inline_guarantee_title":  "30-Day Money-Back Guarantee",
+                                                           "inline_guarantee_body":  "Try it risk-free for 30 days. If you are not satisfied, contact support for a quick refund.",
+                                                           "trust_badges_image":  "shopify://shop_images/badge.png",
+                                                           "trust_item_1":  "SSL encrypted checkout",
+                                                           "trust_item_2":  "30-day returns",
+                                                           "trust_item_3":  "Fast shipping"
+                                                       }
+                                      },
+                     "quantity_breaks":  {
+                                             "type":  "quantity-breaks",
+                                             "blocks":  {
+                                                            "tier_1":  {
+                                                                           "type":  "tier",
+                                                                           "settings":  {
+                                                                                            "title":  "1 Item",
+                                                                                            "subtitle":  "Standard price",
+                                                                                            "quantity":  1,
+                                                                                            "price":  82,
+                                                                                            "compare_price":  0,
+                                                                                            "badge_text":  ""
+                                                                                        }
+                                                                       },
+                                                            "tier_2":  {
+                                                                           "type":  "tier",
+                                                                           "settings":  {
+                                                                                            "title":  "2 Items",
+                                                                                            "subtitle":  "Duo saver pack",
+                                                                                            "quantity":  2,
+                                                                                            "price":  150,
+                                                                                            "compare_price":  164,
+                                                                                            "badge_text":  "Most popular"
+                                                                                        }
+                                                                       },
+                                                            "tier_3":  {
+                                                                           "type":  "tier",
+                                                                           "settings":  {
+                                                                                            "title":  "3 Items",
+                                                                                            "subtitle":  "Best value",
+                                                                                            "quantity":  3,
+                                                                                            "price":  200,
+                                                                                            "compare_price":  246,
+                                                                                            "badge_text":  "Best value"
+                                                                                        }
+                                                                       }
+                                                        },
+                                             "block_order":  [
+                                                                 "tier_1",
+                                                                 "tier_2",
+                                                                 "tier_3"
+                                                             ],
+                                             "settings":  {
+                                                              "product":  "goddess-gown-navy",
+                                                              "only_selected_product":  true,
+                                                              "heading":  "Bundle \u0026 Save - Limited Time",
+                                                              "show_variant_selector":  false,
+                                                              "variant_label":  "Choose variant"
+                                                          }
+                                         },
+                     "reviews_apps":  {
+                                          "type":  "app-blocks",
+                                          "blocks":  {
 
+                                                     },
+                                          "block_order":  [
+
+                                                          ],
+                                          "settings":  {
+                                                           "heading":  "Customer Reviews"
+                                                       }
+                                      },
+                     "fbt_apps":  {
+                                      "type":  "app-blocks",
+                                      "blocks":  {
+
+                                                 },
+                                      "block_order":  [
+
+                                                      ],
+                                      "settings":  {
+                                                       "heading":  "Frequently Bought Together"
+                                                   }
+                                  },
+                     "faq":  {
+                                 "type":  "faq-accordion",
+                                 "blocks":  {
+                                                "faq_1":  {
+                                                              "type":  "faq",
+                                                              "settings":  {
+                                                                               "question":  "How does this product work?",
+                                                                               "answer":  "\u003cp\u003eOur product uses proven techniques designed for practical daily use and visible results.\u003c/p\u003e"
+                                                                           }
+                                                          },
+                                                "faq_2":  {
+                                                              "type":  "faq",
+                                                              "settings":  {
+                                                                               "question":  "When will I receive my order?",
+                                                                               "answer":  "\u003cp\u003eOrders are processed in 1-2 business days. Delivery times vary by location.\u003c/p\u003e"
+                                                                           }
+                                                          },
+                                                "faq_3":  {
+                                                              "type":  "faq",
+                                                              "settings":  {
+                                                                               "question":  "Is there a guarantee?",
+                                                                               "answer":  "\u003cp\u003eYes. You are covered by our full 60-day money-back guarantee.\u003c/p\u003e"
+                                                                           }
+                                                          }
+                                            },
+                                 "block_order":  [
+                                                     "faq_1",
+                                                     "faq_2",
+                                                     "faq_3"
+                                                 ],
+                                 "settings":  {
+                                                  "heading":  "Frequently Asked Questions",
+                                                  "subheading":  "Answers to the most common pre-purchase questions"
+                                              }
+                             },
+                     "sticky_atc":  {
+                                        "type":  "sticky-atc",
+                                        "settings":  {
+                                                         "product":  "",
+                                                         "scroll_trigger":  300,
+                                                         "button_text":  "Add to Cart"
+                                                     }
+                                    }
+                 },
+    "order":  [
+                  "main_product",
+                  "quantity_breaks",
+                  "reviews_apps",
+                  "fbt_apps",
+                  "faq",
+                  "sticky_atc"
+              ]
+}

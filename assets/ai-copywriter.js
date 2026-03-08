@@ -581,7 +581,7 @@
     else if (action === 'product-description') {
       html += renderCopyField('Badge Text', data.badge_text, 'badge');
       html += renderCopyField('Eyebrow', data.eyebrow, 'vendor');
-      html += renderCopyField('Description', data.description, 'description');
+      html += renderCopyField('Long Description (sales copy)', data.description, 'long-description');
       html += renderCopyField('CTA Button', data.cta_text, 'button');
 
       if (data.highlights && data.highlights.length) {
@@ -699,6 +699,7 @@
   var applyTargetSelectors = {
     'title':              '.cmp-main-product__title',
     'description':        '.cmp-main-product__description',
+    'long-description':   '.cmp-main-product__description',
     'button':             '.cmp-main-product__button',
     'vendor':             '.cmp-main-product__eyebrow',
     'badge':              '.cmp-main-product__badge',
@@ -854,6 +855,7 @@
   }
 
 })();
+
 
 
 

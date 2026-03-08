@@ -89,12 +89,31 @@
         </div>
 
         <form method="post" action="/cart/add" class="cmp-main-product__form" data-main-product-form>
+          {%- if product_obj.variants.size > 1 and section.settings.show_quantity_offers -%}
+            <div class="cmp-main-product__offers-wrap">
+              <p class="cmp-main-product__label">{{ section.settings.offers_heading }}</p>
+              <div class="cmp-main-product__offers" data-main-product-offers>
+                {%- for variant in product_obj.variants -%}
+                  <button
+                    type="button"
+                    class="cmp-main-product__offer{% if variant.id == current_variant.id %} is-active{% endif %}"
+                    data-variant-id="{{ variant.id }}"
+                    {% unless variant.available %}disabled{% endunless %}
+                  >
+                    <span class="cmp-main-product__offer-title">{{ variant.title }}</span>
+                    <span class="cmp-main-product__offer-price">{{ variant.price | money }}</span>
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+
           {%- if product_obj.variants.size > 1 -%}
-            <label for="cmp-main-product-variant-{{ section.id }}" class="cmp-main-product__label">{{ section.settings.variant_label }}</label>
+            <label for="cmp-main-product-variant-{{ section.id }}" class="cmp-main-product__label{% if section.settings.show_quantity_offers %} cmp-main-product__label--hidden{% endif %}">{{ section.settings.variant_label }}</label>
             <select
               id="cmp-main-product-variant-{{ section.id }}"
               name="id"
-              class="cmp-main-product__select"
+              class="cmp-main-product__select{% if section.settings.show_quantity_offers %} cmp-main-product__select--hidden{% endif %}"
               data-main-product-variant
             >
               {%- for variant in product_obj.variants -%}
@@ -127,16 +146,45 @@
           <button type="submit" class="cmp-btn cmp-btn--primary cmp-btn--large cmp-main-product__button" {% unless current_variant.available %}disabled{% endunless %}>
             {% if current_variant.available %}{{ section.settings.button_text }}{% else %}Sold out{% endif %}
           </button>
+
+          {%- if section.settings.show_inline_timer -%}
+            <div
+              class="cmp-main-product__timer"
+              data-inline-countdown
+              data-duration="{{ section.settings.timer_minutes | default: 30 }}"
+              data-storage-key="cmp_main_timer_{{ product_obj.id }}_{{ section.id }}"
+            >
+              <p class="cmp-main-product__timer-title">{{ section.settings.timer_heading }}</p>
+              <div class="cmp-main-product__timer-row">
+                <div class="cmp-main-product__timer-unit"><span data-inline-days>00</span><small>Days</small></div>
+                <span class="cmp-main-product__timer-sep">:</span>
+                <div class="cmp-main-product__timer-unit"><span data-inline-hours>00</span><small>Hours</small></div>
+                <span class="cmp-main-product__timer-sep">:</span>
+                <div class="cmp-main-product__timer-unit"><span data-inline-mins>00</span><small>Minutes</small></div>
+                <span class="cmp-main-product__timer-sep">:</span>
+                <div class="cmp-main-product__timer-unit"><span data-inline-secs>00</span><small>Seconds</small></div>
+              </div>
+            </div>
+          {%- endif -%}
         </form>
 
         {%- if section.settings.show_secure_badges -%}
           <div class="cmp-main-product__trust">
             <p class="cmp-main-product__trust-heading">{{ section.settings.trust_heading }}</p>
-            <div class="cmp-main-product__trust-items">
-              <span>{{ section.settings.trust_item_1 }}</span>
-              <span>{{ section.settings.trust_item_2 }}</span>
-              <span>{{ section.settings.trust_item_3 }}</span>
-            </div>
+            {%- if section.settings.trust_badges_image != blank -%}
+              <img
+                class="cmp-main-product__trust-image"
+                src="{{ section.settings.trust_badges_image | image_url: width: 900 }}"
+                alt="{{ section.settings.trust_heading | escape }}"
+                loading="lazy"
+              >
+            {%- else -%}
+              <div class="cmp-main-product__trust-items">
+                <span>{{ section.settings.trust_item_1 }}</span>
+                <span>{{ section.settings.trust_item_2 }}</span>
+                <span>{{ section.settings.trust_item_3 }}</span>
+              </div>
+            {%- endif -%}
           </div>
         {%- endif -%}
       </div>
@@ -147,11 +195,15 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var sectionId = '{{ section.id }}';
-    var variantSelect = document.querySelector('#cmp-main-product-variant-' + sectionId);
-    var priceCurrent = document.querySelector('#cmp-main-product-price-' + sectionId + ' [data-price-current]');
-    var priceCompare = document.querySelector('#cmp-main-product-price-' + sectionId + ' [data-price-compare]');
-    var mainImage = document.querySelector('#cmp-main-product-image-' + sectionId);
-    var thumbButtons = document.querySelectorAll('#cmp-main-product-' + sectionId + ' [data-main-product-thumbs] .cmp-main-product__thumb');
+    var sectionRoot = document.querySelector('#cmp-main-product-' + sectionId);
+    if (!sectionRoot) return;
+
+    var variantSelect = sectionRoot.querySelector('[data-main-product-variant]');
+    var priceCurrent = sectionRoot.querySelector('[data-price-current]');
+    var priceCompare = sectionRoot.querySelector('[data-price-compare]');
+    var mainImage = sectionRoot.querySelector('#cmp-main-product-image-' + sectionId);
+    var thumbButtons = sectionRoot.querySelectorAll('[data-main-product-thumbs] .cmp-main-product__thumb');
+    var offerButtons = sectionRoot.querySelectorAll('[data-main-product-offers] .cmp-main-product__offer');
 
     function formatMoney(cents) {
       return '$' + (Number(cents || 0) / 100).toFixed(2);
@@ -161,6 +213,12 @@
       if (mainImage && imageUrl) {
         mainImage.setAttribute('src', imageUrl);
       }
+    }
+
+    function updateOfferSelection(variantId) {
+      offerButtons.forEach(function (btn) {
+        btn.classList.toggle('is-active', btn.getAttribute('data-variant-id') === String(variantId));
+      });
     }
 
     if (variantSelect) {
@@ -182,9 +240,18 @@
           }
         }
 
-        if (imageUrl) {
-          setMainImage(imageUrl);
-        }
+        if (imageUrl) setMainImage(imageUrl);
+        updateOfferSelection(opt.value);
+      });
+    }
+
+    if (offerButtons.length && variantSelect) {
+      offerButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var variantId = btn.getAttribute('data-variant-id');
+          variantSelect.value = variantId;
+          variantSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        });
       });
     }
 
@@ -197,6 +264,44 @@
           btn.classList.add('is-active');
         });
       });
+    }
+
+    var timer = sectionRoot.querySelector('[data-inline-countdown]');
+    if (timer) {
+      var storageKey = timer.getAttribute('data-storage-key');
+      var durationMin = Number(timer.getAttribute('data-duration') || 30);
+      var now = Date.now();
+      var target = Number(localStorage.getItem(storageKey) || 0);
+      if (!target || target <= now) {
+        target = now + durationMin * 60 * 1000;
+        localStorage.setItem(storageKey, String(target));
+      }
+
+      var dayEl = timer.querySelector('[data-inline-days]');
+      var hourEl = timer.querySelector('[data-inline-hours]');
+      var minEl = timer.querySelector('[data-inline-mins]');
+      var secEl = timer.querySelector('[data-inline-secs]');
+
+      function pad(num) {
+        return num < 10 ? '0' + num : String(num);
+      }
+
+      function tick() {
+        var remaining = Math.max(0, target - Date.now());
+        var totalSeconds = Math.floor(remaining / 1000);
+        var days = Math.floor(totalSeconds / 86400);
+        var hours = Math.floor((totalSeconds % 86400) / 3600);
+        var minutes = Math.floor((totalSeconds % 3600) / 60);
+        var seconds = totalSeconds % 60;
+
+        if (dayEl) dayEl.textContent = pad(days);
+        if (hourEl) hourEl.textContent = pad(hours);
+        if (minEl) minEl.textContent = pad(minutes);
+        if (secEl) secEl.textContent = pad(seconds);
+      }
+
+      tick();
+      setInterval(tick, 1000);
     }
   });
 </script>
@@ -297,6 +402,46 @@
     font-weight: 700;
     margin-top: 6px;
   }
+  .cmp-main-product__label--hidden,
+  .cmp-main-product__select--hidden {
+    display: none;
+  }
+  .cmp-main-product__offers-wrap {
+    margin-bottom: 8px;
+  }
+  .cmp-main-product__offers {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .cmp-main-product__offer {
+    border: 2px solid var(--color-border, #d8dee4);
+    border-radius: 10px;
+    background: #fff;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .cmp-main-product__offer.is-active {
+    border-color: var(--color-primary, #1B7FC3);
+    box-shadow: 0 0 0 2px rgba(27, 127, 195, 0.12);
+  }
+  .cmp-main-product__offer:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .cmp-main-product__offer-title {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-light, #6C757D);
+  }
+  .cmp-main-product__offer-price {
+    display: block;
+    margin-top: 2px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-heading, #1D3557);
+  }
   .cmp-main-product__select,
   .cmp-main-product__qty {
     width: 100%;
@@ -307,7 +452,49 @@
     background: #fff;
   }
   .cmp-main-product__qty { max-width: 120px; }
-  .cmp-main-product__button { margin-top: 10px; width: 100%; }
+  .cmp-main-product__button { margin-top: 8px; width: 100%; }
+  .cmp-main-product__timer {
+    margin-top: 10px;
+    background: #1d3557;
+    border-radius: 10px;
+    color: #fff;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .cmp-main-product__timer-title {
+    margin: 0 0 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #fff;
+  }
+  .cmp-main-product__timer-row {
+    display: grid;
+    grid-template-columns: repeat(7, auto);
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  .cmp-main-product__timer-unit span {
+    display: inline-block;
+    min-width: 38px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.16);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .cmp-main-product__timer-unit small {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+  }
+  .cmp-main-product__timer-sep {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
   .cmp-main-product__review-app-blocks { margin-bottom: 6px; }
   .cmp-main-product__trust {
     margin-top: 18px;
@@ -320,6 +507,12 @@
     margin: 0 0 8px;
     font-weight: 700;
     color: var(--color-heading, #1D3557);
+  }
+  .cmp-main-product__trust-image {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
   }
   .cmp-main-product__trust-items {
     display: flex;
@@ -337,6 +530,7 @@
   @media (max-width: 900px) {
     .cmp-main-product__grid { grid-template-columns: 1fr; gap: 24px; }
     .cmp-main-product__button { width: 100%; }
+    .cmp-main-product__offers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 </style>
 {%- endif -%}
@@ -392,6 +586,18 @@
       "default": 200
     },
     {
+      "type": "checkbox",
+      "id": "show_quantity_offers",
+      "label": "Show quantity/package offers",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "offers_heading",
+      "label": "Offers heading",
+      "default": "Choose your package"
+    },
+    {
       "type": "text",
       "id": "variant_label",
       "label": "Variant label",
@@ -405,8 +611,29 @@
     },
     {
       "type": "checkbox",
+      "id": "show_inline_timer",
+      "label": "Show timer under button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "timer_heading",
+      "label": "Timer heading",
+      "default": "Offer timer"
+    },
+    {
+      "type": "range",
+      "id": "timer_minutes",
+      "label": "Timer minutes",
+      "min": 5,
+      "max": 180,
+      "step": 5,
+      "default": 30
+    },
+    {
+      "type": "checkbox",
       "id": "show_secure_badges",
-      "label": "Show trust badges",
+      "label": "Show secure checkout",
       "default": true
     },
     {
@@ -414,6 +641,11 @@
       "id": "trust_heading",
       "label": "Trust heading",
       "default": "Secure checkout"
+    },
+    {
+      "type": "image_picker",
+      "id": "trust_badges_image",
+      "label": "Trust badges image"
     },
     {
       "type": "text",

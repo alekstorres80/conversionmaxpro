@@ -354,6 +354,12 @@
           '<span class="cmp-ai-panel__btn-icon">&#9989;</span> Generate Guarantee Copy' +
         '</button>' +
       '</div>';
+    } else if (options.sectionType === 'social-proof') {
+      html += '<div class="cmp-ai-panel__actions">' +
+        '<button class="cmp-ai-panel__btn cmp-ai-panel__btn--primary" data-ai-action="social-proof"' + (hasKey ? '' : ' disabled') + '>' +
+          '<span class="cmp-ai-panel__btn-icon">&#9734;</span> Generate Social Proof' +
+        '</button>' +
+      '</div>';
     }
 
     // Output area
@@ -381,6 +387,7 @@
           case 'headlines':   generator = CMP.ai.generateHeadlines; break;
           case 'faqs':        generator = CMP.ai.generateFAQs; break;
           case 'guarantee':   generator = CMP.ai.generateGuarantee; break;
+          case 'social-proof': generator = CMP.ai.generateSocialProof; break;
           default: return;
         }
 
@@ -466,6 +473,29 @@
     else if (action === 'guarantee') {
       html += renderCopyField('Headline', data.headline);
       html += renderCopyField('Body', data.body);
+    }
+
+    else if (action === 'social-proof') {
+      if (data.stats && data.stats.length) {
+        html += '<div class="cmp-ai-panel__field"><label class="cmp-ai-panel__label">Stats</label>';
+        data.stats.forEach(function (stat) {
+          html += '<div class="cmp-ai-panel__headline-option">' +
+            '<div><strong>' + escapeHtml(stat.value) + '</strong> — ' + escapeHtml(stat.label) + '</div>' +
+            '<button class="cmp-ai-panel__copy cmp-ai-panel__copy--sm" data-copy-text="' + escapeAttr(stat.value + ' ' + stat.label) + '">Copy</button>' +
+          '</div>';
+        });
+        html += '</div>';
+      }
+      if (data.trust_badges && data.trust_badges.length) {
+        html += '<div class="cmp-ai-panel__field"><label class="cmp-ai-panel__label">Trust Badges</label>';
+        data.trust_badges.forEach(function (badge) {
+          html += '<div class="cmp-ai-panel__headline-option">' +
+            '<div>' + escapeHtml(badge) + '</div>' +
+            '<button class="cmp-ai-panel__copy cmp-ai-panel__copy--sm" data-copy-text="' + escapeAttr(badge) + '">Copy</button>' +
+          '</div>';
+        });
+        html += '</div>';
+      }
     }
 
     container.innerHTML = html;

@@ -289,7 +289,11 @@
       },
       {
         "type": "paragraph",
-        "content": "ConversionMax Pro can generate high-converting VSL scripts, headlines, FAQs, and guarantee copy using AI. Bring your own API key from any supported provider. Your key stays in your theme settings and is never shared."
+        "content": "ConversionMax Pro can generate high-converting VSL scripts, headlines, FAQs, guarantee copy, and social proof using AI. Bring your own API key from any supported provider. Your key stays in your theme settings and is never shared."
+      },
+      {
+        "type": "paragraph",
+        "content": "HOW TO USE: 1) Select your product and add your API key below. 2) Click on any section in the editor (VSL Hero, FAQ, Guarantee, or Social Proof). 3) You'll see a purple AI Copywriter panel with Generate buttons right inside the section preview."
       },
       {
         "type": "select",

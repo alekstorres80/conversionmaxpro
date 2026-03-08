@@ -94,6 +94,16 @@
     var root = document.querySelector('#cmp-quantity-breaks-{{ section.id }}');
     if (!root) return;
 
+    var mainForm = document.querySelector('.cmp-main-product__form');
+    if (mainForm) {
+      var addToCartButton = mainForm.querySelector('.cmp-main-product__button');
+      root.classList.add('is-embedded');
+      if (addToCartButton) {
+        mainForm.insertBefore(root, addToCartButton);
+      } else {
+        mainForm.appendChild(root);
+      }
+    }
     var tierButtons = root.querySelectorAll('.cmp-qb-tier');
     var qtyInput = root.querySelector('[data-qb-qty-input]');
     var idInput = root.querySelector('[data-qb-id-input]');
@@ -254,6 +264,65 @@
   .cmp-quantity-breaks__cta {
     width: 100%;
   }
+  .cmp-quantity-breaks.is-embedded {
+    padding: 0;
+    margin: 6px 0 10px;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-container {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-quantity-breaks__heading {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+    text-align: left;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-quantity-breaks__label {
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-quantity-breaks__select {
+    max-width: 100%;
+    margin-bottom: 8px;
+    padding: 8px 10px;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-quantity-breaks__tiers {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-qb-tier {
+    padding: 10px 10px;
+    border-radius: 10px;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-qb-tier__left {
+    gap: 8px;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-qb-tier__radio {
+    width: 16px;
+    height: 16px;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-qb-tier__title {
+    font-size: 0.95rem;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-qb-tier__subtitle {
+    font-size: 0.82rem;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-qb-tier__price {
+    font-size: 1.25rem;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-qb-tier__compare {
+    font-size: 0.85rem;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-qb-tier__badge {
+    top: -8px;
+    right: 8px;
+    font-size: 0.68rem;
+    padding: 3px 8px;
+  }
+  .cmp-quantity-breaks.is-embedded .cmp-quantity-breaks__cta {
+    margin-top: 2px;
+  }
 </style>
 
 {% schema %}
@@ -386,3 +455,4 @@
   }
 }
 {% endschema %}
+

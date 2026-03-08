@@ -220,7 +220,7 @@
         }
         var mount = document.querySelector('[data-ai-section="main-product"]');
         if (mount && !mount.hasChildNodes()) {
-          CMP.ai.createPanel({ container: mount, sectionType: 'main-product' });
+          CMP.ai.createPanel({ container: mount, sectionType: 'main-product', sectionId: '{{ section.id }}' });
         }
       }
     })();
@@ -669,3 +669,4 @@
   }
 }
 {% endschema %}
+

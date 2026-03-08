@@ -323,6 +323,7 @@
      UI Builder — creates the AI panel inside sections
      ================================================ */
   CMP.ai.createPanel = function (options) {
+    options = options || {};
     /*
       options:
         container:  DOM element to append the panel to
@@ -406,10 +407,12 @@
     '</div>';
 
     panel.innerHTML = html;
+    var panelStorageKey = getPanelStorageKey(options);
 
     // Wire up buttons
     var outputEl = panel.querySelector('[data-ai-output]');
     var loadingEl = panel.querySelector('[data-ai-loading]');
+    restorePanelState(outputEl, panelStorageKey);
 
     panel.querySelectorAll('[data-ai-action]').forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -435,7 +438,8 @@
           .then(function (result) {
             loadingEl.style.display = 'none';
             outputEl.style.display = '';
-            renderResult(outputEl, action, result);
+            renderResult(outputEl, action, result, panelStorageKey);
+            persistPanelState(panelStorageKey, { action: action, data: result });
             if (options.onGenerate) options.onGenerate(result, action);
           })
           .catch(function (err) {
@@ -459,8 +463,9 @@
   /* ================================================
      Result renderers
      ================================================ */
-  function renderResult(container, action, data) {
+  function renderResult(container, action, data, panelStorageKey) {
     var html = '';
+    html += '<div class="cmp-ai-panel__hint">Apply updates preview only. Copy or select values and paste into sidebar settings.</div>';
 
     if (action === 'vsl-script') {
       html += renderCopyField('Headline', data.headline, 'title');
@@ -516,7 +521,7 @@
         html += '<div class="cmp-ai-panel__field"><label class="cmp-ai-panel__label">Stats</label>';
         data.stats.forEach(function (stat) {
           html += '<div class="cmp-ai-panel__headline-option">' +
-            '<div><strong>' + escapeHtml(stat.value) + '</strong> — ' + escapeHtml(stat.label) + '</div>' +
+            '<div><strong>' + escapeHtml(stat.value) + '</strong> - ' + escapeHtml(stat.label) + '</div>' +
             '<button class="cmp-ai-panel__copy cmp-ai-panel__copy--sm" data-copy-text="' + escapeAttr(stat.value + ' ' + stat.label) + '">Copy</button>' +
           '</div>';
         });
@@ -551,13 +556,12 @@
         html += '</div>';
       }
       html += '<div class="cmp-ai-panel__apply-all-wrap">' +
-        '<button class="cmp-ai-panel__apply cmp-ai-panel__apply--all" data-apply-all="product-description">Apply All to Page</button>' +
+        '<button class="cmp-ai-panel__apply cmp-ai-panel__apply--all" data-apply-all="product-description">Apply All to Preview</button>' +
       '</div>';
     }
 
     container.innerHTML = html;
 
-    // Wire copy buttons
     container.querySelectorAll('[data-copy-text]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var text = btn.getAttribute('data-copy-text');
@@ -569,19 +573,17 @@
             btn.textContent = orig;
             btn.classList.remove('cmp-ai-panel__copy--success');
           }, 2000);
-        });
+        }).catch(function () {});
       });
     });
 
-    // Wire apply buttons — update section settings + live preview
     container.querySelectorAll('[data-apply-target]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var target = btn.getAttribute('data-apply-target');
         var value = btn.getAttribute('data-apply-value');
         applyToPage(target, value);
-        copyToClipboard(value);
-        var settingId = applyTargetSettings[target];
-        btn.textContent = settingId ? 'Saved!' : 'Applied!';
+        if (panelStorageKey) persistAppliedValue(panelStorageKey, target, value);
+        btn.textContent = 'Applied!';
         btn.classList.add('cmp-ai-panel__apply--success');
         setTimeout(function () {
           btn.textContent = 'Apply';
@@ -590,33 +592,33 @@
       });
     });
 
-    // Wire "Apply All" button
     container.querySelectorAll('[data-apply-all]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         container.querySelectorAll('[data-apply-target]').forEach(function (applyBtn) {
           var target = applyBtn.getAttribute('data-apply-target');
           var value = applyBtn.getAttribute('data-apply-value');
           applyToPage(target, value);
+          if (panelStorageKey) persistAppliedValue(panelStorageKey, target, value);
         });
-        btn.textContent = 'All Saved!';
+        btn.textContent = 'Applied!';
         btn.classList.add('cmp-ai-panel__apply--success');
         setTimeout(function () {
-          btn.textContent = 'Apply All to Page';
+          btn.textContent = 'Apply All to Preview';
           btn.classList.remove('cmp-ai-panel__apply--success');
         }, 2500);
       });
     });
   }
-
   function renderCopyField(label, value, applyTarget) {
     if (!value) return '';
     var applyBtn = '';
     if (applyTarget) {
       applyBtn = '<button class="cmp-ai-panel__apply" data-apply-target="' + escapeAttr(applyTarget) + '" data-apply-value="' + escapeAttr(value) + '">Apply</button>';
     }
+    var rows = String(value).length > 180 ? 5 : 2;
     return '<div class="cmp-ai-panel__field">' +
       '<label class="cmp-ai-panel__label">' + label + '</label>' +
-      '<div class="cmp-ai-panel__value">' + escapeHtml(value) + '</div>' +
+      '<textarea class="cmp-ai-panel__value-input" readonly rows="' + rows + '">' + escapeHtml(value) + '</textarea>' +
       '<div class="cmp-ai-panel__field-actions">' +
         applyBtn +
         '<button class="cmp-ai-panel__copy" data-copy-text="' + escapeAttr(value) + '">Copy</button>' +
@@ -706,13 +708,7 @@
   }
 
   function applyToPage(target, value) {
-    // 1. Update the section setting (persists on save)
-    var settingId = applyTargetSettings[target];
-    if (settingId) {
-      updateSectionSetting(settingId, value);
-    }
-
-    // 2. Update the DOM for instant visual feedback
+    // Update the DOM for instant visual feedback
     var selector = applyTargetSelectors[target];
     if (selector) {
       var els = document.querySelectorAll(selector);
@@ -748,19 +744,88 @@
   }
 
   function copyToClipboard(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      return navigator.clipboard.writeText(text);
+    if (!text) return Promise.resolve();
+
+    if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(function () {
+        return legacyCopy(text);
+      });
     }
-    // Fallback
+
+    return legacyCopy(text);
+  }
+
+  function legacyCopy(text) {
     var ta = document.createElement('textarea');
     ta.value = text;
     ta.style.position = 'fixed';
+    ta.style.top = '0';
     ta.style.left = '-9999px';
+    ta.setAttribute('readonly', '');
     document.body.appendChild(ta);
+    ta.focus();
     ta.select();
-    document.execCommand('copy');
+
+    var copied = false;
+    try {
+      copied = document.execCommand('copy');
+    } catch (e) {
+      copied = false;
+    }
+
     document.body.removeChild(ta);
+
+    if (!copied) {
+      try { window.prompt('Copy this value (Ctrl/Cmd+C, Enter):', text); } catch (e) {}
+    }
+
     return Promise.resolve();
   }
 
+  function getPanelStorageKey(options) {
+    var sectionType = options && options.sectionType ? options.sectionType : 'unknown';
+    var sectionId = options && options.sectionId ? options.sectionId : ((options && options.container && options.container.getAttribute('data-section-id')) || '');
+    var path = window.location && window.location.pathname ? window.location.pathname : '';
+    var productRef = CFG.product && (CFG.product.id || CFG.product.handle || CFG.product.title)
+      ? String(CFG.product.id || CFG.product.handle || CFG.product.title)
+      : '';
+    return ['cmp-ai-panel-v2', path, sectionType, sectionId, productRef].join(':');
+  }
+
+  function persistPanelState(storageKey, payload) {
+    if (!storageKey) return;
+    try {
+      var current = JSON.parse(localStorage.getItem(storageKey) || '{}');
+      current.latest = payload;
+      localStorage.setItem(storageKey, JSON.stringify(current));
+    } catch (e) {}
+  }
+
+  function persistAppliedValue(storageKey, target, value) {
+    if (!storageKey || !target) return;
+    try {
+      var current = JSON.parse(localStorage.getItem(storageKey) || '{}');
+      current.applied = current.applied || {};
+      current.applied[target] = value;
+      localStorage.setItem(storageKey, JSON.stringify(current));
+    } catch (e) {}
+  }
+
+  function restorePanelState(outputEl, storageKey) {
+    if (!outputEl || !storageKey) return;
+    try {
+      var current = JSON.parse(localStorage.getItem(storageKey) || '{}');
+      if (current.latest && current.latest.action && current.latest.data) {
+        outputEl.style.display = '';
+        renderResult(outputEl, current.latest.action, current.latest.data, storageKey);
+      }
+      if (current.applied) {
+        Object.keys(current.applied).forEach(function (target) {
+          applyToPage(target, current.applied[target]);
+        });
+      }
+    } catch (e) {}
+  }
+
 })();
+

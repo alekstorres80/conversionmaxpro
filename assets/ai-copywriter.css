@@ -364,3 +364,36 @@
 .cmp-ai-applied {
   animation: cmp-ai-applied-flash 1.5s ease forwards;
 }
+
+
+.cmp-ai-panel__hint {
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  border: 1px dashed #C8B9FF;
+  border-radius: 8px;
+  background: #F8F4FF;
+  color: #56458A;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.cmp-ai-panel__value-input {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #E0D6FF;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #2D2D3A;
+  margin-bottom: 6px;
+  resize: vertical;
+  min-height: 58px;
+  font-family: inherit;
+}
+
+.cmp-ai-panel__value-input:focus {
+  outline: 2px solid #A78BFA;
+  outline-offset: 1px;
+}
+

@@ -1,11 +1,15 @@
 {%- comment -%}
-  Featured Product — ConversionMax Pro
+  Featured Product - ConversionMax Pro
   Hero-style product spotlight for the homepage.
   Shows product image, title, price, description, and CTA.
 {%- endcomment -%}
 
 {%- liquid
-  assign product = section.settings.product
+  assign selected_product = section.settings.product
+  assign product_obj = selected_product
+  if product_obj == blank and product != blank
+    assign product_obj = product
+  endif
   assign layout = section.settings.layout
   assign bg_color = section.settings.bg_color
 -%}
@@ -23,16 +27,16 @@
     <div class="cmp-featured-product__grid">
       {%- comment -%} Image {%- endcomment -%}
       <div class="cmp-featured-product__media">
-        {%- if product != blank and product.featured_image -%}
+        {%- if product_obj != blank and product_obj.featured_image -%}
           <img
-            src="{{ product.featured_image | image_url: width: 800 }}"
-            srcset="{{ product.featured_image | image_url: width: 400 }} 400w,
-                    {{ product.featured_image | image_url: width: 600 }} 600w,
-                    {{ product.featured_image | image_url: width: 800 }} 800w"
+            src="{{ product_obj.featured_image | image_url: width: 800 }}"
+            srcset="{{ product_obj.featured_image | image_url: width: 400 }} 400w,
+                    {{ product_obj.featured_image | image_url: width: 600 }} 600w,
+                    {{ product_obj.featured_image | image_url: width: 800 }} 800w"
             sizes="(max-width: 768px) 100vw, 50vw"
-            alt="{{ product.featured_image.alt | default: product.title | escape }}"
-            width="{{ product.featured_image.width }}"
-            height="{{ product.featured_image.height }}"
+            alt="{{ product_obj.featured_image.alt | default: product_obj.title | escape }}"
+            width="{{ product_obj.featured_image.width }}"
+            height="{{ product_obj.featured_image.height }}"
             loading="lazy"
           >
         {%- elsif section.settings.custom_image != blank -%}
@@ -55,23 +59,23 @@
         {%- endif -%}
 
         <h2 class="cmp-featured-product__title">
-          {%- if product != blank -%}
-            {{ product.title }}
+          {%- if product_obj != blank -%}
+            {{ product_obj.title }}
           {%- else -%}
             {{ section.settings.heading | default: 'Featured Product' }}
           {%- endif -%}
         </h2>
 
-        {%- if product != blank -%}
+        {%- if product_obj != blank -%}
           <div class="cmp-featured-product__price">
-            {%- if product.compare_at_price > product.price -%}
-              <span class="cmp-featured-product__price--compare">{{ product.compare_at_price | money }}</span>
+            {%- if product_obj.compare_at_price > product_obj.price -%}
+              <span class="cmp-featured-product__price--compare">{{ product_obj.compare_at_price | money }}</span>
             {%- endif -%}
-            <span class="cmp-featured-product__price--current{% if product.compare_at_price > product.price %} cmp-featured-product__price--sale{% endif %}">
-              {{ product.price | money }}
+            <span class="cmp-featured-product__price--current{% if product_obj.compare_at_price > product_obj.price %} cmp-featured-product__price--sale{% endif %}">
+              {{ product_obj.price | money }}
             </span>
-            {%- if product.compare_at_price > product.price -%}
-              {%- assign save_pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+            {%- if product_obj.compare_at_price > product_obj.price -%}
+              {%- assign save_pct = product_obj.compare_at_price | minus: product_obj.price | times: 100 | divided_by: product_obj.compare_at_price -%}
               <span class="cmp-featured-product__price--save">Save {{ save_pct }}%</span>
             {%- endif -%}
           </div>
@@ -79,8 +83,8 @@
 
         {%- if section.settings.description != blank -%}
           <div class="cmp-featured-product__desc">{{ section.settings.description }}</div>
-        {%- elsif product != blank and product.description != blank -%}
-          <div class="cmp-featured-product__desc">{{ product.description | strip_html | truncate: 200 }}</div>
+        {%- elsif product_obj != blank and product_obj.description != blank -%}
+          <div class="cmp-featured-product__desc">{{ product_obj.description | strip_html | truncate: 200 }}</div>
         {%- endif -%}
 
         {%- comment -%} Highlight bullets {%- endcomment -%}
@@ -98,8 +102,8 @@
         {%- endif -%}
 
         <div class="cmp-featured-product__actions">
-          {%- if product != blank -%}
-            <a href="{{ product.url }}" class="cmp-btn cmp-btn--primary cmp-btn--large">
+          {%- if product_obj != blank -%}
+            <a href="{{ product_obj.url }}" class="cmp-btn cmp-btn--primary cmp-btn--large">
               {{ section.settings.cta_text | default: 'Shop Now' }}
             </a>
           {%- elsif section.settings.cta_link != blank -%}
@@ -346,3 +350,5 @@
   ]
 }
 {% endschema %}
+
+

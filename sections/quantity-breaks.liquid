@@ -27,9 +27,7 @@
       <h3 class="cmp-quantity-breaks__heading">{{ section.settings.heading }}</h3>
     {%- endif -%}
 
-    <form method="post" action="/cart/add" class="cmp-quantity-breaks__form" data-qb-form>
-      <input type="hidden" name="id" value="{{ selected_variant.id }}" data-qb-id-input>
-
+    <div class="cmp-quantity-breaks__form" data-qb-form>
       {%- if target_product.variants.size > 1 and section.settings.show_variant_selector -%}
         <label for="cmp-qb-variant-{{ section.id }}" class="cmp-quantity-breaks__label">{{ section.settings.variant_label }}</label>
         <select id="cmp-qb-variant-{{ section.id }}" class="cmp-quantity-breaks__select" data-qb-variant>
@@ -79,13 +77,7 @@
           {%- endif -%}
         {%- endfor -%}
       </div>
-
-      <input type="number" class="cmp-quantity-breaks__qty" name="quantity" value="1" min="1" data-qb-qty-input>
-
-      <button type="submit" class="cmp-btn cmp-btn--primary cmp-btn--large cmp-quantity-breaks__cta">
-        {{ section.settings.button_text | default: 'Add to Cart' }}
-      </button>
-    </form>
+    </div>
   </div>
 </section>
 
@@ -108,26 +100,29 @@
     }
 
     var tierButtons = root.querySelectorAll('.cmp-qb-tier');
-    var qtyInput = root.querySelector('[data-qb-qty-input]');
-    var idInput = root.querySelector('[data-qb-id-input]');
+    var qtyInput = mainForm ? mainForm.querySelector('input[name="quantity"]') : null;
     var localVariantSelect = root.querySelector('[data-qb-variant]');
-    var mainVariantSelect = document.querySelector('[data-main-product-variant]');
+    var mainVariantSelect = mainForm ? mainForm.querySelector('[data-main-product-variant]') : null;
 
-    if (!tierButtons.length || !qtyInput || !idInput) return;
+    if (!tierButtons.length || !qtyInput) return;
 
     if (localVariantSelect && !localVariantSelect.dataset.bound) {
       localVariantSelect.dataset.bound = 'true';
       localVariantSelect.addEventListener('change', function () {
-        idInput.value = localVariantSelect.value;
+        if (mainVariantSelect) {
+          mainVariantSelect.value = localVariantSelect.value;
+          mainVariantSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        }
       });
     }
 
     if (mainVariantSelect) {
-      idInput.value = mainVariantSelect.value;
+      if (localVariantSelect) {
+        localVariantSelect.value = mainVariantSelect.value;
+      }
       if (!mainVariantSelect.dataset.qbBound) {
         mainVariantSelect.dataset.qbBound = 'true';
         mainVariantSelect.addEventListener('change', function () {
-          idInput.value = mainVariantSelect.value;
           if (localVariantSelect) {
             localVariantSelect.value = mainVariantSelect.value;
           }
@@ -191,7 +186,7 @@
   .cmp-quantity-breaks__tiers {
     display: grid;
     gap: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
   .cmp-qb-tier {
     position: relative;
@@ -279,12 +274,6 @@
     color: #bcae93;
     font-weight: 700;
   }
-  .cmp-quantity-breaks__qty {
-    display: none;
-  }
-  .cmp-quantity-breaks__cta {
-    width: 100%;
-  }
   .cmp-quantity-breaks.is-embedded {
     padding: 0;
     margin: 6px 0 10px;
@@ -341,9 +330,6 @@
     font-size: 0.68rem;
     padding: 3px 8px;
   }
-  .cmp-quantity-breaks.is-embedded .cmp-quantity-breaks__cta {
-    margin-top: 2px;
-  }
 </style>
 
 {% schema %}
@@ -380,12 +366,6 @@
       "id": "variant_label",
       "label": "Variant label",
       "default": "Choose variant"
-    },
-    {
-      "type": "text",
-      "id": "button_text",
-      "label": "Button text",
-      "default": "Add to Cart"
     }
   ],
   "blocks": [
@@ -476,6 +456,3 @@
   }
 }
 {% endschema %}
-
-
-

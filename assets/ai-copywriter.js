@@ -849,16 +849,8 @@
         outputEl.style.display = '';
         renderResult(outputEl, current.latest.action, current.latest.data, storageKey, sectionType);
       }
-      if (current.applied) {
-        Object.keys(current.applied).forEach(function (target) {
-          applyToPage(target, current.applied[target]);
-        });
-      }
     } catch (e) {}
   }
 
 })();
-
-
-
 

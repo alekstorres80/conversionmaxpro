@@ -297,9 +297,11 @@
       var user = 'Write a compelling product description and supporting copy for this product. Return as JSON with these exact keys:\n' +
         '- "eyebrow": A short attention-grabbing label above the title (2-4 words, e.g., "Introducing", "New Arrival", "Best Seller")\n' +
         '- "badge_text": A badge/tag text (2-3 words, e.g., "Best Seller", "Limited Edition")\n' +
-        '- "description": A persuasive product description (2-3 sentences) that highlights benefits and creates desire\n' +
+        '- "description": A short product summary (2-3 sentences) for quick context\n' +
+        '- "long_description": A true long-form sales description (220-350 words, 4-6 short paragraphs) that includes: pain/problem, transformation promise, concrete benefits, objection handling, and urgency\n' +
         '- "cta_text": A compelling call-to-action button text (2-5 words)\n' +
         '- "highlights": An array of 4-6 short benefit bullet points (max 8 words each)\n\n' +
+        'Important: make "long_description" substantially longer than "description".\n\n' +
         'Product context:\n' + context + '\n\n' +
         'Return ONLY valid JSON, no markdown fences.';
 
@@ -581,7 +583,8 @@
     else if (action === 'product-description') {
       html += renderCopyField('Badge Text', data.badge_text, 'badge');
       html += renderCopyField('Eyebrow', data.eyebrow, 'vendor');
-      html += renderCopyField('Long Description (sales copy)', data.description, 'long-description');
+      var longDescription = data.long_description || data.description || '';
+      html += renderCopyField('Long Description (sales copy)', longDescription, 'long-description');
       html += renderCopyField('CTA Button', data.cta_text, 'button');
 
       if (data.highlights && data.highlights.length) {

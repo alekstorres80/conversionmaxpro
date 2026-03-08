@@ -130,6 +130,25 @@
   </div>
 </section>
 
+{%- comment -%} AI Copywriter — editor only {%- endcomment -%}
+{%- if request.design_mode -%}
+  <div class="cmp-ai-panel-mount" data-ai-section="featured-product"></div>
+  <script>
+    (function() {
+      if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) {
+        document.addEventListener('DOMContentLoaded', init);
+      } else { init(); }
+      function init() {
+        if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) return;
+        var mount = document.querySelector('[data-ai-section="featured-product"]');
+        if (mount && !mount.hasChildNodes()) {
+          CMP.ai.createPanel({ container: mount, sectionType: 'featured-product' });
+        }
+      }
+    })();
+  </script>
+{%- endif -%}
+
 <style>
   .cmp-featured-product {
     padding: var(--section-spacing, 60px) 0;

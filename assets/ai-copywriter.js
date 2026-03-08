@@ -282,6 +282,28 @@
         'Return ONLY valid JSON, no markdown fences.';
 
       return generate(system, user).then(parseJSON);
+    },
+
+    generateProductDescription: function () {
+      var context = buildProductContext();
+      if (!context) {
+        return Promise.reject(new Error('Please select a product in Theme Settings → AI Copywriter before generating.'));
+      }
+
+      var system = 'You are an elite e-commerce copywriter who writes product descriptions that sell. ' +
+        'Your tone is: ' + (toneDescriptions[CFG.tone] || CFG.tone) + '. ' +
+        'You write benefit-driven copy that creates desire and overcomes objections.';
+
+      var user = 'Write a compelling product description and supporting copy for this product. Return as JSON with these exact keys:\n' +
+        '- "eyebrow": A short attention-grabbing label above the title (2-4 words, e.g., "Introducing", "New Arrival", "Best Seller")\n' +
+        '- "badge_text": A badge/tag text (2-3 words, e.g., "Best Seller", "Limited Edition")\n' +
+        '- "description": A persuasive product description (2-3 sentences) that highlights benefits and creates desire\n' +
+        '- "cta_text": A compelling call-to-action button text (2-5 words)\n' +
+        '- "highlights": An array of 4-6 short benefit bullet points (max 8 words each)\n\n' +
+        'Product context:\n' + context + '\n\n' +
+        'Return ONLY valid JSON, no markdown fences.';
+
+      return generate(system, user).then(parseJSON);
     }
   };
 
@@ -360,6 +382,12 @@
           '<span class="cmp-ai-panel__btn-icon">&#9734;</span> Generate Social Proof' +
         '</button>' +
       '</div>';
+    } else if (options.sectionType === 'featured-product') {
+      html += '<div class="cmp-ai-panel__actions">' +
+        '<button class="cmp-ai-panel__btn cmp-ai-panel__btn--primary" data-ai-action="product-description"' + (hasKey ? '' : ' disabled') + '>' +
+          '<span class="cmp-ai-panel__btn-icon">&#9998;</span> Generate Product Copy' +
+        '</button>' +
+      '</div>';
     }
 
     // Output area
@@ -388,6 +416,7 @@
           case 'faqs':        generator = CMP.ai.generateFAQs; break;
           case 'guarantee':   generator = CMP.ai.generateGuarantee; break;
           case 'social-proof': generator = CMP.ai.generateSocialProof; break;
+          case 'product-description': generator = CMP.ai.generateProductDescription; break;
           default: return;
         }
 
@@ -492,6 +521,24 @@
           html += '<div class="cmp-ai-panel__headline-option">' +
             '<div>' + escapeHtml(badge) + '</div>' +
             '<button class="cmp-ai-panel__copy cmp-ai-panel__copy--sm" data-copy-text="' + escapeAttr(badge) + '">Copy</button>' +
+          '</div>';
+        });
+        html += '</div>';
+      }
+    }
+
+    else if (action === 'product-description') {
+      html += renderCopyField('Badge Text', data.badge_text);
+      html += renderCopyField('Eyebrow', data.eyebrow);
+      html += renderCopyField('Description', data.description);
+      html += renderCopyField('CTA Button', data.cta_text);
+      if (data.highlights && data.highlights.length) {
+        html += '<div class="cmp-ai-panel__field"><label class="cmp-ai-panel__label">Highlight Bullets</label>';
+        data.highlights.forEach(function (h, i) {
+          html += '<div class="cmp-ai-panel__headline-option">' +
+            '<span class="cmp-ai-panel__headline-num">' + (i + 1) + '</span>' +
+            '<div>' + escapeHtml(h) + '</div>' +
+            '<button class="cmp-ai-panel__copy cmp-ai-panel__copy--sm" data-copy-text="' + escapeAttr(h) + '">Copy</button>' +
           '</div>';
         });
         html += '</div>';

@@ -217,6 +217,32 @@
     </div>
   </footer>
 
+  {% if settings.enable_exit_popup and request.design_mode == false %}
+    <div class="cmp-exit-popup" data-exit-popup hidden>
+      <div class="cmp-exit-popup__backdrop" data-exit-close></div>
+      <div class="cmp-exit-popup__card" role="dialog" aria-modal="true" aria-label="Special offer">
+        <button class="cmp-exit-popup__close" type="button" data-exit-close aria-label="Close">x</button>
+        <p class="cmp-exit-popup__eyebrow">Limited-time offer</p>
+        <h3 class="cmp-exit-popup__title">{{ settings.exit_popup_headline | escape }}</h3>
+        <p class="cmp-exit-popup__body">{{ settings.exit_popup_body | escape }}</p>
+
+        <div class="cmp-exit-popup__timer">
+          Offer expires in <strong data-exit-timer>10:00</strong>
+        </div>
+
+        <div class="cmp-exit-popup__code-row">
+          <span class="cmp-exit-popup__code" data-exit-code>{{ settings.exit_popup_code | escape }}</span>
+          <button class="cmp-exit-popup__copy" type="button" data-exit-copy>Copy</button>
+        </div>
+
+        {% if settings.exit_popup_button_text != blank %}
+          <a href="{{ settings.exit_popup_button_link | default: routes.cart_url }}" class="cmp-btn cmp-btn--primary cmp-btn--full">
+            {{ settings.exit_popup_button_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
   <a class="cmp-mobile-sticky-cart" href="{{ routes.cart_url }}" aria-label="View cart">
     <span class="cmp-mobile-sticky-cart__icon" aria-hidden="true">&#128722;</span>
     <span>Cart</span>
@@ -236,6 +262,79 @@
       });
     })();
   </script>
+  {% if settings.enable_exit_popup and request.design_mode == false %}
+  <script>
+    (function () {
+      var popup = document.querySelector('[data-exit-popup]');
+      if (!popup) return;
+
+      var timerEl = popup.querySelector('[data-exit-timer]');
+      var copyBtn = popup.querySelector('[data-exit-copy]');
+      var codeEl = popup.querySelector('[data-exit-code]');
+      var closeEls = popup.querySelectorAll('[data-exit-close]');
+      var key = 'cmp_exit_popup_seen';
+      var timerKey = 'cmp_exit_popup_timer_end';
+      var minutes = {{ settings.exit_popup_minutes | default: 10 }};
+      var shown = false;
+
+      function closePopup() {
+        popup.hidden = true;
+        try { sessionStorage.setItem(key, '1'); } catch (e) {}
+      }
+
+      function openPopup() {
+        if (shown) return;
+        shown = true;
+        popup.hidden = false;
+        startTimer();
+      }
+
+      function startTimer() {
+        var end;
+        try {
+          var stored = localStorage.getItem(timerKey);
+          if (stored) end = parseInt(stored, 10);
+        } catch (e) {}
+
+        if (!end || end <= Date.now()) {
+          end = Date.now() + (minutes * 60 * 1000);
+          try { localStorage.setItem(timerKey, String(end)); } catch (e) {}
+        }
+
+        function tick() {
+          var diff = Math.max(0, end - Date.now());
+          var total = Math.floor(diff / 1000);
+          var m = Math.floor(total / 60);
+          var s = total % 60;
+          timerEl.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+          if (diff > 0 && !popup.hidden) setTimeout(tick, 1000);
+        }
+
+        tick();
+      }
+
+      function onExitIntent(e) {
+        if (e.clientY > 10) return;
+        try { if (sessionStorage.getItem(key) === '1') return; } catch (err) {}
+        openPopup();
+        document.removeEventListener('mouseout', onExitIntent);
+      }
+
+      closeEls.forEach(function (el) { el.addEventListener('click', closePopup); });
+
+      if (copyBtn && codeEl && navigator.clipboard) {
+        copyBtn.addEventListener('click', function () {
+          navigator.clipboard.writeText(codeEl.textContent.trim()).then(function () {
+            copyBtn.textContent = 'Copied';
+            setTimeout(function () { copyBtn.textContent = 'Copy'; }, 1200);
+          });
+        });
+      }
+
+      document.addEventListener('mouseout', onExitIntent);
+    })();
+  </script>
+  {% endif %}
 
   {%- comment -%} AI Copywriter — only loaded inside the theme editor {%- endcomment -%}
   {%- if request.design_mode -%}
@@ -261,7 +360,4 @@
   {%- endcomment -%}
 </body>
 </html>
-
-
-
 

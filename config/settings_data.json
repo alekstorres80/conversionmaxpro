@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "color_primary": "#1B7FC3",
@@ -14,7 +23,10 @@
     "font_heading": "assistant_n7",
     "font_body": "assistant_n4",
     "font_size_base": 16,
+    "ai_provider": "gemini",
+    "ai_api_key": "AIzaSyDZbidh_8FFq5bg3oyGvrGp-zgmAQnxIJY",
     "max_page_width": 1200,
-    "section_spacing": 60
+    "section_spacing": 60,
+    "content_for_index": []
   }
 }

@@ -175,6 +175,17 @@
 
 {%- comment -%} AI Copywriter — editor only {%- endcomment -%}
 {%- if request.design_mode -%}
+  <script data-ai-page-product type="application/json">
+    {
+      "title": {{ product_obj.title | json }},
+      "description": {{ product_obj.description | strip_html | json }},
+      "vendor": {{ product_obj.vendor | json }},
+      "type": {{ product_obj.type | json }},
+      "price": {{ product_obj.price | money | json }},
+      "compare_at_price": {{ product_obj.compare_at_price | money | json }},
+      "tags": {{ product_obj.tags | json }}
+    }
+  </script>
   <div class="cmp-ai-panel-mount" data-ai-section="main-product"></div>
   <script>
     (function() {
@@ -183,6 +194,20 @@
       } else { init(); }
       function init() {
         if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) return;
+        // Feed page product into AI config if no theme-settings product is set
+        if (!CMP.ai.config.product || !CMP.ai.config.product.title) {
+          var pageProductEl = document.querySelector('script[data-ai-page-product]');
+          if (pageProductEl) {
+            try {
+              var pp = JSON.parse(pageProductEl.textContent);
+              if (pp && pp.title) {
+                CMP.ai.config.product = pp;
+                CMP.ai.config.productName = pp.title;
+                CMP.ai.config.productDesc = pp.description || '';
+              }
+            } catch(e) {}
+          }
+        }
         var mount = document.querySelector('[data-ai-section="main-product"]');
         if (mount && !mount.hasChildNodes()) {
           CMP.ai.createPanel({ container: mount, sectionType: 'main-product' });

@@ -1,0 +1,62 @@
+{%- comment -%}
+  Customer Reviews App Slot
+{%- endcomment -%}
+
+<section class="cmp-app-blocks cmp-section">
+  <div class="cmp-container">
+    <h2 class="cmp-app-blocks__heading">{{ section.settings.heading }}</h2>
+
+    {%- if request.design_mode -%}
+      <div class="cmp-app-blocks__helper">
+        Click <strong>Add block</strong> in this section and choose your reviews app widget.
+      </div>
+    {%- endif -%}
+
+    <div class="cmp-app-blocks__content">
+      {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}
+          {% render block %}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cmp-app-blocks__helper {
+    margin: 10px 0 14px;
+    padding: 10px 12px;
+    border: 1px dashed #c7d2fe;
+    border-radius: 8px;
+    background: #f8faff;
+    color: #334155;
+    font-size: 0.92rem;
+    line-height: 1.4;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Customer Reviews",
+  "tag": "section",
+  "class": "cmp-section-customer-reviews",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Customer Reviews"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Reviews"
+    }
+  ]
+}
+{% endschema %}

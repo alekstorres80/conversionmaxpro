@@ -88,7 +88,7 @@
                                                           }
                                          },
                      "reviews_apps":  {
-                                          "type":  "app-blocks",
+                                          "type":  "customer-reviews",
                                           "blocks":  {
 
                                                      },
@@ -100,7 +100,7 @@
                                                        }
                                       },
                      "fbt_apps":  {
-                                      "type":  "app-blocks",
+                                      "type":  "frequently-bought-together",
                                       "blocks":  {
 
                                                  },
@@ -164,3 +164,4 @@
                   "sticky_atc"
               ]
 }
+

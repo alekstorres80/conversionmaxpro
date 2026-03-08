@@ -206,7 +206,7 @@
         'Product context:\n' + context + '\n\n' +
         'Return ONLY valid JSON, no markdown fences.';
 
-      return generate(system, user).then(parseJSON);
+      return generate(system, user).then(parseVSLResponse);
     },
 
     generateHeadlines: function () {
@@ -342,50 +342,19 @@
     return normalizeJSONStringContent(s);
   }
 
-  function normalizeJSONStringContent(str) {
-    var out = '';
-    var inString = false;
-    var escaped = false;
-
-    for (var i = 0; i < str.length; i++) {
-      var ch = str.charAt(i);
-
-      if (inString) {
-        if (escaped) {
-          out += ch;
-          escaped = false;
-          continue;
-        }
-        if (ch === '\\') {
-          out += ch;
-          escaped = true;
-          continue;
-        }
-        if (ch === '\r') continue;
-        if (ch === '\n') {
-          out += '\\n';
-          continue;
-        }
-        if (ch === '"') {
-          var j = i + 1;
-          while (j < str.length && /\s/.test(str.charAt(j))) j++;
-          var next = str.charAt(j);
-          if (next && ',}]'.indexOf(next) === -1) {
-            out += '\\"';
-            continue;
-          }
-          inString = false;
-          out += ch;
-          continue;
-        }
-        out += ch;
-      } else {
-        if (ch === '"') inString = true;
-        out += ch;
-      }
+  
+  function parseVSLResponse(text) {
+    try {
+      return parseJSON(text);
+    } catch (e) {
+      var raw = String(text || '').trim();
+      return {
+        headline: '',
+        subheadline: '',
+        cta_text: '',
+        video_script: raw
+      };
     }
-
-    return out;
   }
 
   /* ================================================
@@ -885,4 +854,6 @@
   }
 
 })();
+
+
 

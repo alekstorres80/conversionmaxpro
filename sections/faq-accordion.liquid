@@ -32,25 +32,6 @@
   </div>
 </div>
 
-{%- comment -%} AI Copywriter — editor only {%- endcomment -%}
-{%- if request.design_mode -%}
-  <div class="cmp-ai-panel-mount" data-ai-section="faq" data-section-id="{{ section.id }}"></div>
-  <script>
-    (function() {
-      if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) {
-        document.addEventListener('DOMContentLoaded', init);
-      } else { init(); }
-      function init() {
-        if (!window.CMP || !CMP.ai || !CMP.ai.createPanel) return;
-        var mount = document.querySelector('[data-ai-section="faq"][data-section-id="{{ section.id }}"]');
-        if (mount && !mount.hasChildNodes()) {
-          CMP.ai.createPanel({ container: mount, sectionType: 'faq', sectionId: '{{ section.id }}' });
-        }
-      }
-    })();
-  </script>
-{%- endif -%}
-
 {% schema %}
 {
   "name": "FAQ Accordion",
@@ -120,4 +101,5 @@
   ]
 }
 {% endschema %}
+
 

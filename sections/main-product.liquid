@@ -1,6 +1,13 @@
 {%- liquid
   assign product_obj = product
   assign current_variant = product_obj.selected_or_first_available_variant
+  assign primary_image = current_variant.featured_image
+  if primary_image == blank
+    assign primary_image = product_obj.featured_image
+  endif
+  if primary_image == blank and product_obj.images.size > 0
+    assign primary_image = product_obj.images.first
+  endif
 -%}
 
 {%- if product_obj != blank -%}
@@ -8,24 +15,36 @@
   <div class="cmp-container">
     <div class="cmp-main-product__grid">
       <div class="cmp-main-product__media">
-        {%- if current_variant.featured_image != blank -%}
+        {%- if primary_image != blank -%}
           <img
             id="cmp-main-product-image-{{ section.id }}"
-            src="{{ current_variant.featured_image | image_url: width: 1200 }}"
-            alt="{{ current_variant.featured_image.alt | default: product_obj.title | escape }}"
-            width="{{ current_variant.featured_image.width }}"
-            height="{{ current_variant.featured_image.height }}"
+            src="{{ primary_image | image_url: width: 1200 }}"
+            alt="{{ primary_image.alt | default: product_obj.title | escape }}"
+            width="{{ primary_image.width }}"
+            height="{{ primary_image.height }}"
             loading="eager"
           >
-        {%- elsif product_obj.featured_image != blank -%}
-          <img
-            id="cmp-main-product-image-{{ section.id }}"
-            src="{{ product_obj.featured_image | image_url: width: 1200 }}"
-            alt="{{ product_obj.featured_image.alt | default: product_obj.title | escape }}"
-            width="{{ product_obj.featured_image.width }}"
-            height="{{ product_obj.featured_image.height }}"
-            loading="eager"
-          >
+
+          {%- if product_obj.images.size > 1 -%}
+            <div class="cmp-main-product__thumbs" data-main-product-thumbs>
+              {%- for image in product_obj.images -%}
+                <button
+                  type="button"
+                  class="cmp-main-product__thumb{% if image.id == primary_image.id %} is-active{% endif %}"
+                  data-image-url="{{ image | image_url: width: 1200 }}"
+                  aria-label="View image {{ forloop.index }}"
+                >
+                  <img
+                    src="{{ image | image_url: width: 180 }}"
+                    alt="{{ image.alt | default: product_obj.title | escape }}"
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                  >
+                </button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
         {%- else -%}
           <div class="cmp-main-product__placeholder">{{ 'product-1' | placeholder_svg_tag: 'cmp-placeholder-svg' }}</div>
         {%- endif -%}
@@ -129,38 +148,56 @@
   document.addEventListener('DOMContentLoaded', function () {
     var sectionId = '{{ section.id }}';
     var variantSelect = document.querySelector('#cmp-main-product-variant-' + sectionId);
-    if (!variantSelect) return;
-
     var priceCurrent = document.querySelector('#cmp-main-product-price-' + sectionId + ' [data-price-current]');
     var priceCompare = document.querySelector('#cmp-main-product-price-' + sectionId + ' [data-price-compare]');
-    var image = document.querySelector('#cmp-main-product-image-' + sectionId);
+    var mainImage = document.querySelector('#cmp-main-product-image-' + sectionId);
+    var thumbButtons = document.querySelectorAll('#cmp-main-product-' + sectionId + ' [data-main-product-thumbs] .cmp-main-product__thumb');
 
     function formatMoney(cents) {
       return '$' + (Number(cents || 0) / 100).toFixed(2);
     }
+
+    function setMainImage(imageUrl) {
+      if (mainImage && imageUrl) {
+        mainImage.setAttribute('src', imageUrl);
+      }
     }
 
-    variantSelect.addEventListener('change', function () {
-      var opt = variantSelect.options[variantSelect.selectedIndex];
-      var price = opt.getAttribute('data-price');
-      var compare = opt.getAttribute('data-compare');
-      var imageUrl = opt.getAttribute('data-image');
+    if (variantSelect) {
+      variantSelect.addEventListener('change', function () {
+        var opt = variantSelect.options[variantSelect.selectedIndex];
+        var price = opt.getAttribute('data-price');
+        var compare = opt.getAttribute('data-compare');
+        var imageUrl = opt.getAttribute('data-image');
 
-      if (priceCurrent) priceCurrent.textContent = formatMoney(price);
-      if (priceCompare) {
-        if (compare && Number(compare) > Number(price)) {
-          priceCompare.style.display = '';
-          priceCompare.textContent = formatMoney(compare);
-        } else {
-          priceCompare.style.display = 'none';
-          priceCompare.textContent = '';
+        if (priceCurrent) priceCurrent.textContent = formatMoney(price);
+
+        if (priceCompare) {
+          if (compare && Number(compare) > Number(price)) {
+            priceCompare.style.display = '';
+            priceCompare.textContent = formatMoney(compare);
+          } else {
+            priceCompare.style.display = 'none';
+            priceCompare.textContent = '';
+          }
         }
-      }
 
-      if (image && imageUrl) {
-        image.setAttribute('src', imageUrl);
-      }
-    });
+        if (imageUrl) {
+          setMainImage(imageUrl);
+        }
+      });
+    }
+
+    if (thumbButtons.length) {
+      thumbButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var imageUrl = btn.getAttribute('data-image-url');
+          setMainImage(imageUrl);
+          thumbButtons.forEach(function (other) { other.classList.remove('is-active'); });
+          btn.classList.add('is-active');
+        });
+      });
+    }
   });
 </script>
 
@@ -176,6 +213,29 @@
     width: 100%;
     border-radius: 14px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .cmp-main-product__thumbs {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .cmp-main-product__thumb {
+    border: 2px solid var(--color-border, #d8dee4);
+    border-radius: 10px;
+    padding: 2px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .cmp-main-product__thumb.is-active {
+    border-color: var(--color-primary, #1B7FC3);
+  }
+  .cmp-main-product__thumb img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: none;
   }
   .cmp-main-product__placeholder {
     border: 1px solid var(--color-border, #d8dee4);
@@ -384,5 +444,3 @@
   }
 }
 {% endschema %}
-
-

@@ -27,27 +27,15 @@
         "trust_item_3": "Fast shipping"
       }
     },
-    "vsl_hero": {
-      "type": "vsl-hero",
-      "settings": {
-        "video_type": "youtube",
-        "video_url": "",
-        "autoplay": false,
-        "layout": "inline",
-        "headline": "Watch This Short Demo Before You Buy",
-        "subheadline": "See exactly how it works, who it is for, and why customers are switching.",
-        "cta_text": "See Packages",
-        "cta_link": "#offers"
-      }
-    },
     "countdown": {
       "type": "countdown-timer",
       "settings": {
-        "heading": "This Special Offer Expires In...",
+        "heading": "Offer timer",
+        "compact": true,
         "mode": "evergreen",
         "evergreen_minutes": 30,
-        "bg_color": "#1D3557",
-        "text_color": "#FFFFFF"
+        "bg_color": "#FFFFFF",
+        "text_color": "#1D3557"
       }
     },
     "quantity_breaks": {
@@ -110,7 +98,6 @@
   },
   "order": [
     "main_product",
-    "vsl_hero",
     "countdown",
     "quantity_breaks",
     "guarantee",
@@ -118,4 +105,3 @@
     "sticky_atc"
   ]
 }
-

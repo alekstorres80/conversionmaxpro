@@ -1,5 +1,5 @@
 <div
-  class="cmp-countdown cmp-section"
+  class="cmp-countdown cmp-section{% if section.settings.compact %} cmp-countdown--compact{% endif %}"
   id="countdown-{{ section.id }}"
   data-countdown-section
   data-countdown-mode="{{ section.settings.mode }}"
@@ -58,6 +58,12 @@
       "id": "heading",
       "label": "Heading",
       "default": "This Special Offer Expires In..."
+    },
+    {
+      "type": "checkbox",
+      "id": "compact",
+      "label": "Use compact style",
+      "default": false
     },
     {
       "type": "select",

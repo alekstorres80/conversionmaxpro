@@ -1,5 +1,5 @@
 /* ============================================
-   ConversionMax Pro — Global Styles
+   ConversionMax Pro â€” Global Styles
    ============================================ */
 
 /* ---------- Reset & Base ---------- */
@@ -1373,4 +1373,41 @@ p + p { margin-top: 1em; }
     margin: 7vh 12px 0;
     padding: 22px;
   }
+}
+
+
+.cmp-countdown--compact {
+  padding: 18px 20px;
+  border: 1px solid var(--color-border, #d8dee4);
+  border-radius: 12px;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.cmp-countdown--compact .cmp-countdown__heading {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+.cmp-countdown--compact .cmp-countdown__timer {
+  gap: 12px;
+}
+
+.cmp-countdown--compact .cmp-countdown__unit {
+  min-width: 56px;
+}
+
+.cmp-countdown--compact .cmp-countdown__number {
+  font-size: 1.35rem;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.cmp-countdown--compact .cmp-countdown__label {
+  font-size: 0.65rem;
+}
+
+.cmp-countdown--compact .cmp-countdown__separator {
+  font-size: 1.3rem;
+  padding-top: 4px;
 }

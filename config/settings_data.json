@@ -25,6 +25,7 @@
     "font_size_base": 16,
     "ai_provider": "gemini",
     "ai_api_key": "AIzaSyDZbidh_8FFq5bg3oyGvrGp-zgmAQnxIJY",
+    "ai_product": "goddess-gown-navy",
     "max_page_width": 1200,
     "section_spacing": 60,
     "content_for_index": []

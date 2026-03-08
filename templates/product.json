@@ -24,7 +24,6 @@
         "timer_heading": "Offer timer",
         "timer_minutes": 30,
         "show_secure_badges": true,
-        "trust_heading": "Secure checkout",
         "trust_item_1": "SSL encrypted checkout",
         "trust_item_2": "30-day returns",
         "trust_item_3": "Fast shipping"
@@ -85,7 +84,7 @@
       "type": "guarantee-block",
       "settings": {
         "icon_bg_color": "#1b7fc3",
-        "headline": "60-Day Money-Back Guarantee",
+        "headline": "30-Day Money-Back Guarantee",
         "body": "<p>Try it risk-free for 60 days. If you are not satisfied, contact support for a quick refund.</p>",
         "headline_color": "#1d3557",
         "border_color": "#1b7fc3",

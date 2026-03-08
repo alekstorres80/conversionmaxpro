@@ -90,7 +90,7 @@
 </section>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  var initQuantityBreaks = function () {
     var root = document.querySelector('#cmp-quantity-breaks-{{ section.id }}');
     if (!root) return;
 
@@ -98,12 +98,15 @@
     if (mainForm) {
       var addToCartButton = mainForm.querySelector('.cmp-main-product__button');
       root.classList.add('is-embedded');
-      if (addToCartButton) {
-        mainForm.insertBefore(root, addToCartButton);
-      } else {
-        mainForm.appendChild(root);
+      if (!mainForm.contains(root)) {
+        if (addToCartButton) {
+          mainForm.insertBefore(root, addToCartButton);
+        } else {
+          mainForm.appendChild(root);
+        }
       }
     }
+
     var tierButtons = root.querySelectorAll('.cmp-qb-tier');
     var qtyInput = root.querySelector('[data-qb-qty-input]');
     var idInput = root.querySelector('[data-qb-id-input]');
@@ -112,7 +115,8 @@
 
     if (!tierButtons.length || !qtyInput || !idInput) return;
 
-    if (localVariantSelect) {
+    if (localVariantSelect && !localVariantSelect.dataset.bound) {
+      localVariantSelect.dataset.bound = 'true';
       localVariantSelect.addEventListener('change', function () {
         idInput.value = localVariantSelect.value;
       });
@@ -120,15 +124,20 @@
 
     if (mainVariantSelect) {
       idInput.value = mainVariantSelect.value;
-      mainVariantSelect.addEventListener('change', function () {
-        idInput.value = mainVariantSelect.value;
-        if (localVariantSelect) {
-          localVariantSelect.value = mainVariantSelect.value;
-        }
-      });
+      if (!mainVariantSelect.dataset.qbBound) {
+        mainVariantSelect.dataset.qbBound = 'true';
+        mainVariantSelect.addEventListener('change', function () {
+          idInput.value = mainVariantSelect.value;
+          if (localVariantSelect) {
+            localVariantSelect.value = mainVariantSelect.value;
+          }
+        });
+      }
     }
 
     tierButtons.forEach(function (btn) {
+      if (btn.dataset.bound) return;
+      btn.dataset.bound = 'true';
       btn.addEventListener('click', function () {
         var qty = Number(btn.getAttribute('data-qb-qty') || 1);
         qtyInput.value = qty;
@@ -139,6 +148,18 @@
         btn.classList.add('is-active');
       });
     });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initQuantityBreaks);
+  } else {
+    initQuantityBreaks();
+  }
+
+  document.addEventListener('shopify:section:load', function (event) {
+    if (event && event.detail && event.detail.sectionId === '{{ section.id }}') {
+      initQuantityBreaks();
+    }
   });
 </script>
 
@@ -455,4 +476,6 @@
   }
 }
 {% endschema %}
+
+
 

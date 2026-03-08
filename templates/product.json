@@ -76,12 +76,11 @@
         "tier_3"
       ],
       "settings": {
-        "product": "",
+        "product": "goddess-gown-navy",
         "only_selected_product": true,
         "heading": "Bundle & Save - Limited Time",
         "show_variant_selector": false,
-        "variant_label": "Choose variant",
-        "button_text": "Add to Cart"
+        "variant_label": "Choose variant"
       }
     },
     "guarantee": {

@@ -342,40 +342,6 @@
   </script>
   {% endif %}
 
-  {%- comment -%} AI Copywriter — only loaded inside the theme editor {%- endcomment -%}
-  {%- if request.design_mode -%}
-    {{ 'ai-copywriter.css' | asset_url | stylesheet_tag }}
-    {%- assign ai_product = all_products[settings.ai_product] -%}
-    <script
-      src="{{ 'ai-copywriter.js' | asset_url }}"
-      data-ai-copywriter
-      data-provider="{{ settings.ai_provider }}"
-      data-api-key="{{ settings.ai_api_key }}"
-      data-tone="{{ settings.ai_tone }}"
-      data-audience="{{ settings.ai_target_audience | escape }}"
-      data-pain-points="{{ settings.ai_pain_points | escape }}"
-      data-benefits="{{ settings.ai_key_benefits | escape }}"
-      data-social-proof="{{ settings.ai_social_proof | escape }}"
-    ></script>
-    {%- if ai_product -%}
-      <script data-ai-product type="application/json">
-        {
-          "title": {{ ai_product.title | json }},
-          "description": {{ ai_product.description | strip_html | truncate: 1000 | json }},
-          "type": {{ ai_product.type | json }},
-          "vendor": {{ ai_product.vendor | json }},
-          "price": {{ ai_product.price | money | json }},
-          "compare_at_price": {{ ai_product.compare_at_price | money | json }},
-          "tags": {{ ai_product.tags | json }},
-          "url": {{ ai_product.url | json }},
-          "variants_count": {{ ai_product.variants.size }},
-          "available": {{ ai_product.available | json }},
-          "images_count": {{ ai_product.images.size }}
-        }
-      </script>
-    {%- endif -%}
-  {%- endif -%}
-
   {%- comment -%}
     Section-specific JS — loaded only when the section is on the page.
     Each section template includes its own script tag referencing its asset.

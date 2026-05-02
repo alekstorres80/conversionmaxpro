@@ -82,62 +82,68 @@
   {% render 'license-banner' %}
 
   <header class="cmp-header" role="banner">
-    <div class="cmp-container cmp-header__inner">
-      <a href="{{ routes.root_url }}" class="cmp-header__brand" aria-label="{{ shop.name }}">
-        {% if settings.logo != blank %}
-          <img
-            src="{{ settings.logo | image_url: width: 280 }}"
-            alt="{{ settings.logo.alt | default: shop.name | escape }}"
-            width="{{ settings.logo_width | default: 160 }}"
-            loading="eager"
-          >
-        {% else %}
-          <span class="cmp-header__brand-text">{{ shop.name }}</span>
-        {% endif %}
-      </a>
-
-      <nav class="cmp-header__nav" aria-label="Primary">
-        {% if settings.main_menu != blank %}
-          <ul class="cmp-header__menu">
-            {% for link in linklists[settings.main_menu].links %}
-              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-      </nav>
-
-      <div class="cmp-header__tools">
-        {% if settings.enable_header_search %}
-          <form class="cmp-header__search" action="{{ routes.search_url }}" method="get" role="search">
-            <input
-              type="search"
-              name="q"
-              value="{{ search.terms | escape }}"
-              placeholder="Search products"
-              aria-label="Search products"
+    <div class="cmp-header__top">
+      <div class="cmp-container cmp-header__top-inner">
+        <a href="{{ routes.root_url }}" class="cmp-header__brand" aria-label="{{ shop.name }}">
+          {% if settings.logo != blank %}
+            <img
+              src="{{ settings.logo | image_url: width: 280 }}"
+              alt="{{ settings.logo.alt | default: shop.name | escape }}"
+              width="{{ settings.logo_width | default: 160 }}"
+              loading="eager"
             >
-            <button type="submit" aria-label="Search">Search</button>
-          </form>
-        {% endif %}
+          {% else %}
+            <span class="cmp-header__brand-text">{{ shop.name }}</span>
+          {% endif %}
+        </a>
 
-        <div class="cmp-header__actions" aria-label="Account and cart">
-          {% if shop.customer_accounts_enabled %}
-            <a class="cmp-header__icon-link" href="{{ routes.account_url }}" aria-label="Account">
-              <span class="cmp-header__icon" aria-hidden="true">&#128100;</span>
-            </a>
+        <div class="cmp-header__tools">
+          {% if settings.enable_header_search %}
+            <form class="cmp-header__search" action="{{ routes.search_url }}" method="get" role="search">
+              <input
+                type="search"
+                name="q"
+                value="{{ search.terms | escape }}"
+                placeholder="Search products"
+                aria-label="Search products"
+              >
+              <button type="submit" aria-label="Search">Search</button>
+            </form>
           {% endif %}
 
-          <a class="cmp-header__icon-link cmp-header__icon-link--cart" href="{{ routes.cart_url }}" aria-label="Cart">
-            <span class="cmp-header__icon" aria-hidden="true">&#128722;</span>
-            {% if cart.item_count > 0 %}
-              <span class="cmp-header__cart-count">{{ cart.item_count }}</span>
+          <div class="cmp-header__actions" aria-label="Account and cart">
+            {% if shop.customer_accounts_enabled %}
+              <a class="cmp-header__icon-link" href="{{ routes.account_url }}" aria-label="Account">
+                <span class="cmp-header__icon" aria-hidden="true">&#128100;</span>
+              </a>
             {% endif %}
-          </a>
-        </div>
 
-        <button class="cmp-header__menu-toggle" type="button" data-cmp-menu-toggle aria-expanded="false" aria-controls="cmp-mobile-menu">
-          Menu
-        </button>
+            <a class="cmp-header__icon-link cmp-header__icon-link--cart" href="{{ routes.cart_url }}" aria-label="Cart">
+              <span class="cmp-header__icon" aria-hidden="true">&#128722;</span>
+              {% if cart.item_count > 0 %}
+                <span class="cmp-header__cart-count">{{ cart.item_count }}</span>
+              {% endif %}
+            </a>
+          </div>
+
+          <button class="cmp-header__menu-toggle" type="button" data-cmp-menu-toggle aria-expanded="false" aria-controls="cmp-mobile-menu">
+            Menu
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cmp-header__bottom">
+      <div class="cmp-container cmp-header__bottom-inner">
+        <nav class="cmp-header__nav" aria-label="Primary">
+          {% if settings.main_menu != blank %}
+            <ul class="cmp-header__menu">
+              {% for link in linklists[settings.main_menu].links %}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </nav>
       </div>
     </div>
 

@@ -1,0 +1,56 @@
+{
+  "sections": {
+    "vsl_hero": {
+      "type": "vsl-hero",
+      "settings": {
+        "layout": "inline",
+        "headline": "",
+        "subheadline": "",
+        "cta_text": ""
+      }
+    },
+    "quantity_breaks": {
+      "type": "quantity-breaks",
+      "settings": {
+        "heading": "Choose Your Package",
+        "subheading": "Select the best option for you"
+      }
+    },
+    "social_proof": {
+      "type": "social-proof-strip",
+      "settings": {
+        "show_stats": true,
+        "star_rating": 5,
+        "review_count": "2,847"
+      }
+    },
+    "guarantee": {
+      "type": "guarantee-block",
+      "settings": {
+        "headline": "100% Money-Back Guarantee",
+        "body": "<p>We stand behind our product with a full 60-day money-back guarantee. No questions asked.</p>"
+      }
+    },
+    "faq": {
+      "type": "faq-accordion",
+      "settings": {
+        "heading": "Frequently Asked Questions"
+      }
+    },
+    "sticky_atc": {
+      "type": "sticky-atc",
+      "settings": {
+        "scroll_trigger": 400,
+        "button_text": "Add to Cart"
+      }
+    }
+  },
+  "order": [
+    "vsl_hero",
+    "quantity_breaks",
+    "social_proof",
+    "guarantee",
+    "faq",
+    "sticky_atc"
+  ]
+}

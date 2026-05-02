@@ -1,0 +1,500 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "ConversionMax Pro",
+    "theme_version": "1.1.0",
+    "theme_author": "ConversionMax",
+    "theme_documentation_url": "https://docs.conversionmaxpro.com",
+    "theme_support_url": "https://support.conversionmaxpro.com"
+  },
+  {
+    "name": "License",
+    "settings": [
+      {
+        "type": "header",
+        "content": "License Activation"
+      },
+      {
+        "type": "paragraph",
+        "content": "Enter your Lemon Squeezy license key to activate ConversionMax Pro. Your storefront works without activation, but please support the theme by activating your license."
+      },
+      {
+        "type": "text",
+        "id": "license_key",
+        "label": "License Key",
+        "info": "Your Lemon Squeezy license key (e.g., XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX)"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Primary Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary",
+        "default": "#204A80",
+        "info": "Header and link color."
+      },
+      {
+        "type": "color",
+        "id": "color_primary_hover",
+        "label": "Primary Hover",
+        "default": "#163660"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary",
+        "default": "#1D3557"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent (cart badge)",
+        "default": "#FFEA00"
+      },
+      {
+        "type": "color",
+        "id": "color_atc",
+        "label": "Add-to-Cart Button",
+        "default": "#E60000",
+        "info": "Big primary call-to-action button color."
+      },
+      {
+        "type": "color",
+        "id": "color_atc_hover",
+        "label": "Add-to-Cart Hover",
+        "default": "#FF1A1A"
+      },
+      {
+        "type": "header",
+        "content": "Background & Text"
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Page Background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_alt",
+        "label": "Alternate Section Background",
+        "default": "#F5F5F5"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Body Text",
+        "default": "#585858"
+      },
+      {
+        "type": "color",
+        "id": "color_text_light",
+        "label": "Light Text",
+        "default": "#909090"
+      },
+      {
+        "type": "color",
+        "id": "color_heading",
+        "label": "Headings",
+        "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Header"
+      },
+      {
+        "type": "color",
+        "id": "color_header_bg",
+        "label": "Header Background",
+        "default": "#204A80"
+      },
+      {
+        "type": "color",
+        "id": "color_header_text",
+        "label": "Header Text",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_header_btn",
+        "label": "Header Cart/Search Button",
+        "default": "#1C4170"
+      },
+      {
+        "type": "header",
+        "content": "Navigation Bar"
+      },
+      {
+        "type": "color",
+        "id": "color_nav_bg",
+        "label": "Nav Background",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "color_nav_text",
+        "label": "Nav Text",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "Footer"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_bg",
+        "label": "Footer Background",
+        "default": "#F2F2F2"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_text",
+        "label": "Footer Text",
+        "default": "#636363"
+      },
+      {
+        "type": "header",
+        "content": "Utility Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_success",
+        "label": "Success / Guarantee",
+        "default": "#2D6A4F"
+      },
+      {
+        "type": "color",
+        "id": "color_warning",
+        "label": "Warning / Urgency",
+        "default": "#E76F51"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Borders",
+        "default": "#ECECEC"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading Font",
+        "default": "open_sans_n7",
+        "info": "Bold, condensed sans-serif works best."
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body Font",
+        "default": "helvetica_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_accent",
+        "label": "Accent Font (nav, buttons)",
+        "default": "montserrat_n6"
+      },
+      {
+        "type": "range",
+        "id": "font_size_base",
+        "label": "Base Font Size (px)",
+        "min": 14,
+        "max": 20,
+        "step": 1,
+        "default": 15
+      },
+      {
+        "type": "checkbox",
+        "id": "uppercase_headings",
+        "label": "Uppercase Headings",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "uppercase_nav",
+        "label": "Uppercase Navigation",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "uppercase_buttons",
+        "label": "Uppercase Buttons",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Header & Logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo_image",
+        "label": "Logo image",
+        "info": "Upload your logo. Leave blank to display shop name as text."
+      },
+      {
+        "type": "range",
+        "id": "logo_max_width",
+        "label": "Logo max width (px)",
+        "min": 80,
+        "max": 400,
+        "step": 10,
+        "default": 200
+      },
+      {
+        "type": "checkbox",
+        "id": "logo_hide_mobile",
+        "label": "Hide logo on mobile",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "header_message",
+        "label": "Header announcement",
+        "info": "Optional small text shown in header (e.g. 'Free shipping over $50').",
+        "default": "Free shipping on orders over $50"
+      },
+      {
+        "type": "checkbox",
+        "id": "header_show_account",
+        "label": "Show account link",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "header_show_cart_badge",
+        "label": "Show cart count badge",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Navigation",
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "main_menu_linklist",
+        "label": "Main menu",
+        "default": "main-menu"
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Quick Links"
+      },
+      {
+        "type": "checkbox",
+        "id": "footer_quicklinks_enable",
+        "label": "Show Quick Links column",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "footer_quicklinks_heading",
+        "label": "Quick Links heading",
+        "default": "Quick Links"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_quicklinks_linklist",
+        "label": "Quick Links menu",
+        "default": "footer"
+      },
+      {
+        "type": "header",
+        "content": "Contact / About"
+      },
+      {
+        "type": "checkbox",
+        "id": "footer_contact_enable",
+        "label": "Show Contact column",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "footer_contact_heading",
+        "label": "Contact heading",
+        "default": "Get in Touch"
+      },
+      {
+        "type": "richtext",
+        "id": "footer_contact_text",
+        "label": "Contact text",
+        "default": "<p>Email: hello@example.com<br>Phone: (000) 000-0000</p>"
+      },
+      {
+        "type": "header",
+        "content": "Newsletter"
+      },
+      {
+        "type": "checkbox",
+        "id": "footer_newsletter_enable",
+        "label": "Show Newsletter column",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "footer_newsletter_heading",
+        "label": "Newsletter heading",
+        "default": "Subscribe & Save"
+      },
+      {
+        "type": "text",
+        "id": "footer_newsletter_text",
+        "label": "Newsletter description",
+        "default": "Sign up for exclusive offers and product updates."
+      },
+      {
+        "type": "header",
+        "content": "Social Links"
+      },
+      {
+        "type": "checkbox",
+        "id": "footer_social_enable",
+        "label": "Show social icons",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "social_facebook",
+        "label": "Facebook URL"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter",
+        "label": "Twitter / X URL"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube",
+        "label": "YouTube URL"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok",
+        "label": "TikTok URL"
+      },
+      {
+        "type": "header",
+        "content": "Legal & Payment"
+      },
+      {
+        "type": "checkbox",
+        "id": "footer_legal_enable",
+        "label": "Show legal link list",
+        "default": true
+      },
+      {
+        "type": "link_list",
+        "id": "footer_legal_linklist",
+        "label": "Legal menu",
+        "default": "footer"
+      },
+      {
+        "type": "checkbox",
+        "id": "footer_payment_icons_enable",
+        "label": "Show payment icons",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "footer_show_powered_by",
+        "label": "Show 'Powered by Shopify'",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Tracking Pixels",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Meta (Facebook) Pixel"
+      },
+      {
+        "type": "text",
+        "id": "meta_pixel_id",
+        "label": "Meta Pixel ID",
+        "info": "Enter your Meta (Facebook) Pixel ID. Leave blank to disable."
+      },
+      {
+        "type": "header",
+        "content": "TikTok Pixel"
+      },
+      {
+        "type": "text",
+        "id": "tiktok_pixel_id",
+        "label": "TikTok Pixel ID",
+        "info": "Enter your TikTok Pixel ID. Leave blank to disable."
+      },
+      {
+        "type": "header",
+        "content": "Google Tag Manager"
+      },
+      {
+        "type": "text",
+        "id": "gtm_container_id",
+        "label": "GTM Container ID",
+        "info": "Enter your GTM Container ID (e.g., GTM-XXXXXX). Leave blank to disable."
+      },
+      {
+        "type": "header",
+        "content": "Snapchat Pixel"
+      },
+      {
+        "type": "text",
+        "id": "snapchat_pixel_id",
+        "label": "Snapchat Pixel ID",
+        "info": "Enter your Snapchat Pixel ID. Leave blank to disable."
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      },
+      {
+        "type": "range",
+        "id": "max_page_width",
+        "label": "Max Page Width (px)",
+        "min": 1000,
+        "max": 1600,
+        "step": 40,
+        "default": 1200
+      },
+      {
+        "type": "range",
+        "id": "section_spacing",
+        "label": "Section Spacing (px)",
+        "min": 20,
+        "max": 100,
+        "step": 4,
+        "default": 60
+      }
+    ]
+  }
+]

@@ -1,0 +1,101 @@
+{
+  "name": "VSL Page",
+  "sections": {
+    "vsl_hero": {
+      "type": "vsl-hero",
+      "settings": {
+        "video_type": "youtube",
+        "autoplay": true,
+        "layout": "inline",
+        "headline": "Watch This Free Presentation",
+        "subheadline": "Discover how thousands of people are getting incredible results with this breakthrough approach.",
+        "cta_text": "Claim Your Spot Now"
+      }
+    },
+    "countdown": {
+      "type": "countdown-timer",
+      "settings": {
+        "heading": "This Offer Expires In...",
+        "mode": "evergreen",
+        "evergreen_minutes": 20
+      }
+    },
+    "social_proof": {
+      "type": "social-proof-strip",
+      "settings": {
+        "show_stats": true,
+        "star_rating": 5,
+        "review_count": "4,500",
+        "customer_count": "25,000"
+      }
+    },
+    "quantity_breaks": {
+      "type": "quantity-breaks",
+      "settings": {
+        "heading": "Select Your Package",
+        "subheading": "The more you buy, the more you save."
+      }
+    },
+    "bundle_builder": {
+      "type": "bundle-builder",
+      "settings": {
+        "heading": "Build Your Custom Bundle",
+        "subheading": "Mix and match to create the perfect combo."
+      }
+    },
+    "guarantee": {
+      "type": "guarantee-block",
+      "settings": {
+        "headline": "60-Day Iron-Clad Guarantee",
+        "body": "<p>Try it completely risk-free. If you don't see real results within 60 days, we'll refund every penny. No hassle, no hoops.</p>"
+      }
+    },
+    "faq": {
+      "type": "faq-accordion",
+      "settings": {
+        "heading": "Frequently Asked Questions",
+        "subheading": "Everything you need to know before making your decision."
+      },
+      "blocks": {
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "What exactly am I getting?",
+            "answer": "<p>You're getting our complete system including all the tools and resources you need to achieve real results.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "How fast will I see results?",
+            "answer": "<p>Most customers report seeing initial results within the first 7 days, with full results typically within 30-60 days.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "Is there a guarantee?",
+            "answer": "<p>Yes — a full 60-day money-back guarantee. If you're not happy, you get a complete refund.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I contact support?",
+            "answer": "<p>Of course! Our support team is available Monday through Friday. Reach out anytime and we'll respond within 24 hours.</p>"
+          }
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4"]
+    }
+  },
+  "order": [
+    "vsl_hero",
+    "countdown",
+    "social_proof",
+    "quantity_breaks",
+    "bundle_builder",
+    "guarantee",
+    "faq"
+  ]
+}

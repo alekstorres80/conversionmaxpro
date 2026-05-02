@@ -1,0 +1,213 @@
+{%- comment -%}
+  VSL Hero Section — ConversionMax Pro
+  Full-width video (YouTube/Vimeo/mp4), autoplay option,
+  headline + subheadline overlay, CTA button.
+{%- endcomment -%}
+
+{%- liquid
+  assign video_type = section.settings.video_type
+  assign video_url = section.settings.video_url
+  assign autoplay = section.settings.autoplay
+  assign layout = section.settings.layout
+  assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0
+  assign bg_color = section.settings.bg_color
+-%}
+
+<section
+  id="vsl-hero-{{ section.id }}"
+  class="cmp-vsl-hero{% if layout == 'inline' %} cmp-vsl-hero--inline{% endif %}"
+  {% if layout == 'background' %}style="background-color: {{ bg_color }};"{% endif %}
+>
+  {%- if layout == 'background' and video_url != blank -%}
+    <div class="cmp-vsl-hero__video-wrap">
+      {%- if video_type == 'youtube' -%}
+        {%- assign yt_id = video_url | split: 'v=' | last | split: '&' | first -%}
+        {%- if video_url contains 'youtu.be/' -%}
+          {%- assign yt_id = video_url | split: 'youtu.be/' | last | split: '?' | first -%}
+        {%- endif -%}
+        <iframe
+          src="https://www.youtube.com/embed/{{ yt_id }}?autoplay={% if autoplay %}1{% else %}0{% endif %}&mute=1&loop=1&playlist={{ yt_id }}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          loading="lazy"
+          title="{{ section.settings.headline | escape }}"
+        ></iframe>
+      {%- elsif video_type == 'vimeo' -%}
+        {%- assign vimeo_id = video_url | split: 'vimeo.com/' | last | split: '?' | first -%}
+        <iframe
+          src="https://player.vimeo.com/video/{{ vimeo_id }}?autoplay={% if autoplay %}1{% else %}0{% endif %}&muted=1&loop=1&background=1&title=0&byline=0&portrait=0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          loading="lazy"
+          title="{{ section.settings.headline | escape }}"
+        ></iframe>
+      {%- elsif video_type == 'mp4' -%}
+        <video
+          {% if autoplay %}autoplay{% endif %}
+          muted
+          loop
+          playsinline
+          preload="metadata"
+        >
+          <source src="{{ video_url }}" type="video/mp4">
+        </video>
+      {%- endif -%}
+    </div>
+    <div class="cmp-vsl-hero__overlay" style="background: rgba(0,0,0,{{ overlay_opacity }});"></div>
+  {%- endif -%}
+
+  <div class="cmp-vsl-hero__content cmp-container">
+    {%- if section.settings.headline != blank -%}
+      <h1 class="cmp-vsl-hero__headline">{{ section.settings.headline }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.subheadline != blank -%}
+      <p class="cmp-vsl-hero__subheadline">{{ section.settings.subheadline }}</p>
+    {%- endif -%}
+
+    {%- if layout == 'inline' and video_url != blank -%}
+      <div class="cmp-vsl-hero__video-container cmp-vsl-hero__video-container--16x9">
+        {%- if video_type == 'youtube' -%}
+          {%- assign yt_id = video_url | split: 'v=' | last | split: '&' | first -%}
+          {%- if video_url contains 'youtu.be/' -%}
+            {%- assign yt_id = video_url | split: 'youtu.be/' | last | split: '?' | first -%}
+          {%- endif -%}
+          <iframe
+            src="https://www.youtube.com/embed/{{ yt_id }}?autoplay={% if autoplay %}1{% else %}0{% endif %}&mute={% if autoplay %}1{% else %}0{% endif %}&rel=0&modestbranding=1&playsinline=1"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+            loading="lazy"
+            title="{{ section.settings.headline | escape }}"
+          ></iframe>
+        {%- elsif video_type == 'vimeo' -%}
+          {%- assign vimeo_id = video_url | split: 'vimeo.com/' | last | split: '?' | first -%}
+          <iframe
+            src="https://player.vimeo.com/video/{{ vimeo_id }}?autoplay={% if autoplay %}1{% else %}0{% endif %}&muted={% if autoplay %}1{% else %}0{% endif %}&title=0&byline=0&portrait=0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+            loading="lazy"
+            title="{{ section.settings.headline | escape }}"
+          ></iframe>
+        {%- elsif video_type == 'mp4' -%}
+          <video
+            {% if autoplay %}autoplay muted{% endif %}
+            controls
+            playsinline
+            preload="metadata"
+          >
+            <source src="{{ video_url }}" type="video/mp4">
+          </video>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank -%}
+      <a
+        href="{{ section.settings.cta_link }}"
+        class="cmp-btn cmp-btn--primary cmp-btn--large"
+      >
+        {{ section.settings.cta_text }}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "VSL Hero",
+  "tag": "section",
+  "class": "cmp-section-vsl-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "select",
+      "id": "video_type",
+      "label": "Video Type",
+      "options": [
+        { "value": "youtube", "label": "YouTube" },
+        { "value": "vimeo", "label": "Vimeo" },
+        { "value": "mp4", "label": "MP4 URL" }
+      ],
+      "default": "youtube"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video URL",
+      "info": "YouTube/Vimeo URL or direct MP4 link"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay (muted)",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "inline", "label": "Centered video with text above" },
+        { "value": "background", "label": "Full-width background video" }
+      ],
+      "default": "inline",
+      "info": "Inline shows the video in a centered container. Background makes it cover the full section."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Background overlay opacity (%)",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "default": 50,
+      "info": "Only applies to background layout"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Watch This Short Video To Discover..."
+    },
+    {
+      "type": "textarea",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "The proven system that helps you get more customers, more sales, and more freedom."
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Get Started Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "VSL Hero"
+    }
+  ]
+}
+{% endschema %}

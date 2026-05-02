@@ -1,0 +1,91 @@
+{%- comment -%}
+  Sticky Add-to-Cart Bar — ConversionMax Pro
+  Appears on scroll, shows product title + price + ATC button.
+  Uses product page context by default, or can be configured manually.
+{%- endcomment -%}
+
+{%- liquid
+  assign current_product = product
+  if section.settings.product != blank
+    assign current_product = section.settings.product
+  endif
+-%}
+
+{%- if current_product != blank -%}
+  <div
+    id="sticky-atc-{{ section.id }}"
+    class="cmp-sticky-atc"
+    data-sticky-atc
+    data-scroll-trigger="{{ section.settings.scroll_trigger }}"
+  >
+    <div class="cmp-sticky-atc__inner">
+      <div class="cmp-sticky-atc__info">
+        {%- if current_product.featured_image -%}
+          <img
+            class="cmp-sticky-atc__image"
+            src="{{ current_product.featured_image | image_url: width: 96 }}"
+            alt="{{ current_product.featured_image.alt | escape }}"
+            width="48"
+            height="48"
+            loading="lazy"
+          >
+        {%- endif -%}
+        <span class="cmp-sticky-atc__title">{{ current_product.title }}</span>
+        <span class="cmp-sticky-atc__price" data-sticky-atc-price>
+          {{ current_product.selected_or_first_available_variant.price | money }}
+        </span>
+      </div>
+      <div class="cmp-sticky-atc__btn">
+        <button
+          class="cmp-btn cmp-btn--primary"
+          data-sticky-atc-btn
+          data-variant-id="{{ current_product.selected_or_first_available_variant.id }}"
+        >
+          {{ section.settings.button_text | default: 'Add to Cart' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ 'sticky-atc.js' | asset_url }}" defer></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Sticky Add to Cart",
+  "tag": "div",
+  "class": "cmp-section-sticky-atc",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "Leave blank on product pages to use the current product."
+    },
+    {
+      "type": "range",
+      "id": "scroll_trigger",
+      "label": "Show after scrolling (px)",
+      "min": 100,
+      "max": 1000,
+      "step": 50,
+      "default": 400,
+      "info": "How far the visitor scrolls before the bar appears."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Add to Cart"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky Add to Cart"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product", "page"]
+  }
+}
+{% endschema %}

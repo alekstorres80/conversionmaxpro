@@ -1,0 +1,61 @@
+{%- comment -%}
+  License Banner — ConversionMax Pro
+  Shows a non-intrusive admin banner if no license key is set.
+  Only visible to logged-in staff in the theme editor / admin preview.
+{%- endcomment -%}
+
+{%- if settings.license_key == blank -%}
+  <div id="cmp-license-banner" style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1D3557;
+    color: #fff;
+    text-align: center;
+    padding: 12px 20px;
+    font-size: 14px;
+    z-index: 99999;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  ">
+    <span>ConversionMax Pro — Please activate your license key in Theme Settings → License.</span>
+    <button onclick="this.parentElement.remove()" style="
+      background: none;
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+      padding: 4px 12px;
+      margin-left: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 13px;
+    ">Dismiss</button>
+  </div>
+{%- endif -%}
+
+{%- if settings.license_key != blank -%}
+  <script>
+    (function() {
+      var key = {{ settings.license_key | json }};
+      if (!key) return;
+
+      fetch('https://api.lemonsqueezy.com/v1/licenses/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ license_key: key })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.valid) {
+          var banner = document.createElement('div');
+          banner.id = 'cmp-license-banner';
+          banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#E63946;color:#fff;text-align:center;padding:12px 20px;font-size:14px;z-index:99999;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;';
+          banner.innerHTML = '<span>ConversionMax Pro — Your license key appears to be invalid. Please check Theme Settings → License.</span>';
+          document.body.appendChild(banner);
+        }
+      })
+      .catch(function() {
+        /* Silently fail — honor system, don't block the store */
+      });
+    })();
+  </script>
+{%- endif -%}

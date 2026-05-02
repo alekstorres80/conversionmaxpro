@@ -1,0 +1,145 @@
+{%- comment -%}
+  Countdown Timer Section — ConversionMax Pro
+  Two modes: fixed end date/time AND evergreen (resets per visitor via localStorage).
+{%- endcomment -%}
+
+{%- liquid
+  assign mode = section.settings.mode
+  assign heading = section.settings.heading
+  assign expired_msg = section.settings.expired_message
+  assign bg_color = section.settings.bg_color
+  assign text_color = section.settings.text_color
+-%}
+
+<section
+  id="countdown-{{ section.id }}"
+  class="cmp-countdown cmp-section"
+  style="background-color: {{ bg_color }}; color: {{ text_color }};"
+  data-countdown-section="{{ section.id }}"
+  data-countdown-mode="{{ mode }}"
+  {%- if mode == 'fixed' -%}
+    data-countdown-end="{{ section.settings.end_date }}T{{ section.settings.end_time }}"
+  {%- else -%}
+    data-countdown-duration="{{ section.settings.evergreen_minutes }}"
+    data-countdown-storage-key="cmp_countdown_{{ section.id }}"
+  {%- endif -%}
+>
+  <div class="cmp-container">
+    {%- if heading != blank -%}
+      <h2 class="cmp-countdown__heading" style="color: {{ text_color }};">{{ heading }}</h2>
+    {%- endif -%}
+
+    <div class="cmp-countdown__timer" data-countdown-timer>
+      <div class="cmp-countdown__unit">
+        <span class="cmp-countdown__number" data-countdown-days>00</span>
+        <span class="cmp-countdown__label">Days</span>
+      </div>
+      <span class="cmp-countdown__separator">:</span>
+      <div class="cmp-countdown__unit">
+        <span class="cmp-countdown__number" data-countdown-hours>00</span>
+        <span class="cmp-countdown__label">Hours</span>
+      </div>
+      <span class="cmp-countdown__separator">:</span>
+      <div class="cmp-countdown__unit">
+        <span class="cmp-countdown__number" data-countdown-mins>00</span>
+        <span class="cmp-countdown__label">Minutes</span>
+      </div>
+      <span class="cmp-countdown__separator">:</span>
+      <div class="cmp-countdown__unit">
+        <span class="cmp-countdown__number" data-countdown-secs>00</span>
+        <span class="cmp-countdown__label">Seconds</span>
+      </div>
+    </div>
+
+    <div class="cmp-countdown__expired" data-countdown-expired style="display: none;">
+      {{ expired_msg | default: 'This offer has expired.' }}
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'countdown-timer.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Countdown Timer",
+  "tag": "section",
+  "class": "cmp-section-countdown",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "This Special Offer Expires In..."
+    },
+    {
+      "type": "select",
+      "id": "mode",
+      "label": "Timer mode",
+      "options": [
+        { "value": "fixed", "label": "Fixed end date" },
+        { "value": "evergreen", "label": "Evergreen (per visitor)" }
+      ],
+      "default": "evergreen"
+    },
+    {
+      "type": "header",
+      "content": "Fixed mode settings"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End date (YYYY-MM-DD)",
+      "default": "2026-12-31",
+      "info": "Only used in fixed mode."
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "label": "End time (HH:MM)",
+      "default": "23:59",
+      "info": "24-hour format. Only used in fixed mode."
+    },
+    {
+      "type": "header",
+      "content": "Evergreen mode settings"
+    },
+    {
+      "type": "range",
+      "id": "evergreen_minutes",
+      "label": "Timer duration (minutes)",
+      "min": 5,
+      "max": 1440,
+      "step": 5,
+      "default": 30,
+      "info": "How long the timer runs for each new visitor. Stored in localStorage."
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "text",
+      "id": "expired_message",
+      "label": "Expired message",
+      "default": "This offer has expired."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#1D3557"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown Timer"
+    }
+  ]
+}
+{% endschema %}

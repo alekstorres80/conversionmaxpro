@@ -1,0 +1,109 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    {%- if page_title -%}
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    {%- else -%}
+      {{ shop.name }}
+    {%- endif -%}
+  </title>
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+
+  {%- comment -%} CSS Custom Properties from theme settings {%- endcomment -%}
+  {% style %}
+    :root {
+      --color-primary: {{ settings.color_primary }};
+      --color-primary-hover: {{ settings.color_primary_hover }};
+      --color-secondary: {{ settings.color_secondary }};
+      --color-accent: {{ settings.color_accent }};
+      --color-atc: {{ settings.color_atc }};
+      --color-atc-hover: {{ settings.color_atc_hover }};
+      --color-bg: {{ settings.color_bg }};
+      --color-bg-alt: {{ settings.color_bg_alt }};
+      --color-text: {{ settings.color_text }};
+      --color-text-light: {{ settings.color_text_light }};
+      --color-heading: {{ settings.color_heading }};
+      --color-header-bg: {{ settings.color_header_bg }};
+      --color-header-text: {{ settings.color_header_text }};
+      --color-header-btn: {{ settings.color_header_btn }};
+      --color-nav-bg: {{ settings.color_nav_bg }};
+      --color-nav-text: {{ settings.color_nav_text }};
+      --color-footer-bg: {{ settings.color_footer_bg }};
+      --color-footer-text: {{ settings.color_footer_text }};
+      --color-success: {{ settings.color_success }};
+      --color-warning: {{ settings.color_warning }};
+      --color-border: {{ settings.color_border }};
+      --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+      --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+      --font-accent: {{ settings.font_accent.family }}, {{ settings.font_accent.fallback_families }};
+      --font-size-base: {{ settings.font_size_base }}px;
+      --max-page-width: {{ settings.max_page_width }}px;
+      --section-spacing: {{ settings.section_spacing }}px;
+      {% if settings.uppercase_headings %}--heading-transform: uppercase;{% else %}--heading-transform: none;{% endif %}
+      {% if settings.uppercase_nav %}--nav-transform: uppercase;{% else %}--nav-transform: none;{% endif %}
+      {% if settings.uppercase_buttons %}--button-transform: uppercase;{% else %}--button-transform: none;{% endif %}
+    }
+  {% endstyle %}
+
+  {{ settings.font_heading | font_face: font_display: 'swap' }}
+  {{ settings.font_body | font_face: font_display: 'swap' }}
+  {{ settings.font_accent | font_face: font_display: 'swap' }}
+
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  {{ content_for_header }}
+
+  {%- comment -%} Pixel scripts — storefront only, not in theme editor {%- endcomment -%}
+  {% render 'pixel-scripts' %}
+</head>
+
+<body class="template-{{ template.name | handle }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix | handle }}{% endif %}">
+
+  {%- if settings.gtm_container_id != blank -%}
+    {% unless request.design_mode %}
+      <!-- Google Tag Manager (noscript) -->
+      <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id={{ settings.gtm_container_id | escape }}"
+          height="0" width="0" style="display:none;visibility:hidden"></iframe>
+      </noscript>
+    {% endunless %}
+  {%- endif -%}
+
+  <a href="#main-content" class="skip-link visually-hidden">Skip to content</a>
+
+  {%- comment -%} License banner — admin only {%- endcomment -%}
+  {% render 'license-banner' %}
+
+  {% section 'header' %}
+
+  <main id="main-content" class="cmp-main" role="main">
+    {{ content_for_layout }}
+  </main>
+
+  {% section 'footer' %}
+
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+
+  {%- comment -%}
+    Section-specific JS — loaded only when the section is on the page.
+    Each section template includes its own script tag referencing its asset.
+  {%- endcomment -%}
+</body>
+</html>

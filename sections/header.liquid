@@ -1,0 +1,110 @@
+{%- comment -%}
+  Site Header — ConversionMax Pro
+  Inspired by 1.8 ThemeX (2017): logo + cart + announcement, with a black uppercase nav bar below.
+{%- endcomment -%}
+
+<header class="cmp-site-header" role="banner">
+  <div class="cmp-container cmp-site-header__inner">
+
+    <div class="cmp-site-header__logo">
+      {%- if template == 'index' -%}
+        <h1 class="cmp-site-header__logo-heading" itemscope itemtype="http://schema.org/Organization">
+      {%- else -%}
+        <div class="cmp-site-header__logo-heading" itemscope itemtype="http://schema.org/Organization">
+      {%- endif -%}
+        <a href="/" itemprop="url" class="cmp-site-header__logo-link">
+          {%- if settings.logo_image != blank -%}
+            <img
+              src="{{ settings.logo_image | image_url: width: 600 }}"
+              alt="{{ shop.name | escape }}"
+              width="{{ settings.logo_max_width }}"
+              height="auto"
+              itemprop="logo"
+              loading="eager"
+              style="max-width: {{ settings.logo_max_width }}px;"
+            >
+          {%- else -%}
+            <span class="cmp-site-header__shop-name">{{ shop.name }}</span>
+          {%- endif -%}
+        </a>
+      {%- if template == 'index' -%}
+        </h1>
+      {%- else -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="cmp-site-header__right">
+      {%- if settings.header_message != blank or shop.customer_accounts_enabled -%}
+        <div class="cmp-site-header__meta">
+          {%- if settings.header_message != blank -%}
+            <span class="cmp-site-header__message">{{ settings.header_message }}</span>
+          {%- endif -%}
+          {%- if shop.customer_accounts_enabled and settings.header_show_account -%}
+            <span class="cmp-site-header__account">
+              {%- if customer -%}
+                <a href="/account">{{ 'layout.customer.account' | t | default: 'Account' }}</a>
+                <span class="cmp-site-header__sep">&middot;</span>
+                {{ 'layout.customer.log_out' | t | default: 'Log out' | customer_logout_link }}
+              {%- else -%}
+                {{ 'layout.customer.sign_in' | t | default: 'Sign in' | customer_login_link }}
+                <span class="cmp-site-header__sep">&middot;</span>
+                {{ 'layout.customer.create_account' | t | default: 'Create account' | customer_register_link }}
+              {%- endif -%}
+            </span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <a href="/cart" class="cmp-site-header__cart" aria-label="Cart">
+        <svg class="cmp-site-header__cart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="cmp-site-header__cart-label">Cart</span>
+        {%- if settings.header_show_cart_badge -%}
+          <span class="cmp-site-header__cart-count{% if cart.item_count == 0 %} cmp-site-header__cart-count--empty{% endif %}" data-cart-count>{{ cart.item_count }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+  </div>
+
+  {%- if settings.main_menu_linklist != blank and linklists[settings.main_menu_linklist].links.size > 0 -%}
+    <nav class="cmp-site-nav" role="navigation" aria-label="Main">
+      <div class="cmp-container">
+        <button type="button" class="cmp-site-nav__toggle" aria-expanded="false" aria-controls="cmp-main-menu" data-nav-toggle>
+          <span class="cmp-site-nav__toggle-bars" aria-hidden="true"></span>
+          <span>Menu</span>
+        </button>
+        <ul id="cmp-main-menu" class="cmp-site-nav__menu" data-nav-menu>
+          {%- for link in linklists[settings.main_menu_linklist].links -%}
+            <li class="cmp-site-nav__item{% if link.links.size > 0 %} cmp-site-nav__item--has-children{% endif %}">
+              <a class="cmp-site-nav__link{% if link.active %} cmp-site-nav__link--active{% endif %}" href="{{ link.url }}">
+                {{ link.title }}
+              </a>
+              {%- if link.links.size > 0 -%}
+                <ul class="cmp-site-nav__submenu">
+                  {%- for child in link.links -%}
+                    <li class="cmp-site-nav__subitem">
+                      <a class="cmp-site-nav__sublink" href="{{ child.url }}">{{ child.title }}</a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </nav>
+  {%- endif -%}
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "div",
+  "settings": []
+}
+{% endschema %}

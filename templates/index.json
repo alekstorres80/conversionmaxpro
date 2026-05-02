@@ -1,0 +1,117 @@
+{
+  "sections": {
+    "vsl_hero": {
+      "type": "vsl-hero",
+      "settings": {
+        "video_type": "youtube",
+        "video_url": "",
+        "autoplay": true,
+        "layout": "inline",
+        "headline": "Watch This Short Video To Discover...",
+        "subheadline": "The proven system that helps you get more customers, more sales, and more freedom.",
+        "cta_text": "Get Started Now",
+        "cta_link": ""
+      }
+    },
+    "social_proof": {
+      "type": "social-proof-strip",
+      "settings": {
+        "show_stats": true,
+        "star_rating": 5,
+        "review_count": "2,847",
+        "customer_count": "10,000"
+      }
+    },
+    "countdown": {
+      "type": "countdown-timer",
+      "settings": {
+        "heading": "This Special Offer Expires In...",
+        "mode": "evergreen",
+        "evergreen_minutes": 30
+      }
+    },
+    "quantity_breaks": {
+      "type": "quantity-breaks",
+      "settings": {
+        "heading": "Choose Your Package",
+        "subheading": "Buy more and save more — free shipping on all orders"
+      },
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "quantity": 1,
+            "price_cents": 4900,
+            "compare_price_cents": 5900
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "quantity": 3,
+            "price_cents": 11700,
+            "compare_price_cents": 17700,
+            "badge_text": "Most Popular",
+            "best_value": true
+          }
+        },
+        "tier_3": {
+          "type": "tier",
+          "settings": {
+            "quantity": 6,
+            "price_cents": 17400,
+            "compare_price_cents": 35400,
+            "badge_text": "Best Value"
+          }
+        }
+      },
+      "block_order": ["tier_1", "tier_2", "tier_3"]
+    },
+    "guarantee": {
+      "type": "guarantee-block",
+      "settings": {
+        "headline": "100% Money-Back Guarantee",
+        "body": "<p>We're so confident you'll love this product that we offer a full 60-day money-back guarantee. If you're not completely satisfied, simply contact our support team for a hassle-free refund. No questions asked.</p>"
+      }
+    },
+    "faq": {
+      "type": "faq-accordion",
+      "settings": {
+        "heading": "Frequently Asked Questions",
+        "subheading": "Got questions? We've got answers."
+      },
+      "blocks": {
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "How does this product work?",
+            "answer": "<p>Our product works by leveraging proven techniques to deliver results you can see and feel. Simply follow the included instructions and you'll be on your way.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "Is there a money-back guarantee?",
+            "answer": "<p>Yes! We offer a full 60-day money-back guarantee. If you're not satisfied for any reason, just contact us for a complete refund.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Orders are processed within 1-2 business days. Domestic shipping typically takes 3-5 business days.</p>"
+          }
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3"]
+    }
+  },
+  "order": [
+    "vsl_hero",
+    "social_proof",
+    "countdown",
+    "quantity_breaks",
+    "guarantee",
+    "faq"
+  ]
+}

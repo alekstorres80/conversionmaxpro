@@ -1,0 +1,35 @@
+<section class="cmp-section">
+  <div class="cmp-container">
+    <h1>Search</h1>
+    <form action="/search" method="get" role="search" style="margin-bottom:32px;">
+      <div style="display:flex; gap:8px;">
+        <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search products, articles, pages…" style="flex:1; padding:12px; border:1px solid var(--color-border); border-radius:4px;">
+        <button type="submit" class="cmp-btn cmp-btn--primary">Search</button>
+      </div>
+    </form>
+
+    {%- if search.performed -%}
+      <p style="color: var(--color-text-light);">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %} for "{{ search.terms | escape }}"</p>
+
+      {%- paginate search.results by 24 -%}
+        {%- if search.results.size > 0 -%}
+          <ul style="list-style:none; padding:0; margin-top:24px;">
+            {%- for item in search.results -%}
+              <li style="padding:16px 0; border-bottom:1px solid var(--color-border);">
+                <a href="{{ item.url }}" style="font-weight:600; color:inherit; text-decoration:none;">{{ item.title }}</a>
+                {%- if item.object_type == 'product' -%}
+                  <div style="color: var(--color-primary); font-weight:700;">{{ item.price | money }}</div>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+          {%- if paginate.pages > 1 -%}
+            <nav style="margin-top:24px; text-align:center;">{{ paginate | default_pagination }}</nav>
+          {%- endif -%}
+        {%- else -%}
+          <p>No results found.</p>
+        {%- endif -%}
+      {%- endpaginate -%}
+    {%- endif -%}
+  </div>
+</section>

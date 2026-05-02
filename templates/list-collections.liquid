@@ -1,0 +1,20 @@
+<section class="cmp-section">
+  <div class="cmp-container">
+    <h1>Collections</h1>
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px;">
+      {%- for collection in collections -%}
+        {%- unless collection.handle == 'all' -%}
+          <a href="{{ collection.url }}" style="text-decoration:none; color:inherit;">
+            {%- if collection.image -%}
+              <img src="{{ collection.image | image_url: width: 600 }}" alt="{{ collection.title | escape }}" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:8px;">
+            {%- elsif collection.products.first.featured_image -%}
+              <img src="{{ collection.products.first.featured_image | image_url: width: 600 }}" alt="{{ collection.title | escape }}" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:8px;">
+            {%- endif -%}
+            <h3 style="font-size:1.1rem; margin-top:12px;">{{ collection.title }}</h3>
+            <p style="color: var(--color-text-light); font-size:0.9rem;">{{ collection.products_count }} products</p>
+          </a>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>

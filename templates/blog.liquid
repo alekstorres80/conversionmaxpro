@@ -1,0 +1,17 @@
+<section class="cmp-section">
+  <div class="cmp-container">
+    <h1>{{ blog.title }}</h1>
+    {%- paginate blog.articles by 12 -%}
+      {%- for article in blog.articles -%}
+        <article style="padding: 24px 0; border-bottom: 1px solid var(--color-border);">
+          <h2 style="margin-bottom:8px;"><a href="{{ article.url }}" style="text-decoration:none; color:inherit;">{{ article.title }}</a></h2>
+          <p style="color: var(--color-text-light); font-size: 0.85rem;">{{ article.published_at | date: '%B %d, %Y' }}</p>
+          <p>{{ article.excerpt_or_content | strip_html | truncatewords: 40 }}</p>
+        </article>
+      {%- endfor -%}
+      {%- if paginate.pages > 1 -%}
+        <nav style="margin-top:24px; text-align:center;">{{ paginate | default_pagination }}</nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>

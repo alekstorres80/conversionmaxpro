@@ -1,0 +1,23 @@
+<article class="cmp-section">
+  <div class="cmp-container" style="max-width: 800px;">
+    <h1>{{ article.title }}</h1>
+    <p style="color: var(--color-text-light); font-size: 0.85rem; margin-bottom: 24px;">
+      {{ article.published_at | date: '%B %d, %Y' }}
+      {%- if article.author != blank %} · By {{ article.author }}{% endif -%}
+    </p>
+    <div class="rte">{{ article.content }}</div>
+
+    {%- if blog.comments_enabled? -%}
+      <section style="margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--color-border);">
+        <h2>Comments</h2>
+        {%- for comment in article.comments -%}
+          <div style="margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid var(--color-border);">
+            <strong>{{ comment.author }}</strong>
+            <span style="color: var(--color-text-light); font-size:0.85rem;"> · {{ comment.created_at | date: '%B %d, %Y' }}</span>
+            <div>{{ comment.content }}</div>
+          </div>
+        {%- endfor -%}
+      </section>
+    {%- endif -%}
+  </div>
+</article>

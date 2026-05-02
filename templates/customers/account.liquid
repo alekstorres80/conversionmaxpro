@@ -1,0 +1,33 @@
+<section class="cmp-section">
+  <div class="cmp-container">
+    <h1>Account</h1>
+    <p>Hello {{ customer.first_name | default: customer.email }}.</p>
+    <p style="margin-bottom:24px;"><a href="/account/logout">Sign out</a> · <a href="/account/addresses">Addresses</a></p>
+
+    <h2>Order History</h2>
+    {%- if customer.orders.size == 0 -%}
+      <p>You haven't placed any orders yet.</p>
+    {%- else -%}
+      <table style="width:100%; border-collapse:collapse; margin-top:12px;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:12px; border-bottom:1px solid var(--color-border);">Order</th>
+            <th style="text-align:left; padding:12px; border-bottom:1px solid var(--color-border);">Date</th>
+            <th style="text-align:right; padding:12px; border-bottom:1px solid var(--color-border);">Total</th>
+            <th style="text-align:left; padding:12px; border-bottom:1px solid var(--color-border);">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for order in customer.orders -%}
+            <tr>
+              <td style="padding:12px; border-bottom:1px solid var(--color-border);"><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+              <td style="padding:12px; border-bottom:1px solid var(--color-border);">{{ order.created_at | date: '%b %d, %Y' }}</td>
+              <td style="padding:12px; text-align:right; border-bottom:1px solid var(--color-border);">{{ order.total_price | money }}</td>
+              <td style="padding:12px; border-bottom:1px solid var(--color-border);">{{ order.financial_status }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    {%- endif -%}
+  </div>
+</section>

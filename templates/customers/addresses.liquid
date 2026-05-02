@@ -1,0 +1,31 @@
+<section class="cmp-section">
+  <div class="cmp-container">
+    <h1>Addresses</h1>
+    <p><a href="/account">Back to account</a></p>
+
+    {%- paginate customer.addresses by 5 -%}
+      {%- for address in customer.addresses -%}
+        <div style="padding:16px 0; border-bottom:1px solid var(--color-border);">
+          <p>{{ address | format_address }}</p>
+          <p>
+            <a href="#" data-edit="{{ address.id }}">Edit</a>
+            {%- form 'customer_address', address -%}
+              <button type="submit" class="cmp-btn cmp-btn--outline">Delete</button>
+              <input type="hidden" name="_method" value="delete">
+            {%- endform -%}
+          </p>
+        </div>
+      {%- endfor -%}
+    {%- endpaginate -%}
+
+    <h2>Add a new address</h2>
+    {%- form 'customer_address', customer.new_address -%}
+      <div style="margin-bottom:8px;"><input name="address[first_name]" placeholder="First name" style="padding:10px; border:1px solid var(--color-border); border-radius:4px;"></div>
+      <div style="margin-bottom:8px;"><input name="address[last_name]" placeholder="Last name" style="padding:10px; border:1px solid var(--color-border); border-radius:4px;"></div>
+      <div style="margin-bottom:8px;"><input name="address[address1]" placeholder="Address" style="padding:10px; border:1px solid var(--color-border); border-radius:4px; width:100%;"></div>
+      <div style="margin-bottom:8px;"><input name="address[city]" placeholder="City" style="padding:10px; border:1px solid var(--color-border); border-radius:4px;"></div>
+      <div style="margin-bottom:8px;"><input name="address[zip]" placeholder="ZIP/Postal" style="padding:10px; border:1px solid var(--color-border); border-radius:4px;"></div>
+      <button type="submit" class="cmp-btn cmp-btn--primary">Add address</button>
+    {%- endform -%}
+  </div>
+</section>

@@ -1,0 +1,18 @@
+<section class="cmp-section">
+  <div class="cmp-container" style="max-width: 480px;">
+    <h1>Sign in</h1>
+    {%- form 'customer_login' -%}
+      {%- if form.errors -%}<p style="color: var(--color-warning);">{{ form.errors | default_errors }}</p>{%- endif -%}
+      <div style="margin-bottom:16px;">
+        <label for="customer-email">Email</label>
+        <input type="email" id="customer-email" name="customer[email]" required style="width:100%; padding:12px; border:1px solid var(--color-border); border-radius:4px;">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label for="customer-password">Password</label>
+        <input type="password" id="customer-password" name="customer[password]" required style="width:100%; padding:12px; border:1px solid var(--color-border); border-radius:4px;">
+      </div>
+      <button type="submit" class="cmp-btn cmp-btn--primary cmp-btn--full">Sign in</button>
+      <p style="text-align:center; margin-top:16px;"><a href="/account/register">Create account</a></p>
+    {%- endform -%}
+  </div>
+</section>

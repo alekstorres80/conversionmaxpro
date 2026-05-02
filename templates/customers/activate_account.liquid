@@ -1,0 +1,18 @@
+<section class="cmp-section">
+  <div class="cmp-container" style="max-width: 480px;">
+    <h1>Activate account</h1>
+    <p style="margin-bottom: 16px;">Set a password to activate your account.</p>
+    {%- form 'activate_customer_password' -%}
+      {%- if form.errors -%}<p style="color: var(--color-warning);">{{ form.errors | default_errors }}</p>{%- endif -%}
+      <div style="margin-bottom:16px;">
+        <label for="password">Password</label>
+        <input type="password" name="customer[password]" id="password" required style="width:100%; padding:12px; border:1px solid var(--color-border); border-radius:4px;">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label for="password_confirmation">Confirm password</label>
+        <input type="password" name="customer[password_confirmation]" id="password_confirmation" required style="width:100%; padding:12px; border:1px solid var(--color-border); border-radius:4px;">
+      </div>
+      <button type="submit" class="cmp-btn cmp-btn--primary cmp-btn--full">Activate</button>
+    {%- endform -%}
+  </div>
+</section>

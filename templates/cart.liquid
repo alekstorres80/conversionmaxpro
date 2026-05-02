@@ -1,0 +1,60 @@
+{%- comment -%} Minimal Cart template — replaces with sectioned version once design is finalized. {%- endcomment -%}
+
+<section class="cmp-section">
+  <div class="cmp-container">
+    <h1>Your Cart</h1>
+
+    {%- if cart.item_count == 0 -%}
+      <p>Your cart is empty.</p>
+      <p><a href="/collections/all" class="cmp-btn cmp-btn--primary">Continue Shopping</a></p>
+    {%- else -%}
+      <form action="/cart" method="post" novalidate>
+        <table class="cmp-cart-table" style="width:100%; border-collapse: collapse;">
+          <thead>
+            <tr>
+              <th style="text-align:left; padding:12px; border-bottom:1px solid var(--color-border);">Product</th>
+              <th style="text-align:right; padding:12px; border-bottom:1px solid var(--color-border);">Quantity</th>
+              <th style="text-align:right; padding:12px; border-bottom:1px solid var(--color-border);">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for item in cart.items -%}
+              <tr>
+                <td style="padding:12px; border-bottom:1px solid var(--color-border);">
+                  <div style="display:flex; align-items:center; gap:12px;">
+                    {%- if item.image -%}
+                      <img src="{{ item.image | image_url: width: 80 }}" width="80" height="80" alt="{{ item.title | escape }}" style="border-radius:6px;">
+                    {%- endif -%}
+                    <div>
+                      <a href="{{ item.url }}" style="font-weight:600;">{{ item.product.title }}</a>
+                      {%- unless item.product.has_only_default_variant -%}
+                        <div style="color: var(--color-text-light); font-size:0.85rem;">{{ item.variant.title }}</div>
+                      {%- endunless -%}
+                      <div style="font-size:0.95rem;">{{ item.final_price | money }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td style="padding:12px; text-align:right; border-bottom:1px solid var(--color-border);">
+                  <input type="number" name="updates[{{ item.key }}]" value="{{ item.quantity }}" min="0" style="width:64px; padding:8px; text-align:center;">
+                </td>
+                <td style="padding:12px; text-align:right; border-bottom:1px solid var(--color-border); font-weight:700;">
+                  {{ item.final_line_price | money }}
+                </td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px;">
+          <div>
+            <button type="submit" name="update" class="cmp-btn cmp-btn--outline">Update</button>
+          </div>
+          <div style="text-align:right;">
+            <p style="font-size:1.1rem; margin-bottom:12px;">Subtotal: <strong>{{ cart.total_price | money }}</strong></p>
+            <button type="submit" name="checkout" class="cmp-btn cmp-btn--primary cmp-btn--large">Checkout</button>
+          </div>
+        </div>
+      </form>
+    {%- endif -%}
+  </div>
+</section>
